@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package com.NakamaMesh.android.ui
 
 import androidx.compose.ui.text.AnnotatedString
 import android.util.Patterns

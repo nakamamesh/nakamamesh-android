@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package com.NakamaMesh.android.ui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.ui.draw.clip
@@ -29,25 +29,25 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import android.content.Intent
 import android.net.Uri
-import com.bitchat.android.model.BitchatMessage
-import com.bitchat.android.model.DeliveryStatus
-import com.bitchat.android.mesh.BluetoothMeshService
+import com.NakamaMesh.android.model.nakamameshMessage
+import com.NakamaMesh.android.model.DeliveryStatus
+import com.NakamaMesh.android.mesh.BluetoothMeshService
 import java.text.SimpleDateFormat
 import java.util.*
-import com.bitchat.android.ui.media.VoiceNotePlayer
+import com.NakamaMesh.android.ui.media.VoiceNotePlayer
 import androidx.compose.material3.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.CircleShape
-import com.bitchat.android.ui.media.FileMessageItem
-import com.bitchat.android.model.BitchatMessageType
-import com.bitchat.android.R
+import com.NakamaMesh.android.ui.media.FileMessageItem
+import com.NakamaMesh.android.model.nakamameshMessageType
+import com.NakamaMesh.android.R
 import androidx.compose.ui.res.stringResource
 
 
-// VoiceNotePlayer moved to com.bitchat.android.ui.media.VoiceNotePlayer
+// VoiceNotePlayer moved to com.NakamaMesh.android.ui.media.VoiceNotePlayer
 
 /**
  * Message display components for ChatScreen
@@ -56,15 +56,15 @@ import androidx.compose.ui.res.stringResource
 
 @Composable
 fun MessagesList(
-    messages: List<BitchatMessage>,
+    messages: List<nakamameshMessage>,
     currentUserNickname: String,
     meshService: BluetoothMeshService,
     modifier: Modifier = Modifier,
     forceScrollToBottom: Boolean = false,
     onScrolledUpChanged: ((Boolean) -> Unit)? = null,
     onNicknameClick: ((String) -> Unit)? = null,
-    onMessageLongPress: ((BitchatMessage) -> Unit)? = null,
-    onCancelTransfer: ((BitchatMessage) -> Unit)? = null,
+    onMessageLongPress: ((nakamameshMessage) -> Unit)? = null,
+    onCancelTransfer: ((nakamameshMessage) -> Unit)? = null,
     onImageClick: ((String, List<String>, Int) -> Unit)? = null
 ) {
     val listState = rememberLazyListState()
@@ -138,13 +138,13 @@ fun MessagesList(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MessageItem(
-    message: BitchatMessage,
+    message: nakamameshMessage,
     currentUserNickname: String,
     meshService: BluetoothMeshService,
-    messages: List<BitchatMessage> = emptyList(),
+    messages: List<nakamameshMessage> = emptyList(),
     onNicknameClick: ((String) -> Unit)? = null,
-    onMessageLongPress: ((BitchatMessage) -> Unit)? = null,
-    onCancelTransfer: ((BitchatMessage) -> Unit)? = null,
+    onMessageLongPress: ((nakamameshMessage) -> Unit)? = null,
+    onCancelTransfer: ((nakamameshMessage) -> Unit)? = null,
     onImageClick: ((String, List<String>, Int) -> Unit)? = null
 ) {
     val colorScheme = MaterialTheme.colorScheme
@@ -201,21 +201,21 @@ fun MessageItem(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
     private fun MessageTextWithClickableNicknames(
-        message: BitchatMessage,
-        messages: List<BitchatMessage>,
+        message: nakamameshMessage,
+        messages: List<nakamameshMessage>,
         currentUserNickname: String,
         meshService: BluetoothMeshService,
         colorScheme: ColorScheme,
         timeFormatter: SimpleDateFormat,
         onNicknameClick: ((String) -> Unit)?,
-        onMessageLongPress: ((BitchatMessage) -> Unit)?,
-        onCancelTransfer: ((BitchatMessage) -> Unit)?,
+        onMessageLongPress: ((nakamameshMessage) -> Unit)?,
+        onCancelTransfer: ((nakamameshMessage) -> Unit)?,
         onImageClick: ((String, List<String>, Int) -> Unit)?,
         modifier: Modifier = Modifier
     ) {
     // Image special rendering
-    if (message.type == BitchatMessageType.Image) {
-        com.bitchat.android.ui.media.ImageMessageItem(
+    if (message.type == nakamameshMessageType.Image) {
+        com.NakamaMesh.android.ui.media.ImageMessageItem(
             message = message,
             messages = messages,
             currentUserNickname = currentUserNickname,
@@ -232,8 +232,8 @@ fun MessageItem(
     }
 
     // Voice note special rendering
-    if (message.type == BitchatMessageType.Audio) {
-        com.bitchat.android.ui.media.AudioMessageItem(
+    if (message.type == nakamameshMessageType.Audio) {
+        com.NakamaMesh.android.ui.media.AudioMessageItem(
             message = message,
             currentUserNickname = currentUserNickname,
             meshService = meshService,
@@ -248,11 +248,11 @@ fun MessageItem(
     }
 
     // File special rendering
-    if (message.type == BitchatMessageType.File) {
+    if (message.type == nakamameshMessageType.File) {
         val path = message.content.trim()
         // Derive sending progress if applicable
         val (overrideProgress, _) = when (val st = message.deliveryStatus) {
-            is com.bitchat.android.model.DeliveryStatus.PartiallyDelivered -> {
+            is com.NakamaMesh.android.model.DeliveryStatus.PartiallyDelivered -> {
                 if (st.total > 0 && st.reached < st.total) {
                     (st.reached.toFloat() / st.total.toFloat()) to Color(0xFF1E88E5) // blue while sending
                 } else null to null
@@ -292,12 +292,12 @@ fun MessageItem(
             val packet = try {
                 val file = java.io.File(path)
                 if (file.exists()) {
-                    // Create a temporary BitchatFilePacket for display
+                    // Create a temporary nakamameshFilePacket for display
                     // In a real implementation, this would be stored with the packet metadata
-                    com.bitchat.android.model.BitchatFilePacket(
+                    com.NakamaMesh.android.model.nakamameshFilePacket(
                         fileName = file.name,
                         fileSize = file.length(),
-                        mimeType = com.bitchat.android.features.file.FileUtils.getMimeTypeFromExtension(file.name),
+                        mimeType = com.NakamaMesh.android.features.file.FileUtils.getMimeTypeFromExtension(file.name),
                         content = file.readBytes()
                     )
                 } else null
@@ -310,7 +310,7 @@ fun MessageItem(
                     if (packet != null) {
                         if (overrideProgress != null) {
                             // Show sending animation while in-flight
-                            com.bitchat.android.ui.media.FileSendingAnimation(
+                            com.NakamaMesh.android.ui.media.FileSendingAnimation(
                                 fileName = packet.fileName,
                                 progress = overrideProgress,
                                 modifier = Modifier.fillMaxWidth()
@@ -415,19 +415,19 @@ fun MessageItem(
                         if (geohashAnnotations.isNotEmpty()) {
                             val geohash = geohashAnnotations.first().item
                             try {
-                                val locationManager = com.bitchat.android.geohash.LocationChannelManager.getInstance(
+                                val locationManager = com.NakamaMesh.android.geohash.LocationChannelManager.getInstance(
                                     context
                                 )
                                 val level = when (geohash.length) {
-                                    in 0..2 -> com.bitchat.android.geohash.GeohashChannelLevel.REGION
-                                    in 3..4 -> com.bitchat.android.geohash.GeohashChannelLevel.PROVINCE
-                                    5 -> com.bitchat.android.geohash.GeohashChannelLevel.CITY
-                                    6 -> com.bitchat.android.geohash.GeohashChannelLevel.NEIGHBORHOOD
-                                    else -> com.bitchat.android.geohash.GeohashChannelLevel.BLOCK
+                                    in 0..2 -> com.NakamaMesh.android.geohash.GeohashChannelLevel.REGION
+                                    in 3..4 -> com.NakamaMesh.android.geohash.GeohashChannelLevel.PROVINCE
+                                    5 -> com.NakamaMesh.android.geohash.GeohashChannelLevel.CITY
+                                    6 -> com.NakamaMesh.android.geohash.GeohashChannelLevel.NEIGHBORHOOD
+                                    else -> com.NakamaMesh.android.geohash.GeohashChannelLevel.BLOCK
                                 }
-                                val channel = com.bitchat.android.geohash.GeohashChannel(level, geohash.lowercase())
+                                val channel = com.NakamaMesh.android.geohash.GeohashChannel(level, geohash.lowercase())
                                 locationManager.setTeleported(true)
-                                locationManager.select(com.bitchat.android.geohash.ChannelID.Location(channel))
+                                locationManager.select(com.NakamaMesh.android.geohash.ChannelID.Location(channel))
                             } catch (_: Exception) { }
                             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                             return@detectTapGestures

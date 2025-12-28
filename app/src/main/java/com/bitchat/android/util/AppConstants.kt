@@ -1,4 +1,4 @@
-package com.bitchat.android.util
+package com.NakamaMesh.android.util
 
 import java.util.UUID
 

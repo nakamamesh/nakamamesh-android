@@ -1,4 +1,4 @@
-package com.bitchat.android.onboarding
+package com.NakamaMesh.android.onboarding
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.*
@@ -13,7 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
-import com.bitchat.android.R
+import com.NakamaMesh.android.R
 
 /**
  * Loading screen shown during app initialization after permissions are granted

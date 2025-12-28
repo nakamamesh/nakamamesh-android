@@ -1,10 +1,10 @@
-package com.bitchat.android.mesh
+package com.NakamaMesh.android.mesh
 
 import android.util.Log
-import com.bitchat.android.protocol.BitchatPacket
-import com.bitchat.android.protocol.MessageType
-import com.bitchat.android.protocol.MessagePadding
-import com.bitchat.android.model.FragmentPayload
+import com.NakamaMesh.android.protocol.nakamameshPacket
+import com.NakamaMesh.android.protocol.MessageType
+import com.NakamaMesh.android.protocol.MessagePadding
+import com.NakamaMesh.android.model.FragmentPayload
 import kotlinx.coroutines.*
 import java.util.concurrent.ConcurrentHashMap
 
@@ -22,10 +22,10 @@ class FragmentManager {
     companion object {
         private const val TAG = "FragmentManager"
         // iOS values: 512 MTU threshold, 469 max fragment size (512 MTU - headers)
-        private const val FRAGMENT_SIZE_THRESHOLD = com.bitchat.android.util.AppConstants.Fragmentation.FRAGMENT_SIZE_THRESHOLD // Matches iOS: if data.count > 512
-        private const val MAX_FRAGMENT_SIZE = com.bitchat.android.util.AppConstants.Fragmentation.MAX_FRAGMENT_SIZE        // Matches iOS: maxFragmentSize = 469 
-        private const val FRAGMENT_TIMEOUT = com.bitchat.android.util.AppConstants.Fragmentation.FRAGMENT_TIMEOUT_MS     // Matches iOS: 30 seconds cleanup
-        private const val CLEANUP_INTERVAL = com.bitchat.android.util.AppConstants.Fragmentation.CLEANUP_INTERVAL_MS     // 10 seconds cleanup check
+        private const val FRAGMENT_SIZE_THRESHOLD = com.NakamaMesh.android.util.AppConstants.Fragmentation.FRAGMENT_SIZE_THRESHOLD // Matches iOS: if data.count > 512
+        private const val MAX_FRAGMENT_SIZE = com.NakamaMesh.android.util.AppConstants.Fragmentation.MAX_FRAGMENT_SIZE        // Matches iOS: maxFragmentSize = 469 
+        private const val FRAGMENT_TIMEOUT = com.NakamaMesh.android.util.AppConstants.Fragmentation.FRAGMENT_TIMEOUT_MS     // Matches iOS: 30 seconds cleanup
+        private const val CLEANUP_INTERVAL = com.NakamaMesh.android.util.AppConstants.Fragmentation.CLEANUP_INTERVAL_MS     // 10 seconds cleanup check
     }
     
     // Fragment storage - iOS equivalent: incomingFragments: [String: [Int: Data]]
@@ -47,7 +47,7 @@ class FragmentManager {
      * Create fragments from a large packet - 100% iOS Compatible
      * Matches iOS sendFragmentedPacket() implementation exactly
      */
-    fun createFragments(packet: BitchatPacket): List<BitchatPacket> {
+    fun createFragments(packet: nakamameshPacket): List<nakamameshPacket> {
         try {
             Log.d(TAG, "🔀 Creating fragments for packet type ${packet.type}, payload: ${packet.payload.size} bytes")
         val encoded = packet.toBinaryData()
@@ -71,7 +71,7 @@ class FragmentManager {
             return listOf(packet) // No fragmentation needed
         }
         
-        val fragments = mutableListOf<BitchatPacket>()
+        val fragments = mutableListOf<nakamameshPacket>()
         
         // iOS: let fragmentID = Data((0..<8).map { _ in UInt8.random(in: 0...255) })
         val fragmentID = FragmentPayload.generateFragmentID()
@@ -98,7 +98,7 @@ class FragmentManager {
             )
             
             // iOS: MessageType.fragment.rawValue (single fragment type)
-            val fragmentPacket = BitchatPacket(
+            val fragmentPacket = nakamameshPacket(
                 type = MessageType.FRAGMENT.value,
                 ttl = packet.ttl,
                 senderID = packet.senderID,
@@ -124,7 +124,7 @@ class FragmentManager {
      * Handle incoming fragment - 100% iOS Compatible  
      * Matches iOS handleFragment() implementation exactly
      */
-    fun handleFragment(packet: BitchatPacket): BitchatPacket? {
+    fun handleFragment(packet: nakamameshPacket): nakamameshPacket? {
         // iOS: guard packet.payload.count > 13 else { return }
         if (packet.payload.size < FragmentPayload.HEADER_SIZE) {
             Log.w(TAG, "Fragment packet too small: ${packet.payload.size}")
@@ -174,7 +174,7 @@ class FragmentManager {
                 }
                 
                 // Decode the original packet bytes we reassembled, so flags/compression are preserved - iOS fix
-                val originalPacket = BitchatPacket.fromBinaryData(reassembledData.toByteArray())
+                val originalPacket = nakamameshPacket.fromBinaryData(reassembledData.toByteArray())
                 if (originalPacket != null) {
                     // iOS cleanup: incomingFragments.removeValue(forKey: fragmentID)
                     incomingFragments.remove(fragmentIDString)
@@ -290,5 +290,5 @@ class FragmentManager {
  * Delegate interface for fragment manager callbacks
  */
 interface FragmentManagerDelegate {
-    fun onPacketReassembled(packet: BitchatPacket)
+    fun onPacketReassembled(packet: nakamameshPacket)
 }

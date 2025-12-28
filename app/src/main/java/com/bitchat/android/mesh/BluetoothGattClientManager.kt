@@ -1,4 +1,4 @@
-package com.bitchat.android.mesh
+package com.NakamaMesh.android.mesh
 
 import android.bluetooth.*
 import android.bluetooth.le.BluetoothLeScanner
@@ -8,15 +8,15 @@ import android.bluetooth.le.ScanResult
 import android.content.Context
 import android.os.ParcelUuid
 import android.util.Log
-import com.bitchat.android.protocol.BitchatPacket
-import com.bitchat.android.util.AppConstants
+import com.NakamaMesh.android.protocol.nakamameshPacket
+import com.NakamaMesh.android.util.AppConstants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlinx.coroutines.Job
-import com.bitchat.android.ui.debug.DebugSettingsManager
-import com.bitchat.android.ui.debug.DebugScanResult
+import com.NakamaMesh.android.ui.debug.DebugSettingsManager
+import com.NakamaMesh.android.ui.debug.DebugScanResult
 
 /**
  * Manages GATT client operations, scanning, and client-side connections
@@ -76,7 +76,7 @@ class BluetoothGattClientManager(
     fun start(): Boolean {
         // Respect debug setting
         try {
-            if (!com.bitchat.android.ui.debug.DebugSettingsManager.getInstance().gattClientEnabled.value) {
+            if (!com.NakamaMesh.android.ui.debug.DebugSettingsManager.getInstance().gattClientEnabled.value) {
                 Log.i(TAG, "Client start skipped: GATT Client disabled in debug settings")
                 return false
             }
@@ -150,7 +150,7 @@ class BluetoothGattClientManager(
      * Handle scan state changes from power manager
      */
     fun onScanStateChanged(shouldScan: Boolean) {
-        val enabled = try { com.bitchat.android.ui.debug.DebugSettingsManager.getInstance().gattClientEnabled.value } catch (_: Exception) { true }
+        val enabled = try { com.NakamaMesh.android.ui.debug.DebugSettingsManager.getInstance().gattClientEnabled.value } catch (_: Exception) { true }
         if (shouldScan && enabled) {
             startScanning()
         } else {
@@ -199,7 +199,7 @@ class BluetoothGattClientManager(
     @Suppress("DEPRECATION")
     private fun startScanning() {
         // Respect debug setting
-        val enabled = try { com.bitchat.android.ui.debug.DebugSettingsManager.getInstance().gattClientEnabled.value } catch (_: Exception) { true }
+        val enabled = try { com.NakamaMesh.android.ui.debug.DebugSettingsManager.getInstance().gattClientEnabled.value } catch (_: Exception) { true }
         if (!permissionManager.hasBluetoothPermissions() || bleScanner == null || !isActive || !enabled) return
         
         // Rate limit scan starts to prevent "scanning too frequently" errors
@@ -385,7 +385,7 @@ class BluetoothGattClientManager(
         if (!permissionManager.hasBluetoothPermissions()) return
 
         val deviceAddress = device.address
-        Log.i(TAG, "Connecting to bitchat device: $deviceAddress")
+        Log.i(TAG, "Connecting to nakamamesh device: $deviceAddress")
         
         val gattCallback = object : BluetoothGattCallback() {
             override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
@@ -492,7 +492,7 @@ class BluetoothGattClientManager(
             override fun onCharacteristicChanged(gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic) {
                 val value = characteristic.value
                 Log.i(TAG, "Client: Received packet from ${gatt.device.address}, size: ${value.size} bytes")
-                val packet = BitchatPacket.fromBinaryData(value)
+                val packet = nakamameshPacket.fromBinaryData(value)
                 if (packet != null) {
                     val peerID = packet.senderID.take(8).toByteArray().joinToString("") { "%02x".format(it) }
                     Log.d(TAG, "Client: Parsed packet type ${packet.type} from $peerID")
@@ -541,7 +541,7 @@ class BluetoothGattClientManager(
      */
     fun restartScanning() {
         // Respect debug setting
-        val enabled = try { com.bitchat.android.ui.debug.DebugSettingsManager.getInstance().gattClientEnabled.value } catch (_: Exception) { true }
+        val enabled = try { com.NakamaMesh.android.ui.debug.DebugSettingsManager.getInstance().gattClientEnabled.value } catch (_: Exception) { true }
         if (!isActive || !enabled) return
         
         connectionScope.launch {

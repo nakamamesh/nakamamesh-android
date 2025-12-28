@@ -1,4 +1,4 @@
-package com.bitchat.android.features.media
+package com.NakamaMesh.android.features.media
 
 import android.content.Context
 import android.graphics.Bitmap

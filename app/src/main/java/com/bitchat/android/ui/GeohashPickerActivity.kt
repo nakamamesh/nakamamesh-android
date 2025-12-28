@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package com.NakamaMesh.android.ui
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -37,11 +37,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.res.stringResource
-import com.bitchat.android.R
+import com.NakamaMesh.android.R
 import androidx.core.view.updateLayoutParams
-import com.bitchat.android.geohash.Geohash
-import com.bitchat.android.geohash.LocationChannelManager
-import com.bitchat.android.ui.theme.BASE_FONT_SIZE
+import com.NakamaMesh.android.geohash.Geohash
+import com.NakamaMesh.android.geohash.LocationChannelManager
+import com.NakamaMesh.android.ui.theme.BASE_FONT_SIZE
 
 @OptIn(ExperimentalMaterial3Api::class)
 class GeohashPickerActivity : OrientationAwareActivity() {

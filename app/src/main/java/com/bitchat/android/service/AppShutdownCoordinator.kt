@@ -1,11 +1,11 @@
-package com.bitchat.android.service
+package com.NakamaMesh.android.service
 
 import android.app.Application
 import android.os.Process
 import androidx.core.app.NotificationManagerCompat
-import com.bitchat.android.mesh.BluetoothMeshService
-import com.bitchat.android.net.ArtiTorManager
-import com.bitchat.android.net.TorMode
+import com.NakamaMesh.android.mesh.BluetoothMeshService
+import com.NakamaMesh.android.net.ArtiTorManager
+import com.NakamaMesh.android.net.TorMode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -43,7 +43,7 @@ object AppShutdownCoordinator {
             }
 
             // Clear AppState in-memory store
-            try { com.bitchat.android.services.AppStateStore.clear() } catch (_: Exception) { }
+            try { com.NakamaMesh.android.services.AppStateStore.clear() } catch (_: Exception) { }
 
             // Stop foreground and clear notification
             try { stopForeground() } catch (_: Exception) { }

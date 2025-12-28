@@ -1,4 +1,4 @@
-package com.bitchat.android.ui.media
+package com.NakamaMesh.android.ui.media
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -15,8 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
-import com.bitchat.android.R
-import com.bitchat.android.features.file.FileUtils
+import com.NakamaMesh.android.R
+import com.NakamaMesh.android.features.file.FileUtils
 
 @Composable
 fun FilePickerButton(

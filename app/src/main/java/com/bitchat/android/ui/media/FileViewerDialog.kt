@@ -1,4 +1,4 @@
-package com.bitchat.android.ui.media
+package com.NakamaMesh.android.ui.media
 
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -24,9 +24,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.bitchat.android.R
-import com.bitchat.android.features.file.FileUtils
-import com.bitchat.android.model.BitchatFilePacket
+import com.NakamaMesh.android.R
+import com.NakamaMesh.android.features.file.FileUtils
+import com.NakamaMesh.android.model.nakamameshFilePacket
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -35,7 +35,7 @@ import java.io.File
  */
 @Composable
 fun FileViewerDialog(
-    packet: BitchatFilePacket,
+    packet: nakamameshFilePacket,
     onDismiss: () -> Unit,
     onSaveToDevice: (ByteArray, String) -> Unit
 ) {
@@ -132,10 +132,10 @@ fun FileViewerDialog(
 /**
  * Attempts to open a file using system viewers or save to device
  */
-private fun tryOpenFile(context: Context, packet: BitchatFilePacket) {
+private fun tryOpenFile(context: Context, packet: nakamameshFilePacket) {
     try {
         // First try to save to temp file and open
-        val tempFile = File.createTempFile("bitchat_", ".${packet.fileName.substringAfterLast(".")}", context.cacheDir)
+        val tempFile = File.createTempFile("nakamamesh_", ".${packet.fileName.substringAfterLast(".")}", context.cacheDir)
         tempFile.writeBytes(packet.content)
         tempFile.deleteOnExit()
 

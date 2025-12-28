@@ -1,4 +1,4 @@
-package com.bitchat.android.ui.media
+package com.NakamaMesh.android.ui.media
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,28 +20,28 @@ import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
-import com.bitchat.android.R
-import com.bitchat.android.mesh.BluetoothMeshService
-import com.bitchat.android.model.BitchatMessage
+import com.NakamaMesh.android.R
+import com.NakamaMesh.android.mesh.BluetoothMeshService
+import com.NakamaMesh.android.model.nakamameshMessage
 import androidx.compose.material3.ColorScheme
 import java.text.SimpleDateFormat
 
 @Composable
 fun AudioMessageItem(
-    message: BitchatMessage,
+    message: nakamameshMessage,
     currentUserNickname: String,
     meshService: BluetoothMeshService,
     colorScheme: ColorScheme,
     timeFormatter: SimpleDateFormat,
     onNicknameClick: ((String) -> Unit)?,
-    onMessageLongPress: ((BitchatMessage) -> Unit)?,
-    onCancelTransfer: ((BitchatMessage) -> Unit)?,
+    onMessageLongPress: ((nakamameshMessage) -> Unit)?,
+    onCancelTransfer: ((nakamameshMessage) -> Unit)?,
     modifier: Modifier = Modifier
 ) {
     val path = message.content.trim()
     // Derive sending progress if applicable
     val (overrideProgress, overrideColor) = when (val st = message.deliveryStatus) {
-        is com.bitchat.android.model.DeliveryStatus.PartiallyDelivered -> {
+        is com.NakamaMesh.android.model.DeliveryStatus.PartiallyDelivered -> {
             if (st.total > 0 && st.reached < st.total) {
                 (st.reached.toFloat() / st.total.toFloat()) to Color(0xFF1E88E5) // blue while sending
             } else null to null
@@ -50,7 +50,7 @@ fun AudioMessageItem(
     }
     Column(modifier = modifier.fillMaxWidth()) {
         // Header: nickname + timestamp line above the audio note, identical styling to text messages
-        val headerText = com.bitchat.android.ui.formatMessageHeaderAnnotatedString(
+        val headerText = com.NakamaMesh.android.ui.formatMessageHeaderAnnotatedString(
             message = message,
             currentUserNickname = currentUserNickname,
             meshService = meshService,
@@ -83,7 +83,7 @@ fun AudioMessageItem(
                 progressOverride = overrideProgress,
                 progressColor = overrideColor
             )
-            val showCancel = message.sender == currentUserNickname && (message.deliveryStatus is com.bitchat.android.model.DeliveryStatus.PartiallyDelivered)
+            val showCancel = message.sender == currentUserNickname && (message.deliveryStatus is com.NakamaMesh.android.model.DeliveryStatus.PartiallyDelivered)
             if (showCancel) {
                 Spacer(Modifier.width(8.dp))
                 Box(

@@ -1,4 +1,4 @@
-package com.bitchat.android.nostr
+package com.NakamaMesh.android.nostr
 
 import android.app.Application
 import android.util.Log

@@ -1,4 +1,4 @@
-package com.bitchat.android.geohash
+package com.NakamaMesh.android.geohash
 
 import android.Manifest
 import android.content.Context
@@ -50,7 +50,7 @@ class LocationChannelManager private constructor(private val context: Context) {
     private var refreshTimer: Job? = null
     private var isGeocoding: Boolean = false
     private val gson = Gson()
-    private var dataManager: com.bitchat.android.ui.DataManager? = null
+    private var dataManager: com.NakamaMesh.android.ui.DataManager? = null
 
     // Published state for UI bindings (matching iOS @Published properties)
     private val _permissionState = MutableStateFlow(PermissionState.NOT_DETERMINED)
@@ -77,7 +77,7 @@ class LocationChannelManager private constructor(private val context: Context) {
     init {
         updatePermissionState()
         // Initialize DataManager and load persisted settings
-        dataManager = com.bitchat.android.ui.DataManager(context)
+        dataManager = com.NakamaMesh.android.ui.DataManager(context)
         loadPersistedChannelSelection()
         loadLocationServicesState()
     }

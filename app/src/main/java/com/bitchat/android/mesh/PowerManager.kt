@@ -1,4 +1,4 @@
-package com.bitchat.android.mesh
+package com.NakamaMesh.android.mesh
 
 import android.bluetooth.le.AdvertiseSettings
 import android.bluetooth.le.ScanSettings
@@ -12,7 +12,7 @@ import kotlinx.coroutines.*
 import kotlin.math.max
 
 /**
- * Power-aware Bluetooth management for bitchat
+ * Power-aware Bluetooth management for nakamamesh
  * Adjusts scanning, advertising, and connection behavior based on battery state
  */
 class PowerManager(private val context: Context) {
@@ -21,22 +21,22 @@ class PowerManager(private val context: Context) {
         private const val TAG = "PowerManager"
         
         // Battery thresholds
-        private const val CRITICAL_BATTERY = com.bitchat.android.util.AppConstants.Power.CRITICAL_BATTERY_PERCENT
-        private const val LOW_BATTERY = com.bitchat.android.util.AppConstants.Power.LOW_BATTERY_PERCENT
-        private const val MEDIUM_BATTERY = com.bitchat.android.util.AppConstants.Power.MEDIUM_BATTERY_PERCENT
+        private const val CRITICAL_BATTERY = com.NakamaMesh.android.util.AppConstants.Power.CRITICAL_BATTERY_PERCENT
+        private const val LOW_BATTERY = com.NakamaMesh.android.util.AppConstants.Power.LOW_BATTERY_PERCENT
+        private const val MEDIUM_BATTERY = com.NakamaMesh.android.util.AppConstants.Power.MEDIUM_BATTERY_PERCENT
         
         // Scan duty cycle periods (ms)
-        private const val SCAN_ON_DURATION_NORMAL = com.bitchat.android.util.AppConstants.Power.SCAN_ON_DURATION_NORMAL_MS    // 8 seconds on
-        private const val SCAN_OFF_DURATION_NORMAL = com.bitchat.android.util.AppConstants.Power.SCAN_OFF_DURATION_NORMAL_MS   // 2 seconds off
-        private const val SCAN_ON_DURATION_POWER_SAVE = com.bitchat.android.util.AppConstants.Power.SCAN_ON_DURATION_POWER_SAVE_MS    // 2 seconds on
-        private const val SCAN_OFF_DURATION_POWER_SAVE = com.bitchat.android.util.AppConstants.Power.SCAN_OFF_DURATION_POWER_SAVE_MS  // 8 seconds off
-        private const val SCAN_ON_DURATION_ULTRA_LOW = com.bitchat.android.util.AppConstants.Power.SCAN_ON_DURATION_ULTRA_LOW_MS      // 1 second on
-        private const val SCAN_OFF_DURATION_ULTRA_LOW = com.bitchat.android.util.AppConstants.Power.SCAN_OFF_DURATION_ULTRA_LOW_MS   // 10 seconds off
+        private const val SCAN_ON_DURATION_NORMAL = com.NakamaMesh.android.util.AppConstants.Power.SCAN_ON_DURATION_NORMAL_MS    // 8 seconds on
+        private const val SCAN_OFF_DURATION_NORMAL = com.NakamaMesh.android.util.AppConstants.Power.SCAN_OFF_DURATION_NORMAL_MS   // 2 seconds off
+        private const val SCAN_ON_DURATION_POWER_SAVE = com.NakamaMesh.android.util.AppConstants.Power.SCAN_ON_DURATION_POWER_SAVE_MS    // 2 seconds on
+        private const val SCAN_OFF_DURATION_POWER_SAVE = com.NakamaMesh.android.util.AppConstants.Power.SCAN_OFF_DURATION_POWER_SAVE_MS  // 8 seconds off
+        private const val SCAN_ON_DURATION_ULTRA_LOW = com.NakamaMesh.android.util.AppConstants.Power.SCAN_ON_DURATION_ULTRA_LOW_MS      // 1 second on
+        private const val SCAN_OFF_DURATION_ULTRA_LOW = com.NakamaMesh.android.util.AppConstants.Power.SCAN_OFF_DURATION_ULTRA_LOW_MS   // 10 seconds off
         
         // Connection limits
-        private const val MAX_CONNECTIONS_NORMAL = com.bitchat.android.util.AppConstants.Power.MAX_CONNECTIONS_NORMAL
-        private const val MAX_CONNECTIONS_POWER_SAVE = com.bitchat.android.util.AppConstants.Power.MAX_CONNECTIONS_POWER_SAVE
-        private const val MAX_CONNECTIONS_ULTRA_LOW = com.bitchat.android.util.AppConstants.Power.MAX_CONNECTIONS_ULTRA_LOW
+        private const val MAX_CONNECTIONS_NORMAL = com.NakamaMesh.android.util.AppConstants.Power.MAX_CONNECTIONS_NORMAL
+        private const val MAX_CONNECTIONS_POWER_SAVE = com.NakamaMesh.android.util.AppConstants.Power.MAX_CONNECTIONS_POWER_SAVE
+        private const val MAX_CONNECTIONS_ULTRA_LOW = com.NakamaMesh.android.util.AppConstants.Power.MAX_CONNECTIONS_ULTRA_LOW
     }
     
     enum class PowerMode {

@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package com.NakamaMesh.android.ui
 // [Goose] TODO: Replace inline file attachment stub with FilePickerButton abstraction that dispatches via FileShareDispatcher
 
 
@@ -31,18 +31,18 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.bitchat.android.R
+import com.NakamaMesh.android.R
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.withStyle
-import com.bitchat.android.ui.theme.BASE_FONT_SIZE
-import com.bitchat.android.features.voice.normalizeAmplitudeSample
-import com.bitchat.android.features.voice.AudioWaveformExtractor
-import com.bitchat.android.ui.media.RealtimeScrollingWaveform
-import com.bitchat.android.ui.media.ImagePickerButton
-import com.bitchat.android.ui.media.FilePickerButton
+import com.NakamaMesh.android.ui.theme.BASE_FONT_SIZE
+import com.NakamaMesh.android.features.voice.normalizeAmplitudeSample
+import com.NakamaMesh.android.features.voice.AudioWaveformExtractor
+import com.NakamaMesh.android.ui.media.RealtimeScrollingWaveform
+import com.NakamaMesh.android.ui.media.ImagePickerButton
+import com.NakamaMesh.android.ui.media.FilePickerButton
 
 /**
  * Input components for ChatScreen
@@ -302,7 +302,7 @@ fun MessageInput(
                     // Extract and cache waveform from the actual audio file to match receiver rendering
                     AudioWaveformExtractor.extractAsync(path, sampleCount = 120) { arr ->
                         if (arr != null) {
-                            try { com.bitchat.android.features.voice.VoiceWaveformCache.put(path, arr) } catch (_: Exception) {}
+                            try { com.NakamaMesh.android.features.voice.VoiceWaveformCache.put(path, arr) } catch (_: Exception) {}
                         }
                     }
                     // BLE path (private or public) — use latest values to avoid stale captures

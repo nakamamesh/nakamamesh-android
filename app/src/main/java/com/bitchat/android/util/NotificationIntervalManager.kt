@@ -1,4 +1,4 @@
-package com.bitchat.android.util
+package com.NakamaMesh.android.util
 
 class NotificationIntervalManager {
   private var _lastNetworkNotificationTime = 0L

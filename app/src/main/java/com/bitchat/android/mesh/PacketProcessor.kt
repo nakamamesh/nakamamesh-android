@@ -1,9 +1,9 @@
-package com.bitchat.android.mesh
+package com.NakamaMesh.android.mesh
 
 import android.util.Log
-import com.bitchat.android.protocol.BitchatPacket
-import com.bitchat.android.protocol.MessageType
-import com.bitchat.android.model.RoutedPacket
+import com.NakamaMesh.android.protocol.nakamameshPacket
+import com.NakamaMesh.android.protocol.MessageType
+import com.NakamaMesh.android.model.RoutedPacket
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
@@ -16,7 +16,7 @@ import kotlinx.coroutines.channels.actor
  * from the same peer simultaneously, causing session management conflicts.
  */
 class PacketProcessor(private val myPeerID: String) {
-    private val debugManager by lazy { try { com.bitchat.android.ui.debug.DebugSettingsManager.getInstance() } catch (e: Exception) { null } }
+    private val debugManager by lazy { try { com.NakamaMesh.android.ui.debug.DebugSettingsManager.getInstance() } catch (e: Exception) { null } }
     
     companion object {
         private const val TAG = "PacketProcessor"
@@ -300,7 +300,7 @@ class PacketProcessor(private val myPeerID: String) {
  */
 interface PacketProcessorDelegate {
     // Security validation
-    fun validatePacketSecurity(packet: BitchatPacket, peerID: String): Boolean
+    fun validatePacketSecurity(packet: nakamameshPacket, peerID: String): Boolean
     
     // Peer management
     fun updatePeerLastSeen(peerID: String)
@@ -316,7 +316,7 @@ interface PacketProcessorDelegate {
     fun handleAnnounce(routed: RoutedPacket)
     fun handleMessage(routed: RoutedPacket)
     fun handleLeave(routed: RoutedPacket)
-    fun handleFragment(packet: BitchatPacket): BitchatPacket?
+    fun handleFragment(packet: nakamameshPacket): nakamameshPacket?
     fun handleRequestSync(routed: RoutedPacket)
     
     // Communication

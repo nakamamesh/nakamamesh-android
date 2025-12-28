@@ -1,4 +1,4 @@
-package com.bitchat.android.nostr
+package com.NakamaMesh.android.nostr
 
 import com.google.gson.*
 import com.google.gson.annotations.SerializedName

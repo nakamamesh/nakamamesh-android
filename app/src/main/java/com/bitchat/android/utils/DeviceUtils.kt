@@ -1,4 +1,4 @@
-package com.bitchat.android.utils
+package com.NakamaMesh.android.utils
 
 import android.content.Context
 import android.content.res.Configuration

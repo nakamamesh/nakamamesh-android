@@ -1,10 +1,10 @@
-package com.bitchat
+package com.nakamamesh
 
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
 import androidx.test.core.app.ApplicationProvider
-import com.bitchat.android.ui.NotificationManager
-import com.bitchat.android.util.NotificationIntervalManager
+import com.NakamaMesh.android.ui.NotificationManager
+import com.NakamaMesh.android.util.NotificationIntervalManager
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test

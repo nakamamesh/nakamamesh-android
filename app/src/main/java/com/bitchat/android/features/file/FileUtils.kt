@@ -1,4 +1,4 @@
-package com.bitchat.android.features.file
+package com.NakamaMesh.android.features.file
 
 import android.content.Context
 import android.net.Uri
@@ -193,7 +193,7 @@ object FileUtils {
      */
     fun saveIncomingFile(
         context: Context,
-        file: com.bitchat.android.model.BitchatFilePacket
+        file: com.NakamaMesh.android.model.nakamameshFilePacket
     ): String {
         val lowerMime = file.mimeType.lowercase()
         val isImage = lowerMime.startsWith("image/")
@@ -261,14 +261,14 @@ object FileUtils {
     }
 
     /**
-     * Classify BitchatMessageType from MIME string used in file messages.
+     * Classify nakamameshMessageType from MIME string used in file messages.
      */
-    fun messageTypeForMime(mime: String): com.bitchat.android.model.BitchatMessageType {
+    fun messageTypeForMime(mime: String): com.NakamaMesh.android.model.nakamameshMessageType {
         val lower = mime.lowercase()
         return when {
-            lower.startsWith("image/") -> com.bitchat.android.model.BitchatMessageType.Image
-            lower.startsWith("audio/") -> com.bitchat.android.model.BitchatMessageType.Audio
-            else -> com.bitchat.android.model.BitchatMessageType.File
+            lower.startsWith("image/") -> com.NakamaMesh.android.model.nakamameshMessageType.Image
+            lower.startsWith("audio/") -> com.NakamaMesh.android.model.nakamameshMessageType.Audio
+            else -> com.NakamaMesh.android.model.nakamameshMessageType.File
         }
     }
 }

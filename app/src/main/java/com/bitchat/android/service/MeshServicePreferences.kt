@@ -1,10 +1,10 @@
-package com.bitchat.android.service
+package com.NakamaMesh.android.service
 
 import android.content.Context
 import android.content.SharedPreferences
 
 object MeshServicePreferences {
-    private const val PREFS_NAME = "bitchat_mesh_service_prefs"
+    private const val PREFS_NAME = "nakamamesh_mesh_service_prefs"
     private const val KEY_AUTO_START = "auto_start_on_boot"
     private const val KEY_BACKGROUND_ENABLED = "background_enabled"
 

@@ -1,9 +1,9 @@
-package com.bitchat.android.ui
+package com.NakamaMesh.android.ui
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import com.bitchat.android.utils.DeviceUtils
+import com.NakamaMesh.android.utils.DeviceUtils
 
 /**
  * Base activity that automatically sets orientation based on device type.

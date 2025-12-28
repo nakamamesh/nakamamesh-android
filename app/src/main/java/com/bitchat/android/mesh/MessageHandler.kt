@@ -1,13 +1,13 @@
-package com.bitchat.android.mesh
+package com.NakamaMesh.android.mesh
 
 import android.util.Log
-import com.bitchat.android.model.BitchatMessage
-import com.bitchat.android.model.BitchatMessageType
-import com.bitchat.android.model.IdentityAnnouncement
-import com.bitchat.android.model.RoutedPacket
-import com.bitchat.android.protocol.BitchatPacket
-import com.bitchat.android.protocol.MessageType
-import com.bitchat.android.util.toHexString
+import com.NakamaMesh.android.model.nakamameshMessage
+import com.NakamaMesh.android.model.nakamameshMessageType
+import com.NakamaMesh.android.model.IdentityAnnouncement
+import com.NakamaMesh.android.model.RoutedPacket
+import com.NakamaMesh.android.protocol.nakamameshPacket
+import com.NakamaMesh.android.protocol.MessageType
+import com.NakamaMesh.android.util.toHexString
 import kotlinx.coroutines.*
 import java.util.*
 import kotlin.random.Random
@@ -65,7 +65,7 @@ class MessageHandler(private val myPeerID: String, private val appContext: andro
             }
             
             // NEW: Use NoisePayload system exactly like iOS
-            val noisePayload = com.bitchat.android.model.NoisePayload.decode(decryptedData)
+            val noisePayload = com.NakamaMesh.android.model.NoisePayload.decode(decryptedData)
             if (noisePayload == null) {
                 Log.w(TAG, "Failed to parse NoisePayload from $peerID")
                 return
@@ -74,9 +74,9 @@ class MessageHandler(private val myPeerID: String, private val appContext: andro
             Log.d(TAG, "🔓 Decrypted NoisePayload type ${noisePayload.type} from $peerID")
             
             when (noisePayload.type) {
-                com.bitchat.android.model.NoisePayloadType.PRIVATE_MESSAGE -> {
+                com.NakamaMesh.android.model.NoisePayloadType.PRIVATE_MESSAGE -> {
                     // Decode TLV private message exactly like iOS
-                    val privateMessage = com.bitchat.android.model.PrivateMessagePacket.decode(noisePayload.data)
+                    val privateMessage = com.NakamaMesh.android.model.PrivateMessagePacket.decode(noisePayload.data)
                     if (privateMessage != null) {
                         Log.d(TAG, "🔓 Decrypted TLV PM from $peerID: ${privateMessage.content.take(30)}...")
 
@@ -89,8 +89,8 @@ class MessageHandler(private val myPeerID: String, private val appContext: andro
                             return
                         }
                         
-                        // Create BitchatMessage - preserve source packet timestamp
-                        val message = BitchatMessage(
+                        // Create nakamameshMessage - preserve source packet timestamp
+                        val message = nakamameshMessage(
                             id = privateMessage.messageID,
                             sender = delegate?.getPeerNickname(peerID) ?: "Unknown",
                             content = privateMessage.content,
@@ -111,18 +111,18 @@ class MessageHandler(private val myPeerID: String, private val appContext: andro
                     }
                 }
                 
-                com.bitchat.android.model.NoisePayloadType.FILE_TRANSFER -> {
+                com.NakamaMesh.android.model.NoisePayloadType.FILE_TRANSFER -> {
                     // Handle encrypted file transfer; generate unique message ID
-                    val file = com.bitchat.android.model.BitchatFilePacket.decode(noisePayload.data)
+                    val file = com.NakamaMesh.android.model.nakamameshFilePacket.decode(noisePayload.data)
                     if (file != null) {
                         Log.d(TAG, "🔓 Decrypted encrypted file from $peerID: name='${file.fileName}', size=${file.fileSize}, mime='${file.mimeType}'")
                         val uniqueMsgId = java.util.UUID.randomUUID().toString().uppercase()
-                        val savedPath = com.bitchat.android.features.file.FileUtils.saveIncomingFile(appContext, file)
-                        val message = BitchatMessage(
+                        val savedPath = com.NakamaMesh.android.features.file.FileUtils.saveIncomingFile(appContext, file)
+                        val message = nakamameshMessage(
                             id = uniqueMsgId,
                             sender = delegate?.getPeerNickname(peerID) ?: "Unknown",
                             content = savedPath,
-                            type = com.bitchat.android.features.file.FileUtils.messageTypeForMime(file.mimeType),
+                            type = com.NakamaMesh.android.features.file.FileUtils.messageTypeForMime(file.mimeType),
                             timestamp = java.util.Date(packet.timestamp.toLong()),
                             isRelay = false,
                             isPrivate = true,
@@ -140,7 +140,7 @@ class MessageHandler(private val myPeerID: String, private val appContext: andro
                     }
                 }
                 
-                com.bitchat.android.model.NoisePayloadType.DELIVERED -> {
+                com.NakamaMesh.android.model.NoisePayloadType.DELIVERED -> {
                     // Handle delivery ACK exactly like iOS
                     val messageID = String(noisePayload.data, Charsets.UTF_8)
                     Log.d(TAG, "📬 Delivery ACK received from $peerID for message $messageID")
@@ -149,7 +149,7 @@ class MessageHandler(private val myPeerID: String, private val appContext: andro
                     delegate?.onDeliveryAckReceived(messageID, peerID)
                 }
                 
-                com.bitchat.android.model.NoisePayloadType.READ_RECEIPT -> {
+                com.NakamaMesh.android.model.NoisePayloadType.READ_RECEIPT -> {
                     // Handle read receipt exactly like iOS
                     val messageID = String(noisePayload.data, Charsets.UTF_8)
                     Log.d(TAG, "👁️ Read receipt received from $peerID for message $messageID")
@@ -170,8 +170,8 @@ class MessageHandler(private val myPeerID: String, private val appContext: andro
     private suspend fun sendDeliveryAck(messageID: String, senderPeerID: String) {
         try {
             // Create ACK payload: [type byte] + [message ID] - exactly like iOS
-            val ackPayload = com.bitchat.android.model.NoisePayload(
-                type = com.bitchat.android.model.NoisePayloadType.DELIVERED,
+            val ackPayload = com.NakamaMesh.android.model.NoisePayload(
+                type = com.NakamaMesh.android.model.NoisePayloadType.DELIVERED,
                 data = messageID.toByteArray(Charsets.UTF_8)
             )
             
@@ -183,7 +183,7 @@ class MessageHandler(private val myPeerID: String, private val appContext: andro
             }
             
             // Create NOISE_ENCRYPTED packet exactly like iOS
-                val packet = BitchatPacket(
+                val packet = nakamameshPacket(
                     version = 1u,
                     type = MessageType.NOISE_ENCRYPTED.value,
                     senderID = hexStringToByteArray(myPeerID),
@@ -191,7 +191,7 @@ class MessageHandler(private val myPeerID: String, private val appContext: andro
                     timestamp = System.currentTimeMillis().toULong(),
                     payload = encryptedPayload,
                     signature = null,
-                    ttl = com.bitchat.android.util.AppConstants.MESSAGE_TTL_HOPS // Same TTL as iOS messageTTL
+                    ttl = com.NakamaMesh.android.util.AppConstants.MESSAGE_TTL_HOPS // Same TTL as iOS messageTTL
                 )
             
             delegate?.sendPacket(packet)
@@ -214,8 +214,8 @@ class MessageHandler(private val myPeerID: String, private val appContext: andro
         // Ignore stale announcements older than STALE_PEER_TIMEOUT
         val now = System.currentTimeMillis()
         val age = now - packet.timestamp.toLong()
-        if (age > com.bitchat.android.util.AppConstants.Mesh.STALE_PEER_TIMEOUT_MS) {
-            Log.w(TAG, "Ignoring stale ANNOUNCE from ${peerID.take(8)} (age=${age}ms > ${com.bitchat.android.util.AppConstants.Mesh.STALE_PEER_TIMEOUT_MS}ms)")
+        if (age > com.NakamaMesh.android.util.AppConstants.Mesh.STALE_PEER_TIMEOUT_MS) {
+            Log.w(TAG, "Ignoring stale ANNOUNCE from ${peerID.take(8)} (age=${age}ms > ${com.NakamaMesh.android.util.AppConstants.Mesh.STALE_PEER_TIMEOUT_MS}ms)")
             return false
         }
         
@@ -310,7 +310,7 @@ class MessageHandler(private val myPeerID: String, private val appContext: andro
                 Log.d(TAG, "Generated handshake response for $peerID (${response.size} bytes)")
                 
                 // Send response using same packet type (simplified iOS approach)
-                val responsePacket = BitchatPacket(
+                val responsePacket = nakamameshPacket(
                     version = 1u,
                     type = MessageType.NOISE_HANDSHAKE.value,
                     senderID = hexStringToByteArray(myPeerID),
@@ -318,7 +318,7 @@ class MessageHandler(private val myPeerID: String, private val appContext: andro
                     timestamp = System.currentTimeMillis().toULong(),
                     payload = response,
                     signature = null,
-                    ttl = com.bitchat.android.util.AppConstants.MESSAGE_TTL_HOPS // Same TTL as iOS
+                    ttl = com.NakamaMesh.android.util.AppConstants.MESSAGE_TTL_HOPS // Same TTL as iOS
                 )
                 
                 delegate?.sendPacket(responsePacket)
@@ -377,18 +377,18 @@ class MessageHandler(private val myPeerID: String, private val appContext: andro
         
         try {
             // Try file packet first (voice, image, etc.) and log outcome for FILE_TRANSFER
-            val isFileTransfer = com.bitchat.android.protocol.MessageType.fromValue(packet.type) == com.bitchat.android.protocol.MessageType.FILE_TRANSFER
-            val file = com.bitchat.android.model.BitchatFilePacket.decode(packet.payload)
+            val isFileTransfer = com.NakamaMesh.android.protocol.MessageType.fromValue(packet.type) == com.NakamaMesh.android.protocol.MessageType.FILE_TRANSFER
+            val file = com.NakamaMesh.android.model.nakamameshFilePacket.decode(packet.payload)
             if (file != null) {
                 if (isFileTransfer) {
                     Log.d(TAG, "📥 FILE_TRANSFER decode success (broadcast): name='${file.fileName}', size=${file.fileSize}, mime='${file.mimeType}', from=${peerID.take(8)}")
                 }
-                val savedPath = com.bitchat.android.features.file.FileUtils.saveIncomingFile(appContext, file)
-                val message = BitchatMessage(
+                val savedPath = com.NakamaMesh.android.features.file.FileUtils.saveIncomingFile(appContext, file)
+                val message = nakamameshMessage(
                     id = java.util.UUID.randomUUID().toString().uppercase(),
                     sender = delegate?.getPeerNickname(peerID) ?: "unknown",
                     content = savedPath,
-                    type = com.bitchat.android.features.file.FileUtils.messageTypeForMime(file.mimeType),
+                    type = com.NakamaMesh.android.features.file.FileUtils.messageTypeForMime(file.mimeType),
                     senderPeerID = peerID,
                     timestamp = Date(packet.timestamp.toLong())
                 )
@@ -400,7 +400,7 @@ class MessageHandler(private val myPeerID: String, private val appContext: andro
             }
 
             // Fallback: plain text
-            val message = BitchatMessage(
+            val message = nakamameshMessage(
                 sender = delegate?.getPeerNickname(peerID) ?: "unknown",
                 content = String(packet.payload, Charsets.UTF_8),
                 senderPeerID = peerID,
@@ -415,7 +415,7 @@ class MessageHandler(private val myPeerID: String, private val appContext: andro
     /**
      * Handle (decrypted) private message addressed to us
      */
-    private suspend fun handlePrivateMessage(packet: BitchatPacket, peerID: String) {
+    private suspend fun handlePrivateMessage(packet: nakamameshPacket, peerID: String) {
         try {
             // Verify signature if present
             if (packet.signature != null && !delegate?.verifySignature(packet, peerID)!!) {
@@ -424,18 +424,18 @@ class MessageHandler(private val myPeerID: String, private val appContext: andro
             }
 
             // Try file packet first (voice, image, etc.) and log outcome for FILE_TRANSFER
-            val isFileTransfer = com.bitchat.android.protocol.MessageType.fromValue(packet.type) == com.bitchat.android.protocol.MessageType.FILE_TRANSFER
-            val file = com.bitchat.android.model.BitchatFilePacket.decode(packet.payload)
+            val isFileTransfer = com.NakamaMesh.android.protocol.MessageType.fromValue(packet.type) == com.NakamaMesh.android.protocol.MessageType.FILE_TRANSFER
+            val file = com.NakamaMesh.android.model.nakamameshFilePacket.decode(packet.payload)
             if (file != null) {
                 if (isFileTransfer) {
                     Log.d(TAG, "📥 FILE_TRANSFER decode success (private): name='${file.fileName}', size=${file.fileSize}, mime='${file.mimeType}', from=${peerID.take(8)}")
                 }
-                val savedPath = com.bitchat.android.features.file.FileUtils.saveIncomingFile(appContext, file)
-                val message = BitchatMessage(
+                val savedPath = com.NakamaMesh.android.features.file.FileUtils.saveIncomingFile(appContext, file)
+                val message = nakamameshMessage(
                     id = java.util.UUID.randomUUID().toString().uppercase(),
                     sender = delegate?.getPeerNickname(peerID) ?: "unknown",
                     content = savedPath,
-                    type = com.bitchat.android.features.file.FileUtils.messageTypeForMime(file.mimeType),
+                    type = com.NakamaMesh.android.features.file.FileUtils.messageTypeForMime(file.mimeType),
                     senderPeerID = peerID,
                     timestamp = Date(packet.timestamp.toLong()),
                     isPrivate = true,
@@ -449,7 +449,7 @@ class MessageHandler(private val myPeerID: String, private val appContext: andro
             }
 
             // Fallback: plain text
-            val message = BitchatMessage(
+            val message = nakamameshMessage(
                 sender = delegate?.getPeerNickname(peerID) ?: "unknown",
                 content = String(packet.payload, Charsets.UTF_8),
                 senderPeerID = peerID,
@@ -536,15 +536,15 @@ class MessageHandler(private val myPeerID: String, private val appContext: andro
             val peerInfo = delegate?.getPeerInfo(fromPeerID)
             val noiseKey = peerInfo?.noisePublicKey
             if (noiseKey != null) {
-                com.bitchat.android.favorites.FavoritesPersistenceService.shared.updatePeerFavoritedUs(noiseKey, isFavorite)
+                com.NakamaMesh.android.favorites.FavoritesPersistenceService.shared.updatePeerFavoritedUs(noiseKey, isFavorite)
                 if (npub != null) {
                     // Index by noise key and current mesh peerID for fast Nostr routing
-                    com.bitchat.android.favorites.FavoritesPersistenceService.shared.updateNostrPublicKey(noiseKey, npub)
-                    com.bitchat.android.favorites.FavoritesPersistenceService.shared.updateNostrPublicKeyForPeerID(fromPeerID, npub)
+                    com.NakamaMesh.android.favorites.FavoritesPersistenceService.shared.updateNostrPublicKey(noiseKey, npub)
+                    com.NakamaMesh.android.favorites.FavoritesPersistenceService.shared.updateNostrPublicKeyForPeerID(fromPeerID, npub)
                 }
 
                 // Determine iOS-style guidance text
-                val rel = com.bitchat.android.favorites.FavoritesPersistenceService.shared.getFavoriteStatus(noiseKey)
+                val rel = com.NakamaMesh.android.favorites.FavoritesPersistenceService.shared.getFavoriteStatus(noiseKey)
                 val guidance = if (isFavorite) {
                     if (rel?.isFavorite == true) {
                         " — mutual! You can continue DMs via Nostr when out of mesh."
@@ -557,7 +557,7 @@ class MessageHandler(private val myPeerID: String, private val appContext: andro
 
                 // Emit system message via delegate callback
                 val action = if (isFavorite) "favorited" else "unfavorited"
-                val sys = com.bitchat.android.model.BitchatMessage(
+                val sys = com.NakamaMesh.android.model.nakamameshMessage(
                     sender = "system",
                     content = "${peerInfo.nickname} $action you$guidance",
                     timestamp = java.util.Date(),
@@ -586,12 +586,12 @@ interface MessageHandlerDelegate {
     fun updatePeerInfo(peerID: String, nickname: String, noisePublicKey: ByteArray, signingPublicKey: ByteArray, isVerified: Boolean): Boolean
     
     // Packet operations
-    fun sendPacket(packet: BitchatPacket)
+    fun sendPacket(packet: nakamameshPacket)
     fun relayPacket(routed: RoutedPacket)
     fun getBroadcastRecipient(): ByteArray
     
     // Cryptographic operations
-    fun verifySignature(packet: BitchatPacket, peerID: String): Boolean
+    fun verifySignature(packet: nakamameshPacket, peerID: String): Boolean
     fun encryptForPeer(data: ByteArray, recipientPeerID: String): ByteArray?
     fun decryptFromPeer(encryptedData: ByteArray, senderPeerID: String): ByteArray?
     fun verifyEd25519Signature(signature: ByteArray, data: ByteArray, publicKey: ByteArray): Boolean
@@ -607,7 +607,7 @@ interface MessageHandlerDelegate {
     fun decryptChannelMessage(encryptedContent: ByteArray, channel: String): String?
 
     // Callbacks
-    fun onMessageReceived(message: BitchatMessage)
+    fun onMessageReceived(message: nakamameshMessage)
     fun onChannelLeave(channel: String, fromPeer: String)
     fun onDeliveryAckReceived(messageID: String, peerID: String)
     fun onReadReceiptReceived(messageID: String, peerID: String)

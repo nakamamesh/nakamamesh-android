@@ -53,7 +53,7 @@ THE SOFTWARE.
 
 */
 
-package com.bitchat.android.noise.southernstorm.crypto;
+package com.NakamaMesh.android.noise.southernstorm.crypto;
 
 import java.util.Arrays;
 

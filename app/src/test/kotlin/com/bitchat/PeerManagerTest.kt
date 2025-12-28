@@ -1,6 +1,6 @@
-package com.bitchat
+package com.nakamamesh
 
-import com.bitchat.android.mesh.PeerManager
+import com.NakamaMesh.android.mesh.PeerManager
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 

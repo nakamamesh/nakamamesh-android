@@ -1,6 +1,6 @@
-package com.bitchat.android.services
+package com.NakamaMesh.android.services
 
-import com.bitchat.android.ui.ChatState
+import com.NakamaMesh.android.ui.ChatState
 
 object ConversationAliasResolver {
 

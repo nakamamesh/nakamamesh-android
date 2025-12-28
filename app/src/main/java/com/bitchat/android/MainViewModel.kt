@@ -1,10 +1,10 @@
-package com.bitchat.android
+package com.NakamaMesh.android
 
 import androidx.lifecycle.ViewModel
-import com.bitchat.android.onboarding.BluetoothStatus
-import com.bitchat.android.onboarding.LocationStatus
-import com.bitchat.android.onboarding.OnboardingState
-import com.bitchat.android.onboarding.BatteryOptimizationStatus
+import com.NakamaMesh.android.onboarding.BluetoothStatus
+import com.NakamaMesh.android.onboarding.LocationStatus
+import com.NakamaMesh.android.onboarding.OnboardingState
+import com.NakamaMesh.android.onboarding.BatteryOptimizationStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

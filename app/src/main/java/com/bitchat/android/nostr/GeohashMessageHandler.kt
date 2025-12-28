@@ -1,10 +1,10 @@
-package com.bitchat.android.nostr
+package com.NakamaMesh.android.nostr
 
 import android.app.Application
 import android.util.Log
-import com.bitchat.android.model.BitchatMessage
-import com.bitchat.android.ui.ChatState
-import com.bitchat.android.ui.MessageManager
+import com.NakamaMesh.android.model.nakamameshMessage
+import com.NakamaMesh.android.ui.ChatState
+import com.NakamaMesh.android.ui.MessageManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,7 +23,7 @@ class GeohashMessageHandler(
     private val messageManager: MessageManager,
     private val repo: GeohashRepository,
     private val scope: CoroutineScope,
-    private val dataManager: com.bitchat.android.ui.DataManager
+    private val dataManager: com.NakamaMesh.android.ui.DataManager
 ) {
     companion object { private const val TAG = "GeohashMessageHandler" }
 
@@ -67,7 +67,7 @@ class GeohashMessageHandler(
                 event.tags.find { it.size >= 2 && it[0] == "t" && it[1] == "teleport" }?.let { repo.markTeleported(event.pubkey) }
                 // Register a geohash DM alias for this participant so MessageRouter can route DMs via Nostr
                 try {
-                    com.bitchat.android.nostr.GeohashAliasRegistry.put("nostr_${event.pubkey.take(16)}", event.pubkey)
+                    com.NakamaMesh.android.nostr.GeohashAliasRegistry.put("nostr_${event.pubkey.take(16)}", event.pubkey)
                 } catch (_: Exception) { }
 
                 // Skip our own events for message emission
@@ -80,7 +80,7 @@ class GeohashMessageHandler(
 
                 val senderName = repo.displayNameForNostrPubkeyUI(event.pubkey)
                 val hasNonce = try { NostrProofOfWork.hasNonce(event) } catch (_: Exception) { false }
-                val msg = BitchatMessage(
+                val msg = nakamameshMessage(
                     id = event.id,
                     sender = senderName,
                     content = event.content,

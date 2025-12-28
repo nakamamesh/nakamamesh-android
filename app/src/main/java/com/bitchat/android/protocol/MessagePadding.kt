@@ -1,4 +1,4 @@
-package com.bitchat.android.protocol
+package com.NakamaMesh.android.protocol
 
 import java.security.SecureRandom
 

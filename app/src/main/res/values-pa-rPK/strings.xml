@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">bitchat</string>
+    <string name="app_name">nakamamesh</string>
 
     <!-- اجازت دی وجہ -->
     <string name="permission_bluetooth_rationale">انٹرنیٹ توں بغیر سیدھی چیٹ لئی بلوٹوتھ دی اجازت ضروری اے۔</string>
@@ -29,12 +29,12 @@
     <string name="battery_optimization_not_required">بیٹری آپٹمائزیشن دی لوڑ نئیں</string>
     <string name="battery_optimization_checking">بیٹری آپٹمائزیشن چیک ہورہی اے</string>
     <string name="battery_optimization_why_disable">بیٹری آپٹمائزیشن کیوں بند کریے؟</string>
-    <string name="battery_optimization_explanation">bitchat پس منظر وچ چلدا اے تے نیڑے ڈیوائس نال میش کنکشن برقرار رکھدا اے۔ بیٹری آپٹمائزیشن ایہ کنکشناں نوں روک سکدی اے، جِنہ نال پیغام لیٹ یا غائب ہوسکدے نیں۔\n\nبیٹری آپٹمائزیشن بند کرن نال معتبر ہم رتبہ رابطہ یقینی ہوندا اے۔</string>
+    <string name="battery_optimization_explanation">nakamamesh پس منظر وچ چلدا اے تے نیڑے ڈیوائس نال میش کنکشن برقرار رکھدا اے۔ بیٹری آپٹمائزیشن ایہ کنکشناں نوں روک سکدی اے، جِنہ نال پیغام لیٹ یا غائب ہوسکدے نیں۔\n\nبیٹری آپٹمائزیشن بند کرن نال معتبر ہم رتبہ رابطہ یقینی ہوندا اے۔</string>
     <string name="battery_optimization_disable_button">بیٹری آپٹمائزیشن بند کرو</string>
-    <string name="battery_optimization_note">نوٹ: تُسی ایہ بعد وچ Android سیٹنگز &gt; ایپس &gt; bitchat &gt; بیٹری وچ بدَل سکدے او۔</string>
-    <string name="battery_optimization_not_supported_explanation">توانڈے ڈیوائس نوں بیٹری آپٹمائزیشن سیٹنگ دی لوڑ نئیں۔ bitchat عام طرح چلّو گا۔</string>
-    <string name="battery_optimization_not_supported_message">توانڈے ڈیوائس نوں بیٹری آپٹمائزیشن سیٹنگ دی لوڑ نئیں۔ bitchat عام طرح چلّو گا۔</string>
-    <string name="battery_optimization_success_message">bitchat پس منظر وچ قابلِ اعتماد چل سکدا اے</string>
+    <string name="battery_optimization_note">نوٹ: تُسی ایہ بعد وچ Android سیٹنگز &gt; ایپس &gt; nakamamesh &gt; بیٹری وچ بدَل سکدے او۔</string>
+    <string name="battery_optimization_not_supported_explanation">توانڈے ڈیوائس نوں بیٹری آپٹمائزیشن سیٹنگ دی لوڑ نئیں۔ nakamamesh عام طرح چلّو گا۔</string>
+    <string name="battery_optimization_not_supported_message">توانڈے ڈیوائس نوں بیٹری آپٹمائزیشن سیٹنگ دی لوڑ نئیں۔ nakamamesh عام طرح چلّو گا۔</string>
+    <string name="battery_optimization_success_message">nakamamesh پس منظر وچ قابلِ اعتماد چل سکدا اے</string>
     <string name="battery_optimization_benefits">• معتبر پیغام ترسیل\n• میش کنکشن برقرار\n• پس منظر وچ پیغام ریلے\n• کنکشن ٹٹّن توں بچاؤ</string>
     <string name="battery_optimization_check_again">فیر چیک کرو</string>
     <string name="battery_optimization_skip">ہور ویلے</string>
@@ -46,7 +46,7 @@
     <string name="notification_summary_more">تے %1$d ہور</string>
     <string name="notification_messages_from_people">%2$d لوکان کولوں %1$d پیغام</string>
     <string name="notification_more_conversations">تے %1$d ہور گلاں</string>
-    <string name="notification_active_peers_title">👥 نیڑے bitchatter!</string>
+    <string name="notification_active_peers_title">👥 نیڑے nakamameshter!</string>
     <string name="notification_active_peers_one">نیڑے 1 بندہ</string>
     <string name="notification_active_peers_many">نیڑے %1$d بندے</string>
     <string name="notification_new_messages">نویں پیغام</string>
@@ -57,8 +57,8 @@
     <string name="notification_new_activity_in">%1$s وچ نویں سرگرمی</string>
     <string name="notification_messages_in">%1$s وچ پیغام</string>
     <string name="notification_joined_conversation">%1$s گفتگو وچ شامل ہویا</string>
-    <string name="notification_geohash_summary_title_mentions">bitchat – %1$d ذکر</string>
-    <string name="notification_geohash_summary_title">bitchat – لوکیشن چیٹ</string>
+    <string name="notification_geohash_summary_title_mentions">nakamamesh – %1$d ذکر</string>
+    <string name="notification_geohash_summary_title">nakamamesh – لوکیشن چیٹ</string>
     <string name="notification_geohash_summary_text">%2$d ٹھاں توں %1$d پیغام</string>
     <string name="notification_mesh_mention_title_singular">میش چیٹ وچ ذکر</string>
     <string name="notification_mesh_mention_title_plural">میش چیٹ وچ %1$d ذکر</string>
@@ -253,24 +253,24 @@
     <!-- آن بورڈنگ سکرینا -->
     <string name="location_services_required">لوکیشن سروسز لازمی نیں</string>
     <string name="privacy_first">پرائیویسی پہلے</string>
-    <string name="location_explanation">bitchat توانڈی لوکیشن نئیں ٹریک کردا۔\n\nبلوٹوتھ سکیننگ تے geohash چیٹ فیچر لئی لوکیشن سروسز دی لوڑ اے۔</string>
-    <string name="location_needs_for">bitchat نوں لوکیشن سروسز دی لوڑ اے لئی:</string>
+    <string name="location_explanation">nakamamesh توانڈی لوکیشن نئیں ٹریک کردا۔\n\nبلوٹوتھ سکیننگ تے geohash چیٹ فیچر لئی لوکیشن سروسز دی لوڑ اے۔</string>
+    <string name="location_needs_for">nakamamesh نوں لوکیشن سروسز دی لوڑ اے لئی:</string>
     <string name="location_needs_bullets">• بلوٹوتھ ڈیوائس سکیننگ\n• میش نیٹ ورک وچ نیڑے یوزراں دی تلاش\n• geohash چیٹ فیچر\n• کوئی ٹریکنگ یا لوکیشن جمع نئیں</string>
     <string name="open_location_settings">لوکیشن سیٹنگز کھولو</string>
     <string name="check_again">فیر چیک کرو</string>
     <string name="location_services_unavailable">لوکیشن سروسز دستیاب نئیں</string>
-    <string name="location_unavailable_explanation">اس ڈیوائس تے لوکیشن سروسز دستیاب نئیں۔ ایہ غیر معمولی اے کیونجے Android ڈیوائساں تے لوکیشن سروسز معیاری نیں۔\n\nبلوٹوتھ سکیننگ نوں ٹھیک کم کرن لئی bitchat نوں لوکیشن سروسز چاہیدیاں نیں (Android دی شرط)۔ بنا اس دے، ایپ نیڑے یوزر نئیں لبھ سکدی۔</string>
+    <string name="location_unavailable_explanation">اس ڈیوائس تے لوکیشن سروسز دستیاب نئیں۔ ایہ غیر معمولی اے کیونجے Android ڈیوائساں تے لوکیشن سروسز معیاری نیں۔\n\nبلوٹوتھ سکیننگ نوں ٹھیک کم کرن لئی nakamamesh نوں لوکیشن سروسز چاہیدیاں نیں (Android دی شرط)۔ بنا اس دے، ایپ نیڑے یوزر نئیں لبھ سکدی۔</string>
     <string name="checking_location_services">لوکیشن سروسز چیک ہورھیاں نیں …</string>
     <string name="bluetooth_required">بلوٹوتھ لازمی اے</string>
-    <string name="bluetooth_needs_for">bitchat نوں بلوٹوتھ چاہیدا اے لئی:</string>
+    <string name="bluetooth_needs_for">nakamamesh نوں بلوٹوتھ چاہیدا اے لئی:</string>
     <string name="bluetooth_needs_bullets">• نیڑے یوزر لبھنا\n• میش نیٹ ورک کنکشن بنانا\n• پیغام بھیجنا تے لینا\n• انٹرنیٹ یا سرور توں بغیر کم کرنا</string>
     <string name="enable_bluetooth">بلوٹوتھ چالو کرو</string>
     <string name="bluetooth_not_supported">بلوٹوتھ سپورٹڈ نئیں</string>
-    <string name="bluetooth_unsupported_explanation">ایہ ڈیوائس Bluetooth Low Energy (BLE) نئیں سپورٹ کردا، جو bitchat لئی ضروری اے۔\n\nbitchat نوں BLE چاہیدا اے میش نیٹ ورک بناؤن تے نیڑے ڈیوائساں نال انٹرنیٹ توں بغیر گل کرن لئی۔</string>
+    <string name="bluetooth_unsupported_explanation">ایہ ڈیوائس Bluetooth Low Energy (BLE) نئیں سپورٹ کردا، جو nakamamesh لئی ضروری اے۔\n\nnakamamesh نوں BLE چاہیدا اے میش نیٹ ورک بناؤن تے نیڑے ڈیوائساں نال انٹرنیٹ توں بغیر گل کرن لئی۔</string>
     <string name="checking_bluetooth_status">بلوٹوتھ حالت چیک ہورہی اے …</string>
     <string name="battery_optimization_detected_title">بیٹری آپٹمائزیشن لبھیا گیا</string>
     <string name="battery_optimization_enabled_title">بیٹری آپٹمائزیشن چالو اے</string>
-    <string name="battery_optimization_explanation_short">میش کنکشن قائم رکھن لئی bitchat نوں پس منظر وچ چلنا پوے گا۔ بیٹری آپٹمائزیشن ایہ کنکشناں وچ رکاوٹ پا سکدی اے۔</string>
+    <string name="battery_optimization_explanation_short">میش کنکشن قائم رکھن لئی nakamamesh نوں پس منظر وچ چلنا پوے گا۔ بیٹری آپٹمائزیشن ایہ کنکشناں وچ رکاوٹ پا سکدی اے۔</string>
     <string name="benefits_of_disabling">بند کرن دے فائدے</string>
     <string name="battery_benefits_short">• معتبر پیغام رسانی\n• میش کنکشن برقرار\n• کنکشن ٹٹّن توں بچاؤ</string>
     <string name="disable_battery_optimization">بیٹری آپٹمائزیشن بند کرو</string>
@@ -285,7 +285,7 @@
     <string name="privacy_bullets">• کوئی ٹریکنگ یا ڈیٹا جمع نئیں\n• بلوٹوتھ میش چیٹ مکمل آف لائن\n• geohash چیٹ انٹرنیٹ استعمال کردی اے</string>
     <string name="permissions_header">اجازتاں</string>
     <string name="grant_permissions">اجازت دو</string>
-    <string name="location_tracking_warning">bitchat توانڈی لوکیشن نئیں ٹریک کردا</string>
+    <string name="location_tracking_warning">nakamamesh توانڈی لوکیشن نئیں ٹریک کردا</string>
     <string name="geohash_people_header">لوگ</string>
     <string name="nobody_around">کوئی وی نیڑے نئیں …</string>
     <string name="you_suffix"> (تُسی)</string>
@@ -314,14 +314,14 @@
     <string name="pow_label_format">pow: %1$dbit</string>
 
     <!-- اجازت دیاں وضاحتاں -->
-    <string name="perm_nearby_devices_desc">بلوٹوتھ راہین bitchat یوزر لبھن لئی ضروری</string>
-    <string name="perm_nearby_devices_system">bitchat نوں نیڑے ڈیوائساں نال جُڑن دی اجازت دو</string>
-    <string name="perm_location_desc">Android نوں بلوٹوتھ راہین نیڑے bitchat یوزراں دی تلاش لئی لوڑ اے</string>
-    <string name="perm_location_system">bitchat نوں نیڑے ڈیوائساں سکین کرن لئی ایہ چاہیدہ</string>
+    <string name="perm_nearby_devices_desc">بلوٹوتھ راہین nakamamesh یوزر لبھن لئی ضروری</string>
+    <string name="perm_nearby_devices_system">nakamamesh نوں نیڑے ڈیوائساں نال جُڑن دی اجازت دو</string>
+    <string name="perm_location_desc">Android نوں بلوٹوتھ راہین نیڑے nakamamesh یوزراں دی تلاش لئی لوڑ اے</string>
+    <string name="perm_location_system">nakamamesh نوں نیڑے ڈیوائساں سکین کرن لئی ایہ چاہیدہ</string>
     <string name="perm_notifications_desc">جدو تُہانوں ذاتی پیغام مِلن تاں نوٹیفکیشن لؤ</string>
-    <string name="perm_notifications_system">bitchat نوں نوٹیفکیشن بھیجن دی اجازت دو</string>
-    <string name="perm_battery_desc">ایہ یقینی بناؤن لئی بیٹری آپٹمائزیشن بند کرو کہ bitchat پس منظر وچ معتبر چلّے تے میش نیٹ ورک کنکشناں برقرار رہن</string>
-    <string name="perm_battery_system">bitchat نوں بغیر بیٹری پابندیاں دے چلّن دی اجازت دو</string>
+    <string name="perm_notifications_system">nakamamesh نوں نوٹیفکیشن بھیجن دی اجازت دو</string>
+    <string name="perm_battery_desc">ایہ یقینی بناؤن لئی بیٹری آپٹمائزیشن بند کرو کہ nakamamesh پس منظر وچ معتبر چلّے تے میش نیٹ ورک کنکشناں برقرار رہن</string>
+    <string name="perm_battery_system">nakamamesh نوں بغیر بیٹری پابندیاں دے چلّن دی اجازت دو</string>
 
     <!-- اجازت دیاں قسماں -->
     <string name="perm_type_nearby_devices">نیڑے ڈیوائس</string>

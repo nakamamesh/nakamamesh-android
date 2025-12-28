@@ -1,7 +1,7 @@
-package com.bitchat.android.ui
+package com.NakamaMesh.android.ui
 
-import com.bitchat.android.model.BitchatMessage
-import com.bitchat.android.model.BitchatMessageType
+import com.NakamaMesh.android.model.nakamameshMessage
+import com.NakamaMesh.android.model.nakamameshMessageType
 
 /**
  * Utilities for building human-friendly notification text/previews.
@@ -15,12 +15,12 @@ object NotificationTextUtils {
      * - File (pdf): "📄 file.pdf"
      * - Text: original message content
      */
-    fun buildPrivateMessagePreview(message: BitchatMessage): String {
+    fun buildPrivateMessagePreview(message: nakamameshMessage): String {
         return try {
             when (message.type) {
-                BitchatMessageType.Image -> "📷 sent an image"
-                BitchatMessageType.Audio -> "🎤 sent a voice message"
-                BitchatMessageType.File -> {
+                nakamameshMessageType.Image -> "📷 sent an image"
+                nakamameshMessageType.Audio -> "🎤 sent a voice message"
+                nakamameshMessageType.File -> {
                     // Show just the filename (not the full path)
                     val name = try { java.io.File(message.content).name } catch (_: Exception) { null }
                     if (!name.isNullOrBlank()) {

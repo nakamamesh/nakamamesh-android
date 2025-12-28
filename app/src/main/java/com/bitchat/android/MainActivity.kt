@@ -1,4 +1,4 @@
-package com.bitchat.android
+package com.NakamaMesh.android
 
 import android.content.Intent
 import android.os.Bundle
@@ -18,28 +18,28 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.Lifecycle
-import com.bitchat.android.mesh.BluetoothMeshService
-import com.bitchat.android.onboarding.BluetoothCheckScreen
-import com.bitchat.android.onboarding.BluetoothStatus
-import com.bitchat.android.onboarding.BluetoothStatusManager
-import com.bitchat.android.onboarding.BatteryOptimizationManager
-import com.bitchat.android.onboarding.BatteryOptimizationPreferenceManager
-import com.bitchat.android.onboarding.BatteryOptimizationScreen
-import com.bitchat.android.onboarding.BatteryOptimizationStatus
-import com.bitchat.android.onboarding.InitializationErrorScreen
-import com.bitchat.android.onboarding.InitializingScreen
-import com.bitchat.android.onboarding.LocationCheckScreen
-import com.bitchat.android.onboarding.LocationStatus
-import com.bitchat.android.onboarding.LocationStatusManager
-import com.bitchat.android.onboarding.OnboardingCoordinator
-import com.bitchat.android.onboarding.OnboardingState
-import com.bitchat.android.onboarding.PermissionExplanationScreen
-import com.bitchat.android.onboarding.PermissionManager
-import com.bitchat.android.ui.ChatScreen
-import com.bitchat.android.ui.ChatViewModel
-import com.bitchat.android.ui.OrientationAwareActivity
-import com.bitchat.android.ui.theme.BitchatTheme
-import com.bitchat.android.nostr.PoWPreferenceManager
+import com.NakamaMesh.android.mesh.BluetoothMeshService
+import com.NakamaMesh.android.onboarding.BluetoothCheckScreen
+import com.NakamaMesh.android.onboarding.BluetoothStatus
+import com.NakamaMesh.android.onboarding.BluetoothStatusManager
+import com.NakamaMesh.android.onboarding.BatteryOptimizationManager
+import com.NakamaMesh.android.onboarding.BatteryOptimizationPreferenceManager
+import com.NakamaMesh.android.onboarding.BatteryOptimizationScreen
+import com.NakamaMesh.android.onboarding.BatteryOptimizationStatus
+import com.NakamaMesh.android.onboarding.InitializationErrorScreen
+import com.NakamaMesh.android.onboarding.InitializingScreen
+import com.NakamaMesh.android.onboarding.LocationCheckScreen
+import com.NakamaMesh.android.onboarding.LocationStatus
+import com.NakamaMesh.android.onboarding.LocationStatusManager
+import com.NakamaMesh.android.onboarding.OnboardingCoordinator
+import com.NakamaMesh.android.onboarding.OnboardingState
+import com.NakamaMesh.android.onboarding.PermissionExplanationScreen
+import com.NakamaMesh.android.onboarding.PermissionManager
+import com.NakamaMesh.android.ui.ChatScreen
+import com.NakamaMesh.android.ui.ChatViewModel
+import com.NakamaMesh.android.ui.OrientationAwareActivity
+import com.NakamaMesh.android.ui.theme.nakamameshTheme
+import com.NakamaMesh.android.nostr.PoWPreferenceManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -79,8 +79,8 @@ class MainActivity : OrientationAwareActivity() {
         // Initialize permission management
         permissionManager = PermissionManager(this)
         // Ensure foreground service is running and get mesh instance from holder
-        try { com.bitchat.android.service.MeshForegroundService.start(applicationContext) } catch (_: Exception) { }
-        meshService = com.bitchat.android.service.MeshServiceHolder.getOrCreate(applicationContext)
+        try { com.NakamaMesh.android.service.MeshForegroundService.start(applicationContext) } catch (_: Exception) { }
+        meshService = com.NakamaMesh.android.service.MeshServiceHolder.getOrCreate(applicationContext)
         bluetoothStatusManager = BluetoothStatusManager(
             activity = this,
             context = this,
@@ -107,7 +107,7 @@ class MainActivity : OrientationAwareActivity() {
         )
         
         setContent {
-            BitchatTheme {
+            nakamameshTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     containerColor = MaterialTheme.colorScheme.background
@@ -606,7 +606,7 @@ class MainActivity : OrientationAwareActivity() {
                 Log.d("MainActivity", "PoW preferences initialized")
                 
                 // Initialize Location Notes Manager (extracted to separate file)
-                com.bitchat.android.nostr.LocationNotesInitializer.initialize(this@MainActivity)
+                com.NakamaMesh.android.nostr.LocationNotesInitializer.initialize(this@MainActivity)
                 
                 // Ensure all permissions are still granted (user might have revoked in settings)
                 if (!permissionManager.areAllPermissionsGranted()) {
@@ -701,19 +701,19 @@ class MainActivity : OrientationAwareActivity() {
      */
     private fun handleNotificationIntent(intent: Intent) {
         val shouldOpenPrivateChat = intent.getBooleanExtra(
-            com.bitchat.android.ui.NotificationManager.EXTRA_OPEN_PRIVATE_CHAT, 
+            com.NakamaMesh.android.ui.NotificationManager.EXTRA_OPEN_PRIVATE_CHAT,
             false
         )
         
         val shouldOpenGeohashChat = intent.getBooleanExtra(
-            com.bitchat.android.ui.NotificationManager.EXTRA_OPEN_GEOHASH_CHAT,
+            com.NakamaMesh.android.ui.NotificationManager.EXTRA_OPEN_GEOHASH_CHAT,
             false
         )
         
         when {
             shouldOpenPrivateChat -> {
-                val peerID = intent.getStringExtra(com.bitchat.android.ui.NotificationManager.EXTRA_PEER_ID)
-                val senderNickname = intent.getStringExtra(com.bitchat.android.ui.NotificationManager.EXTRA_SENDER_NICKNAME)
+                val peerID = intent.getStringExtra(com.NakamaMesh.android.ui.NotificationManager.EXTRA_PEER_ID)
+                val senderNickname = intent.getStringExtra(com.NakamaMesh.android.ui.NotificationManager.EXTRA_SENDER_NICKNAME)
                 
                 if (peerID != null) {
                     Log.d("MainActivity", "Opening private chat with $senderNickname (peerID: $peerID) from notification")
@@ -727,22 +727,22 @@ class MainActivity : OrientationAwareActivity() {
             }
             
             shouldOpenGeohashChat -> {
-                val geohash = intent.getStringExtra(com.bitchat.android.ui.NotificationManager.EXTRA_GEOHASH)
+                val geohash = intent.getStringExtra(com.NakamaMesh.android.ui.NotificationManager.EXTRA_GEOHASH)
                 
                 if (geohash != null) {
                     Log.d("MainActivity", "Opening geohash chat #$geohash from notification")
                     
                     // Switch to the geohash channel - create appropriate geohash channel level
                     val level = when (geohash.length) {
-                        7 -> com.bitchat.android.geohash.GeohashChannelLevel.BLOCK
-                        6 -> com.bitchat.android.geohash.GeohashChannelLevel.NEIGHBORHOOD
-                        5 -> com.bitchat.android.geohash.GeohashChannelLevel.CITY
-                        4 -> com.bitchat.android.geohash.GeohashChannelLevel.PROVINCE
-                        2 -> com.bitchat.android.geohash.GeohashChannelLevel.REGION
-                        else -> com.bitchat.android.geohash.GeohashChannelLevel.CITY // Default fallback
+                        7 -> com.NakamaMesh.android.geohash.GeohashChannelLevel.BLOCK
+                        6 -> com.NakamaMesh.android.geohash.GeohashChannelLevel.NEIGHBORHOOD
+                        5 -> com.NakamaMesh.android.geohash.GeohashChannelLevel.CITY
+                        4 -> com.NakamaMesh.android.geohash.GeohashChannelLevel.PROVINCE
+                        2 -> com.NakamaMesh.android.geohash.GeohashChannelLevel.REGION
+                        else -> com.NakamaMesh.android.geohash.GeohashChannelLevel.CITY // Default fallback
                     }
-                    val geohashChannel = com.bitchat.android.geohash.GeohashChannel(level, geohash)
-                    val channelId = com.bitchat.android.geohash.ChannelID.Location(geohashChannel)
+                    val geohashChannel = com.NakamaMesh.android.geohash.GeohashChannel(level, geohash)
+                    val channelId = com.NakamaMesh.android.geohash.ChannelID.Location(geohashChannel)
                     chatViewModel.selectLocationChannel(channelId)
                     
                     // Update current geohash state for notifications

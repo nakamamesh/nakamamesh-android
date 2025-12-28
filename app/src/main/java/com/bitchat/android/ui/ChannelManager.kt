@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package com.NakamaMesh.android.ui
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -6,7 +6,7 @@ import java.security.MessageDigest
 import javax.crypto.Cipher
 import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.SecretKeySpec
-import com.bitchat.android.model.BitchatMessage
+import com.NakamaMesh.android.model.nakamameshMessage
 import java.util.*
 
 /**
@@ -176,7 +176,7 @@ class ChannelManager(
     
     // MARK: - Channel Management
     
-    fun addChannelMessage(channel: String, message: BitchatMessage, senderPeerID: String?) {
+    fun addChannelMessage(channel: String, message: nakamameshMessage, senderPeerID: String?) {
         messageManager.addChannelMessage(channel, message)
         
         // Track as channel member

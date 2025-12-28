@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package com.NakamaMesh.android.ui
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -30,15 +30,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.bitchat.android.nostr.NostrProofOfWork
-import com.bitchat.android.nostr.PoWPreferenceManager
+import com.NakamaMesh.android.nostr.NostrProofOfWork
+import com.NakamaMesh.android.nostr.PoWPreferenceManager
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.bitchat.android.R
-import com.bitchat.android.core.ui.component.button.CloseButton
-import com.bitchat.android.net.TorMode
-import com.bitchat.android.net.TorPreferenceManager
-import com.bitchat.android.net.ArtiTorManager
+import com.NakamaMesh.android.R
+import com.NakamaMesh.android.core.ui.component.button.CloseButton
+import com.NakamaMesh.android.net.TorMode
+import com.NakamaMesh.android.net.TorPreferenceManager
+import com.NakamaMesh.android.net.ArtiTorManager
 
 /**
  * Feature row for displaying app capabilities
@@ -339,7 +339,7 @@ fun AboutSheet(
                                 letterSpacing = 0.5.sp,
                                 modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
                             )
-                            val themePref by com.bitchat.android.ui.theme.ThemePreferenceManager.themeFlow.collectAsState()
+                            val themePref by com.NakamaMesh.android.ui.theme.ThemePreferenceManager.themeFlow.collectAsState()
                             Surface(
                                 modifier = Modifier.fillMaxWidth(),
                                 color = colorScheme.surface,
@@ -354,19 +354,19 @@ fun AboutSheet(
                                     ThemeChip(
                                         label = stringResource(R.string.about_system),
                                         selected = themePref.isSystem,
-                                        onClick = { com.bitchat.android.ui.theme.ThemePreferenceManager.set(context, com.bitchat.android.ui.theme.ThemePreference.System) },
+                                        onClick = { com.NakamaMesh.android.ui.theme.ThemePreferenceManager.set(context, com.NakamaMesh.android.ui.theme.ThemePreference.System) },
                                         modifier = Modifier.weight(1f)
                                     )
                                     ThemeChip(
                                         label = stringResource(R.string.about_light),
                                         selected = themePref.isLight,
-                                        onClick = { com.bitchat.android.ui.theme.ThemePreferenceManager.set(context, com.bitchat.android.ui.theme.ThemePreference.Light) },
+                                        onClick = { com.NakamaMesh.android.ui.theme.ThemePreferenceManager.set(context, com.NakamaMesh.android.ui.theme.ThemePreference.Light) },
                                         modifier = Modifier.weight(1f)
                                     )
                                     ThemeChip(
                                         label = stringResource(R.string.about_dark),
                                         selected = themePref.isDark,
-                                        onClick = { com.bitchat.android.ui.theme.ThemePreferenceManager.set(context, com.bitchat.android.ui.theme.ThemePreference.Dark) },
+                                        onClick = { com.NakamaMesh.android.ui.theme.ThemePreferenceManager.set(context, com.NakamaMesh.android.ui.theme.ThemePreference.Dark) },
                                         modifier = Modifier.weight(1f)
                                     )
                                 }
@@ -379,7 +379,7 @@ fun AboutSheet(
                         LaunchedEffect(Unit) { PoWPreferenceManager.init(context) }
                         val powEnabled by PoWPreferenceManager.powEnabled.collectAsState()
                         val powDifficulty by PoWPreferenceManager.powDifficulty.collectAsState()
-                        var backgroundEnabled by remember { mutableStateOf(com.bitchat.android.service.MeshServicePreferences.isBackgroundEnabled(true)) }
+                        var backgroundEnabled by remember { mutableStateOf(com.NakamaMesh.android.service.MeshServicePreferences.isBackgroundEnabled(true)) }
                         val torMode = remember { mutableStateOf(TorPreferenceManager.get(context)) }
                         val torProvider = remember { ArtiTorManager.getInstance() }
                         val torStatus by torProvider.statusFlow.collectAsState()
@@ -407,11 +407,11 @@ fun AboutSheet(
                                         checked = backgroundEnabled,
                                         onCheckedChange = { enabled ->
                                             backgroundEnabled = enabled
-                                            com.bitchat.android.service.MeshServicePreferences.setBackgroundEnabled(enabled)
+                                            com.NakamaMesh.android.service.MeshServicePreferences.setBackgroundEnabled(enabled)
                                             if (!enabled) {
-                                                com.bitchat.android.service.MeshForegroundService.stop(context)
+                                                com.NakamaMesh.android.service.MeshForegroundService.stop(context)
                                             } else {
-                                                com.bitchat.android.service.MeshForegroundService.start(context)
+                                                com.NakamaMesh.android.service.MeshForegroundService.start(context)
                                             }
                                         }
                                     )

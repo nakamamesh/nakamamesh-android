@@ -1,4 +1,4 @@
-package com.bitchat.android.ui.media
+package com.NakamaMesh.android.ui.media
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,7 +27,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.compose.ui.res.stringResource
-import com.bitchat.android.R
+import com.NakamaMesh.android.R
 
 /**
  * Media picker that offers image and file options

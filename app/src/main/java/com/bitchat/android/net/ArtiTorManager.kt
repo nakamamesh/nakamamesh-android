@@ -1,8 +1,8 @@
-package com.bitchat.android.net
+package com.NakamaMesh.android.net
 
 import android.app.Application
 import android.util.Log
-import com.bitchat.android.util.AppConstants
+import com.NakamaMesh.android.util.AppConstants
 import info.guardianproject.arti.ArtiLogListener
 import info.guardianproject.arti.ArtiProxy
 import kotlinx.coroutines.CoroutineScope
@@ -317,7 +317,7 @@ class ArtiTorManager private constructor() {
         } catch (_: Throwable) {
         }
         try {
-            com.bitchat.android.nostr.NostrRelayManager.shared.resetAllConnections()
+            com.NakamaMesh.android.nostr.NostrRelayManager.shared.resetAllConnections()
         } catch (_: Throwable) {
         }
     }

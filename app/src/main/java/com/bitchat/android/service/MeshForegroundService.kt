@@ -1,4 +1,4 @@
-package com.bitchat.android.service
+package com.NakamaMesh.android.service
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -11,9 +11,9 @@ import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.bitchat.android.MainActivity
-import com.bitchat.android.R
-import com.bitchat.android.mesh.BluetoothMeshService
+import com.NakamaMesh.android.MainActivity
+import com.NakamaMesh.android.R
+import com.NakamaMesh.android.mesh.BluetoothMeshService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -24,14 +24,14 @@ import kotlinx.coroutines.launch
 class MeshForegroundService : Service() {
 
     companion object {
-        private const val CHANNEL_ID = "bitchat_mesh_service"
+        private const val CHANNEL_ID = "nakamamesh_mesh_service"
         private const val NOTIFICATION_ID = 10001
 
-        const val ACTION_START = "com.bitchat.android.service.START"
-        const val ACTION_STOP = "com.bitchat.android.service.STOP"
-        const val ACTION_QUIT = "com.bitchat.android.service.QUIT"
-        const val ACTION_UPDATE_NOTIFICATION = "com.bitchat.android.service.UPDATE_NOTIFICATION"
-        const val ACTION_NOTIFICATION_PERMISSION_GRANTED = "com.bitchat.android.action.NOTIFICATION_PERMISSION_GRANTED"
+        const val ACTION_START = "com.NakamaMesh.android.service.START"
+        const val ACTION_STOP = "com.NakamaMesh.android.service.STOP"
+        const val ACTION_QUIT = "com.NakamaMesh.android.service.QUIT"
+        const val ACTION_UPDATE_NOTIFICATION = "com.NakamaMesh.android.service.UPDATE_NOTIFICATION"
+        const val ACTION_NOTIFICATION_PERMISSION_GRANTED = "com.NakamaMesh.android.action.NOTIFICATION_PERMISSION_GRANTED"
 
         fun start(context: Context) {
             val intent = Intent(context, MeshForegroundService::class.java).apply { action = ACTION_START }
@@ -264,7 +264,7 @@ class MeshForegroundService : Service() {
             PendingIntent.FLAG_UPDATE_CURRENT or (if (Build.VERSION.SDK_INT >= 23) PendingIntent.FLAG_IMMUTABLE else 0)
         )
 
-        // Action: Quit Bitchat
+        // Action: Quit nakamamesh
         val quitIntent = Intent(this, MeshForegroundService::class.java).apply { action = ACTION_QUIT }
         val quitPendingIntent = PendingIntent.getService(
             this, 1, quitIntent,
@@ -286,7 +286,7 @@ class MeshForegroundService : Service() {
             // Add an action button that appears when notification is expanded
             .addAction(
                 android.R.drawable.ic_menu_close_clear_cancel,
-                getString(R.string.notification_action_quit_bitchat),
+                getString(R.string.notification_action_quit_nakamamesh),
                 quitPendingIntent
             )
             .build()

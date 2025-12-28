@@ -1,4 +1,4 @@
-package com.bitchat.android.ui.media
+package com.NakamaMesh.android.ui.media
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -30,7 +30,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import com.bitchat.android.R
+import com.NakamaMesh.android.R
 import kotlinx.coroutines.delay
 
 /**

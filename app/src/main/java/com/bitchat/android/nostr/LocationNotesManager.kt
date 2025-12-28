@@ -1,4 +1,4 @@
-package com.bitchat.android.nostr
+package com.NakamaMesh.android.nostr
 
 import android.util.Log
 import androidx.annotation.MainThread
@@ -147,7 +147,7 @@ class LocationNotesManager private constructor() {
         
         // Compute target geohashes: center + neighbors (±1)
         val neighbors = try {
-            com.bitchat.android.geohash.Geohash.neighborsSamePrecision(normalized)
+            com.NakamaMesh.android.geohash.Geohash.neighborsSamePrecision(normalized)
         } catch (_: Exception) { emptySet() }
         subscribedGeohashes = (neighbors + normalized).toSet()
 
@@ -183,7 +183,7 @@ class LocationNotesManager private constructor() {
         _initialLoadComplete.value = false
         // Rebuild subscribedGeohashes and resubscribe
         val neighbors = try {
-            com.bitchat.android.geohash.Geohash.neighborsSamePrecision(currentGeohash)
+            com.NakamaMesh.android.geohash.Geohash.neighborsSamePrecision(currentGeohash)
         } catch (_: Exception) { emptySet() }
         subscribedGeohashes = (neighbors + currentGeohash).toSet()
         subscribeAll()
@@ -208,7 +208,7 @@ class LocationNotesManager private constructor() {
         // CRITICAL FIX: Get geo-specific relays for sending (matching iOS pattern)
         // iOS: let relays = dependencies.relayLookup(geohash, TransportConfig.nostrGeoRelayCount)
         val relays = try {
-            com.bitchat.android.nostr.RelayDirectory.closestRelaysForGeohash(currentGeohash, 5)
+            com.NakamaMesh.android.nostr.RelayDirectory.closestRelaysForGeohash(currentGeohash, 5)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to lookup relays for geohash $currentGeohash: ${e.message}")
             emptyList()

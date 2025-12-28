@@ -20,15 +20,15 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package com.bitchat.android.noise.southernstorm.protocol;
+package com.NakamaMesh.android.noise.southernstorm.protocol;
 
 import java.util.Arrays;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.ShortBufferException;
 
-import com.bitchat.android.noise.southernstorm.crypto.GHASH;
-import com.bitchat.android.noise.southernstorm.crypto.RijndaelAES;
+import com.NakamaMesh.android.noise.southernstorm.crypto.GHASH;
+import com.NakamaMesh.android.noise.southernstorm.crypto.RijndaelAES;
 
 /**
  * Fallback implementation of "AESGCM" on platforms where

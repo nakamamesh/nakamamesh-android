@@ -1,17 +1,17 @@
-package com.bitchat.android.ui
+package com.NakamaMesh.android.ui
 
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.bitchat.android.nostr.GeohashMessageHandler
-import com.bitchat.android.nostr.GeohashRepository
-import com.bitchat.android.nostr.NostrDirectMessageHandler
-import com.bitchat.android.nostr.NostrIdentityBridge
-import com.bitchat.android.nostr.NostrProtocol
-import com.bitchat.android.nostr.NostrRelayManager
-import com.bitchat.android.nostr.NostrSubscriptionManager
-import com.bitchat.android.nostr.PoWPreferenceManager
+import com.NakamaMesh.android.nostr.GeohashMessageHandler
+import com.NakamaMesh.android.nostr.GeohashRepository
+import com.NakamaMesh.android.nostr.NostrDirectMessageHandler
+import com.NakamaMesh.android.nostr.NostrIdentityBridge
+import com.NakamaMesh.android.nostr.NostrProtocol
+import com.NakamaMesh.android.nostr.NostrRelayManager
+import com.NakamaMesh.android.nostr.NostrSubscriptionManager
+import com.NakamaMesh.android.nostr.PoWPreferenceManager
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.StateFlow
@@ -53,11 +53,11 @@ class GeohashViewModel(
     private var currentGeohashSubId: String? = null
     private var currentDmSubId: String? = null
     private var geoTimer: Job? = null
-    private var locationChannelManager: com.bitchat.android.geohash.LocationChannelManager? = null
+    private var locationChannelManager: com.NakamaMesh.android.geohash.LocationChannelManager? = null
 
     val geohashPeople: StateFlow<List<GeoPerson>> = state.geohashPeople
     val geohashParticipantCounts: StateFlow<Map<String, Int>> = state.geohashParticipantCounts
-    val selectedLocationChannel: StateFlow<com.bitchat.android.geohash.ChannelID?> = state.selectedLocationChannel
+    val selectedLocationChannel: StateFlow<com.NakamaMesh.android.geohash.ChannelID?> = state.selectedLocationChannel
 
     fun initialize() {
         subscriptionManager.connect()
@@ -72,7 +72,7 @@ class GeohashViewModel(
             )
         }
         try {
-            locationChannelManager = com.bitchat.android.geohash.LocationChannelManager.getInstance(getApplication())
+            locationChannelManager = com.NakamaMesh.android.geohash.LocationChannelManager.getInstance(getApplication())
             viewModelScope.launch {
                 locationChannelManager?.selectedChannel?.collect { channel ->
                     state.setSelectedLocationChannel(channel)
@@ -86,7 +86,7 @@ class GeohashViewModel(
             }
         } catch (e: Exception) {
             Log.e(TAG, "Failed to initialize location channel state: ${e.message}")
-            state.setSelectedLocationChannel(com.bitchat.android.geohash.ChannelID.Mesh)
+            state.setSelectedLocationChannel(com.NakamaMesh.android.geohash.ChannelID.Mesh)
             state.setIsTeleported(false)
         }
     }
@@ -102,12 +102,12 @@ class GeohashViewModel(
         initialize()
     }
 
-    fun sendGeohashMessage(content: String, channel: com.bitchat.android.geohash.GeohashChannel, myPeerID: String, nickname: String?) {
+    fun sendGeohashMessage(content: String, channel: com.NakamaMesh.android.geohash.GeohashChannel, myPeerID: String, nickname: String?) {
         viewModelScope.launch {
             try {
                 val tempId = "temp_${System.currentTimeMillis()}_${kotlin.random.Random.nextInt(1000)}"
                 val pow = PoWPreferenceManager.getCurrentSettings()
-                val localMsg = com.bitchat.android.model.BitchatMessage(
+                val localMsg = com.NakamaMesh.android.model.nakamameshMessage(
                     id = tempId,
                     sender = nickname ?: myPeerID,
                     content = content,
@@ -120,7 +120,7 @@ class GeohashViewModel(
                 messageManager.addChannelMessage("geo:${channel.geohash}", localMsg)
                 val startedMining = pow.enabled && pow.difficulty > 0
                 if (startedMining) {
-                    com.bitchat.android.ui.PoWMiningTracker.startMiningMessage(tempId)
+                    com.NakamaMesh.android.ui.PoWMiningTracker.startMiningMessage(tempId)
                 }
                 try {
                     val identity = NostrIdentityBridge.deriveIdentity(forGeohash = channel.geohash, context = getApplication())
@@ -131,7 +131,7 @@ class GeohashViewModel(
                 } finally {
                     // Ensure we stop the per-message mining animation regardless of success/failure
                     if (startedMining) {
-                        com.bitchat.android.ui.PoWMiningTracker.stopMiningMessage(tempId)
+                        com.NakamaMesh.android.ui.PoWMiningTracker.stopMiningMessage(tempId)
                     }
                 }
             } catch (e: Exception) {
@@ -165,10 +165,10 @@ class GeohashViewModel(
         repo.putNostrKeyMapping(convKey, pubkeyHex)
         // Record the conversation's geohash using the currently selected location channel (if any)
         val current = state.selectedLocationChannel.value
-        val gh = (current as? com.bitchat.android.geohash.ChannelID.Location)?.channel?.geohash
+        val gh = (current as? com.NakamaMesh.android.geohash.ChannelID.Location)?.channel?.geohash
         if (!gh.isNullOrEmpty()) {
             repo.setConversationGeohash(convKey, gh)
-            com.bitchat.android.nostr.GeohashConversationRegistry.set(convKey, gh)
+            com.NakamaMesh.android.nostr.GeohashConversationRegistry.set(convKey, gh)
         }
         onStartPrivateChat(convKey)
         Log.d(TAG, "🗨️ Started geohash DM with ${pubkeyHex} -> ${convKey} (geohash=${gh})")
@@ -183,7 +183,7 @@ class GeohashViewModel(
             // Refresh people list and counts to remove blocked entry immediately
             repo.refreshGeohashPeople()
             repo.updateReactiveParticipantCounts()
-            val sysMsg = com.bitchat.android.model.BitchatMessage(
+            val sysMsg = com.NakamaMesh.android.model.nakamameshMessage(
                 sender = "system",
                 content = "blocked $targetNickname in geohash channels",
                 timestamp = Date(),
@@ -191,7 +191,7 @@ class GeohashViewModel(
             )
             messageManager.addMessage(sysMsg)
         } else {
-            val sysMsg = com.bitchat.android.model.BitchatMessage(
+            val sysMsg = com.NakamaMesh.android.model.nakamameshMessage(
                 sender = "system",
                 content = "user '$targetNickname' not found in current geohash",
                 timestamp = Date(),
@@ -201,7 +201,7 @@ class GeohashViewModel(
         }
     }
 
-    fun selectLocationChannel(channel: com.bitchat.android.geohash.ChannelID) {
+    fun selectLocationChannel(channel: com.NakamaMesh.android.geohash.ChannelID) {
         locationChannelManager?.select(channel) ?: run { Log.w(TAG, "Cannot select location channel - not initialized") }
     }
 
@@ -212,20 +212,20 @@ class GeohashViewModel(
         return colorForPeerSeed(seed, isDark).copy()
     }
 
-    private fun switchLocationChannel(channel: com.bitchat.android.geohash.ChannelID?) {
+    private fun switchLocationChannel(channel: com.NakamaMesh.android.geohash.ChannelID?) {
         geoTimer?.cancel(); geoTimer = null
         currentGeohashSubId?.let { subscriptionManager.unsubscribe(it); currentGeohashSubId = null }
         currentDmSubId?.let { subscriptionManager.unsubscribe(it); currentDmSubId = null }
 
         when (channel) {
-            is com.bitchat.android.geohash.ChannelID.Mesh -> {
+            is com.NakamaMesh.android.geohash.ChannelID.Mesh -> {
                 Log.d(TAG, "📡 Switched to mesh channel")
                 repo.setCurrentGeohash(null)
                 notificationManager.setCurrentGeohash(null)
                 notificationManager.clearMeshMentionNotifications()
                 repo.refreshGeohashPeople()
             }
-            is com.bitchat.android.geohash.ChannelID.Location -> {
+            is com.NakamaMesh.android.geohash.ChannelID.Location -> {
                 Log.d(TAG, "📍 Switching to geohash channel: ${channel.channel.geohash}")
                 repo.setCurrentGeohash(channel.channel.geohash)
                 notificationManager.setCurrentGeohash(channel.channel.geohash)
@@ -260,7 +260,7 @@ class GeohashViewModel(
                         handler = { event -> dmHandler.onGiftWrap(event, geohash, dmIdentity) }
                     )
                     // Also register alias in global registry for routing convenience
-                    com.bitchat.android.nostr.GeohashAliasRegistry.put("nostr_${dmIdentity.publicKeyHex.take(16)}", dmIdentity.publicKeyHex)
+                    com.NakamaMesh.android.nostr.GeohashAliasRegistry.put("nostr_${dmIdentity.publicKeyHex.take(16)}", dmIdentity.publicKeyHex)
                 }
             }
             null -> {

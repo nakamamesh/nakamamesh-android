@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package com.NakamaMesh.android.ui
 // [Goose] Bridge file share events to ViewModel via dispatcher is installed in ChatScreen composition
 
 // [Goose] Installing FileShareDispatcher handler in ChatScreen to forward file sends to ViewModel
@@ -25,8 +25,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.bitchat.android.model.BitchatMessage
-import com.bitchat.android.ui.media.FullScreenImageViewer
+import com.NakamaMesh.android.model.nakamameshMessage
+import com.NakamaMesh.android.ui.media.FullScreenImageViewer
+import androidx.compose.ui.text.font.FontWeight
 
 /**
  * Main ChatScreen - REFACTORED to use component-based architecture
@@ -66,7 +67,7 @@ fun ChatScreen(viewModel: ChatViewModel) {
     var showLocationNotesSheet by remember { mutableStateOf(false) }
     var showUserSheet by remember { mutableStateOf(false) }
     var selectedUserForSheet by remember { mutableStateOf("") }
-    var selectedMessageForSheet by remember { mutableStateOf<BitchatMessage?>(null) }
+    var selectedMessageForSheet by remember { mutableStateOf<nakamameshMessage?>(null) }
     var showFullScreenImageViewer by remember { mutableStateOf(false) }
     var viewerImagePaths by remember { mutableStateOf(emptyList<String>()) }
     var initialViewerIndex by remember { mutableStateOf(0) }
@@ -90,7 +91,7 @@ fun ChatScreen(viewModel: ChatViewModel) {
         currentChannel != null -> channelMessages[currentChannel] ?: emptyList()
         else -> {
             val locationChannel = selectedLocationChannel
-            if (locationChannel is com.bitchat.android.geohash.ChannelID.Location) {
+            if (locationChannel is com.NakamaMesh.android.geohash.ChannelID.Location) {
                 val geokey = "geo:${locationChannel.channel.geohash}"
                 channelMessages[geokey] ?: emptyList()
             } else {
@@ -103,7 +104,7 @@ fun ChatScreen(viewModel: ChatViewModel) {
     val showMediaButtons = when {
         selectedPrivatePeer != null -> true
         currentChannel != null -> true
-        else -> selectedLocationChannel !is com.bitchat.android.geohash.ChannelID.Location
+        else -> selectedLocationChannel !is com.NakamaMesh.android.geohash.ChannelID.Location
     }
 
     // Use WindowInsets to handle keyboard properly
@@ -113,7 +114,7 @@ fun ChatScreen(viewModel: ChatViewModel) {
             .background(colorScheme.background) // Extend background to fill entire screen including status bar
     ) {
         val headerHeight = 42.dp
-        
+
         // Main content area that responds to keyboard/window insets
         Column(
             modifier = Modifier
@@ -128,6 +129,43 @@ fun ChatScreen(viewModel: ChatViewModel) {
                     .height(headerHeight)
             )
 
+            // Coming Soon Banner - NakamaMesh Features
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFF667EEA)
+                )
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Text(
+                        text = "🚀 Coming Soon: Paid Priority Messages!",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "• Pay with \$NKMA tokens for priority delivery",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.White
+                    )
+                    Text(
+                        text = "• Earn \$NKMA by relaying messages",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.White
+                    )
+                    Text(
+                        text = "• Four tiers: Free, Express, Fast, Ultra Fast",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.White
+                    )
+                }
+            }
+
             // Messages area - takes up available space, will compress when keyboard appears
             MessagesList(
                 messages = displayMessages,
@@ -139,26 +177,26 @@ fun ChatScreen(viewModel: ChatViewModel) {
                 onNicknameClick = { fullSenderName ->
                     // Single click - mention user in text input
                     val currentText = messageText.text
-                    
+
                     // Extract base nickname and hash suffix from full sender name
                     val (baseName, hashSuffix) = splitSuffix(fullSenderName)
-                    
+
                     // Check if we're in a geohash channel to include hash suffix
                     val selectedLocationChannel = viewModel.selectedLocationChannel.value
-                    val mentionText = if (selectedLocationChannel is com.bitchat.android.geohash.ChannelID.Location && hashSuffix.isNotEmpty()) {
+                    val mentionText = if (selectedLocationChannel is com.NakamaMesh.android.geohash.ChannelID.Location && hashSuffix.isNotEmpty()) {
                         // In geohash chat - include the hash suffix from the full display name
                         "@$baseName$hashSuffix"
                     } else {
                         // Regular chat - just the base nickname
                         "@$baseName"
                     }
-                    
+
                     val newText = when {
                         currentText.isEmpty() -> "$mentionText "
                         currentText.endsWith(" ") -> "$currentText$mentionText "
                         else -> "$currentText $mentionText "
                     }
-                    
+
                     messageText = TextFieldValue(
                         text = newText,
                         selection = TextRange(newText.length)
@@ -181,43 +219,44 @@ fun ChatScreen(viewModel: ChatViewModel) {
                     showFullScreenImageViewer = true
                 }
             )
-            // Input area - stays at bottom
-        // Bridge file share from lower-level input to ViewModel
-    androidx.compose.runtime.LaunchedEffect(Unit) {
-        com.bitchat.android.ui.events.FileShareDispatcher.setHandler { peer, channel, path ->
-            viewModel.sendFileNote(peer, channel, path)
-        }
-    }
 
-    ChatInputSection(
-        messageText = messageText,
-        onMessageTextChange = { newText: TextFieldValue ->
-            messageText = newText
-            viewModel.updateCommandSuggestions(newText.text)
-            viewModel.updateMentionSuggestions(newText.text)
-        },
-        onSend = {
-            if (messageText.text.trim().isNotEmpty()) {
-                viewModel.sendMessage(messageText.text.trim())
-                messageText = TextFieldValue("")
-                forceScrollToBottom = !forceScrollToBottom // Toggle to trigger scroll
+            // Input area - stays at bottom
+            // Bridge file share from lower-level input to ViewModel
+            androidx.compose.runtime.LaunchedEffect(Unit) {
+                com.NakamaMesh.android.ui.events.FileShareDispatcher.setHandler { peer, channel, path ->
+                    viewModel.sendFileNote(peer, channel, path)
+                }
             }
-        },
-        onSendVoiceNote = { peer, onionOrChannel, path ->
-            viewModel.sendVoiceNote(peer, onionOrChannel, path)
-        },
-        onSendImageNote = { peer, onionOrChannel, path ->
-            viewModel.sendImageNote(peer, onionOrChannel, path)
-        },
-        onSendFileNote = { peer, onionOrChannel, path ->
-            viewModel.sendFileNote(peer, onionOrChannel, path)
-        },
-        
-        showCommandSuggestions = showCommandSuggestions,
-        commandSuggestions = commandSuggestions,
-        showMentionSuggestions = showMentionSuggestions,
-        mentionSuggestions = mentionSuggestions,
-        onCommandSuggestionClick = { suggestion: CommandSuggestion ->
+
+            ChatInputSection(
+                messageText = messageText,
+                onMessageTextChange = { newText: TextFieldValue ->
+                    messageText = newText
+                    viewModel.updateCommandSuggestions(newText.text)
+                    viewModel.updateMentionSuggestions(newText.text)
+                },
+                onSend = {
+                    if (messageText.text.trim().isNotEmpty()) {
+                        viewModel.sendMessage(messageText.text.trim())
+                        messageText = TextFieldValue("")
+                        forceScrollToBottom = !forceScrollToBottom // Toggle to trigger scroll
+                    }
+                },
+                onSendVoiceNote = { peer, onionOrChannel, path ->
+                    viewModel.sendVoiceNote(peer, onionOrChannel, path)
+                },
+                onSendImageNote = { peer, onionOrChannel, path ->
+                    viewModel.sendImageNote(peer, onionOrChannel, path)
+                },
+                onSendFileNote = { peer, onionOrChannel, path ->
+                    viewModel.sendFileNote(peer, onionOrChannel, path)
+                },
+
+                showCommandSuggestions = showCommandSuggestions,
+                commandSuggestions = commandSuggestions,
+                showMentionSuggestions = showMentionSuggestions,
+                mentionSuggestions = mentionSuggestions,
+                onCommandSuggestionClick = { suggestion: CommandSuggestion ->
                     val commandText = viewModel.selectCommandSuggestion(suggestion)
                     messageText = TextFieldValue(
                         text = commandText,
@@ -305,7 +344,7 @@ fun ChatScreen(viewModel: ChatViewModel) {
                 IconButton(onClick = { forceScrollToBottom = !forceScrollToBottom }) {
                     Icon(
                         imageVector = Icons.Filled.ArrowDownward,
-                        contentDescription = stringResource(com.bitchat.android.R.string.cd_scroll_to_bottom),
+                        contentDescription = stringResource(com.NakamaMesh.android.R.string.cd_scroll_to_bottom),
                         tint = Color(0xFF00C851)
                     )
                 }
@@ -367,7 +406,7 @@ fun ChatScreen(viewModel: ChatViewModel) {
         showLocationNotesSheet = showLocationNotesSheet,
         onLocationNotesSheetDismiss = { showLocationNotesSheet = false },
         showUserSheet = showUserSheet,
-        onUserSheetDismiss = { 
+        onUserSheetDismiss = {
             showUserSheet = false
             selectedMessageForSheet = null // Reset message when dismissing
         },
@@ -437,6 +476,7 @@ private fun ChatInputSection(
         }
     }
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ChatFloatingHeader(
@@ -453,8 +493,8 @@ private fun ChatFloatingHeader(
     onLocationNotesClick: () -> Unit
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
-    val locationManager = remember { com.bitchat.android.geohash.LocationChannelManager.getInstance(context) }
-    
+    val locationManager = remember { com.NakamaMesh.android.geohash.LocationChannelManager.getInstance(context) }
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -512,7 +552,7 @@ private fun ChatDialogs(
     showUserSheet: Boolean,
     onUserSheetDismiss: () -> Unit,
     selectedUserForSheet: String,
-    selectedMessageForSheet: BitchatMessage?,
+    selectedMessageForSheet: nakamameshMessage?,
     viewModel: ChatViewModel
 ) {
     // Password dialog
@@ -533,13 +573,13 @@ private fun ChatDialogs(
         onShowDebug = { showDebugSheet = true }
     )
     if (showDebugSheet) {
-        com.bitchat.android.ui.debug.DebugSettingsSheet(
+        com.NakamaMesh.android.ui.debug.DebugSettingsSheet(
             isPresented = showDebugSheet,
             onDismiss = { showDebugSheet = false },
             meshService = viewModel.meshService
         )
     }
-    
+
     // Location channels sheet
     if (showLocationChannelsSheet) {
         LocationChannelsSheet(
@@ -548,7 +588,7 @@ private fun ChatDialogs(
             viewModel = viewModel
         )
     }
-    
+
     // Location notes sheet (extracted to separate presenter)
     if (showLocationNotesSheet) {
         LocationNotesSheetPresenter(
@@ -556,7 +596,7 @@ private fun ChatDialogs(
             onDismiss = onLocationNotesSheetDismiss
         )
     }
-    
+
     // User action sheet
     if (showUserSheet) {
         ChatUserSheet(

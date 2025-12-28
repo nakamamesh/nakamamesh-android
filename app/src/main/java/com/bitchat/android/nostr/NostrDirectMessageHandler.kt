@@ -1,14 +1,14 @@
-package com.bitchat.android.nostr
+package com.NakamaMesh.android.nostr
 
 import android.app.Application
 import android.util.Log
-import com.bitchat.android.model.BitchatMessage
-import com.bitchat.android.model.DeliveryStatus
-import com.bitchat.android.protocol.BitchatPacket
-import com.bitchat.android.services.SeenMessageStore
-import com.bitchat.android.ui.ChatState
-import com.bitchat.android.ui.MeshDelegateHandler
-import com.bitchat.android.ui.PrivateChatManager
+import com.NakamaMesh.android.model.nakamameshMessage
+import com.NakamaMesh.android.model.DeliveryStatus
+import com.NakamaMesh.android.protocol.nakamameshPacket
+import com.NakamaMesh.android.services.SeenMessageStore
+import com.NakamaMesh.android.ui.ChatState
+import com.NakamaMesh.android.ui.MeshDelegateHandler
+import com.NakamaMesh.android.ui.PrivateChatManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,7 +22,7 @@ class NostrDirectMessageHandler(
     private val meshDelegateHandler: MeshDelegateHandler,
     private val scope: CoroutineScope,
     private val repo: GeohashRepository,
-    private val dataManager: com.bitchat.android.ui.DataManager
+    private val dataManager: com.NakamaMesh.android.ui.DataManager
 ) {
     companion object { private const val TAG = "NostrDirectMessageHandler" }
 
@@ -63,19 +63,19 @@ class NostrDirectMessageHandler(
                 // If sender is blocked for geohash contexts, drop any events from this pubkey
                 // Applies to both geohash DMs (geohash != "") and account DMs (geohash == "")
                 if (dataManager.isGeohashUserBlocked(senderPubkey)) return@launch
-                if (!content.startsWith("bitchat1:")) return@launch
+                if (!content.startsWith("nakamamesh1:")) return@launch
 
-                val base64Content = content.removePrefix("bitchat1:")
+                val base64Content = content.removePrefix("nakamamesh1:")
                 val packetData = base64URLDecode(base64Content) ?: return@launch
-                val packet = BitchatPacket.fromBinaryData(packetData) ?: return@launch
+                val packet = nakamameshPacket.fromBinaryData(packetData) ?: return@launch
 
-                if (packet.type != com.bitchat.android.protocol.MessageType.NOISE_ENCRYPTED.value) return@launch
+                if (packet.type != com.NakamaMesh.android.protocol.MessageType.NOISE_ENCRYPTED.value) return@launch
 
-                val noisePayload = com.bitchat.android.model.NoisePayload.decode(packet.payload) ?: return@launch
+                val noisePayload = com.NakamaMesh.android.model.NoisePayload.decode(packet.payload) ?: return@launch
                 val messageTimestamp = Date(giftWrap.createdAt * 1000L)
                 val convKey = "nostr_${senderPubkey.take(16)}"
                 repo.putNostrKeyMapping(convKey, senderPubkey)
-                com.bitchat.android.nostr.GeohashAliasRegistry.put(convKey, senderPubkey)
+                com.NakamaMesh.android.nostr.GeohashAliasRegistry.put(convKey, senderPubkey)
                 if (geohash.isNotEmpty()) {
                     // Remember which geohash this conversation belongs to so we can subscribe on-demand
                     repo.setConversationGeohash(convKey, geohash)
@@ -104,7 +104,7 @@ class NostrDirectMessageHandler(
     }
 
     private suspend fun processNoisePayload(
-        payload: com.bitchat.android.model.NoisePayload,
+        payload: com.NakamaMesh.android.model.NoisePayload,
         convKey: String,
         senderNickname: String,
         timestamp: Date,
@@ -112,12 +112,12 @@ class NostrDirectMessageHandler(
         recipientIdentity: NostrIdentity
     ) {
         when (payload.type) {
-            com.bitchat.android.model.NoisePayloadType.PRIVATE_MESSAGE -> {
-                val pm = com.bitchat.android.model.PrivateMessagePacket.decode(payload.data) ?: return
+            com.NakamaMesh.android.model.NoisePayloadType.PRIVATE_MESSAGE -> {
+                val pm = com.NakamaMesh.android.model.PrivateMessagePacket.decode(payload.data) ?: return
                 val existingMessages = state.getPrivateChatsValue()[convKey] ?: emptyList()
                 if (existingMessages.any { it.id == pm.messageID }) return
 
-                val message = BitchatMessage(
+                val message = nakamameshMessage(
                     id = pm.messageID,
                     sender = senderNickname,
                     content = pm.content,
@@ -148,29 +148,29 @@ class NostrDirectMessageHandler(
                     seenStore.markRead(pm.messageID)
                 }
             }
-            com.bitchat.android.model.NoisePayloadType.DELIVERED -> {
+            com.NakamaMesh.android.model.NoisePayloadType.DELIVERED -> {
                 val messageId = String(payload.data, Charsets.UTF_8)
                 withContext(Dispatchers.Main) {
                     meshDelegateHandler.didReceiveDeliveryAck(messageId, convKey)
                 }
             }
-            com.bitchat.android.model.NoisePayloadType.READ_RECEIPT -> {
+            com.NakamaMesh.android.model.NoisePayloadType.READ_RECEIPT -> {
                 val messageId = String(payload.data, Charsets.UTF_8)
                 withContext(Dispatchers.Main) {
                     meshDelegateHandler.didReceiveReadReceipt(messageId, convKey)
                 }
             }
-            com.bitchat.android.model.NoisePayloadType.FILE_TRANSFER -> {
+            com.NakamaMesh.android.model.NoisePayloadType.FILE_TRANSFER -> {
                 // Properly handle encrypted file transfer
-                val file = com.bitchat.android.model.BitchatFilePacket.decode(payload.data)
+                val file = com.NakamaMesh.android.model.nakamameshFilePacket.decode(payload.data)
                 if (file != null) {
                     val uniqueMsgId = java.util.UUID.randomUUID().toString().uppercase()
-                    val savedPath = com.bitchat.android.features.file.FileUtils.saveIncomingFile(application, file)
-                    val message = BitchatMessage(
+                    val savedPath = com.NakamaMesh.android.features.file.FileUtils.saveIncomingFile(application, file)
+                    val message = nakamameshMessage(
                         id = uniqueMsgId,
                         sender = senderNickname,
                         content = savedPath,
-                        type = com.bitchat.android.features.file.FileUtils.messageTypeForMime(file.mimeType),
+                        type = com.NakamaMesh.android.features.file.FileUtils.messageTypeForMime(file.mimeType),
                         timestamp = timestamp,
                         isRelay = false,
                         isPrivate = true,

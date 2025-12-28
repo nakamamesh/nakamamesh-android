@@ -1,4 +1,4 @@
-package com.bitchat.android.ui.media
+package com.NakamaMesh.android.ui.media
 
 import android.content.ContentValues
 import android.os.Build
@@ -33,7 +33,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.res.stringResource
-import com.bitchat.android.R
+import com.NakamaMesh.android.R
 import java.io.File
 
 /**

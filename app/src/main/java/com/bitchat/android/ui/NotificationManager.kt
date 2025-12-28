@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package com.NakamaMesh.android.ui
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -10,9 +10,9 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.Person
 import androidx.core.app.NotificationManagerCompat
-import com.bitchat.android.MainActivity
-import com.bitchat.android.R
-import com.bitchat.android.util.NotificationIntervalManager
+import com.NakamaMesh.android.MainActivity
+import com.NakamaMesh.android.R
+import com.NakamaMesh.android.util.NotificationIntervalManager
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -33,16 +33,16 @@ class NotificationManager(
 
     companion object {
         private const val TAG = "NotificationManager"
-        private const val CHANNEL_ID = "bitchat_dm_notifications"
-        private const val GEOHASH_CHANNEL_ID = "bitchat_geohash_notifications"
-        private const val GROUP_KEY_DM = "bitchat_dm_group"
-        private const val GROUP_KEY_GEOHASH = "bitchat_geohash_group"
+        private const val CHANNEL_ID = "nakamamesh_dm_notifications"
+        private const val GEOHASH_CHANNEL_ID = "nakamamesh_geohash_notifications"
+        private const val GROUP_KEY_DM = "nakamamesh_dm_group"
+        private const val GROUP_KEY_GEOHASH = "nakamamesh_geohash_group"
         private const val NOTIFICATION_REQUEST_CODE = 1000
         private const val GEOHASH_NOTIFICATION_REQUEST_CODE = 2000
         private const val SUMMARY_NOTIFICATION_ID = 999
       private const val GEOHASH_SUMMARY_NOTIFICATION_ID = 998
         private const val ACTIVE_PEERS_NOTIFICATION_ID = 997
-        private const val ACTIVE_PEERS_NOTIFICATION_TIME_INTERVAL = com.bitchat.android.util.AppConstants.UI.ACTIVE_PEERS_NOTIFICATION_INTERVAL_MS
+        private const val ACTIVE_PEERS_NOTIFICATION_TIME_INTERVAL = com.NakamaMesh.android.util.AppConstants.UI.ACTIVE_PEERS_NOTIFICATION_INTERVAL_MS
 
         // Intent extras for notification handling
         const val EXTRA_OPEN_PRIVATE_CHAT = "open_private_chat"

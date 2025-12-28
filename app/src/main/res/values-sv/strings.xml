@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">bitchat</string>
+    <string name="app_name">nakamamesh</string>
     <string name="permission_bluetooth_rationale">Bluetooth-behörighet krävs för direktmeddelanden utan internet.</string>
     <string name="permission_location_rationale">Platsbehörighet krävs för att hitta enheter i närheten via Bluetooth.</string>
     <string name="permission_notification_rationale">Aviseringsbehörighet krävs för att meddela nya meddelanden.</string>
@@ -24,12 +24,12 @@
     <string name="battery_optimization_not_required">Batterioptimering krävs inte</string>
     <string name="battery_optimization_checking">Kontrollerar batterioptimering</string>
     <string name="battery_optimization_why_disable">Varför inaktivera?</string>
-    <string name="battery_optimization_explanation">bitchat körs i bakgrunden för att upprätthålla mesh-anslutningar till enheter i närheten. Batterioptimering kan avbryta dessa och orsaka fördröjda eller missade meddelanden.\n\nAtt inaktivera säkerställer tillförlitlig P2P-meddelandetrafik.</string>
+    <string name="battery_optimization_explanation">nakamamesh körs i bakgrunden för att upprätthålla mesh-anslutningar till enheter i närheten. Batterioptimering kan avbryta dessa och orsaka fördröjda eller missade meddelanden.\n\nAtt inaktivera säkerställer tillförlitlig P2P-meddelandetrafik.</string>
     <string name="battery_optimization_disable_button">Inaktivera optimering</string>
-    <string name="battery_optimization_note">Obs: kan ändras senare i Android-inställningar &gt; Appar &gt; bitchat &gt; Batteri</string>
-    <string name="battery_optimization_not_supported_explanation">Din enhet kräver inte batterioptimeringsinställningar. bitchat körs normalt.</string>
-    <string name="battery_optimization_not_supported_message">Din enhet kräver inte batterioptimeringsinställningar. bitchat körs normalt.</string>
-    <string name="battery_optimization_success_message">bitchat kan köras tillförlitligt i bakgrunden</string>
+    <string name="battery_optimization_note">Obs: kan ändras senare i Android-inställningar &gt; Appar &gt; nakamamesh &gt; Batteri</string>
+    <string name="battery_optimization_not_supported_explanation">Din enhet kräver inte batterioptimeringsinställningar. nakamamesh körs normalt.</string>
+    <string name="battery_optimization_not_supported_message">Din enhet kräver inte batterioptimeringsinställningar. nakamamesh körs normalt.</string>
+    <string name="battery_optimization_success_message">nakamamesh kan köras tillförlitligt i bakgrunden</string>
     <string name="battery_optimization_benefits">• Tillförlitlig leverans\n• Upprätthåller mesh-anslutning\n• Bakgrundsrelä\n• Förhindrar avbrott</string>
     <string name="battery_optimization_check_again">Kontrollera igen</string>
     <string name="battery_optimization_skip">Hoppa över nu</string>
@@ -40,7 +40,7 @@
     <string name="notification_summary_more">och %1$d till</string>
     <string name="notification_messages_from_people">%1$d meddelanden från %2$d personer</string>
     <string name="notification_more_conversations">och %1$d fler konversationer</string>
-    <string name="notification_active_peers_title">👥 bitchatter i närheten!</string>
+    <string name="notification_active_peers_title">👥 nakamameshter i närheten!</string>
     <string name="notification_active_peers_one">1 person i närheten</string>
     <string name="notification_active_peers_many">%1$d personer i närheten</string>
     <string name="notification_new_messages">Nya meddelanden</string>
@@ -51,8 +51,8 @@
     <string name="notification_new_activity_in">Ny aktivitet i %1$s</string>
     <string name="notification_messages_in">Meddelanden i %1$s</string>
     <string name="notification_joined_conversation">%1$s gick med i konversationen</string>
-    <string name="notification_geohash_summary_title_mentions">bitchat – %1$d nämningar</string>
-    <string name="notification_geohash_summary_title">bitchat – platschattar</string>
+    <string name="notification_geohash_summary_title_mentions">nakamamesh – %1$d nämningar</string>
+    <string name="notification_geohash_summary_title">nakamamesh – platschattar</string>
     <string name="notification_geohash_summary_text">%1$d meddelanden från %2$d platser</string>
     <string name="notification_mesh_mention_title_singular">Nämnd i Mesh‑chatt</string>
     <string name="notification_mesh_mention_title_plural">%1$d nämningar i Mesh‑chatt</string>
@@ -228,8 +228,8 @@
 
     <string name="location_services_required">Platstjänster krävs</string>
     <string name="privacy_first">Integritet först</string>
-    <string name="location_explanation">bitchat SPÅRAR INTE din plats.\n\nPlatstjänster krävs för Bluetooth‑skanning och Geohash‑chatt.</string>
-    <string name="location_needs_for">bitchat behöver platstjänster för:</string>
+    <string name="location_explanation">nakamamesh SPÅRAR INTE din plats.\n\nPlatstjänster krävs för Bluetooth‑skanning och Geohash‑chatt.</string>
+    <string name="location_needs_for">nakamamesh behöver platstjänster för:</string>
     <string name="location_needs_bullets">• Bluetooth‑skanning av enheter\n• Hitta användare i närheten i mesh‑nätet\n• Geohash‑chatt\n• Ingen spårning eller insamling</string>
     <string name="open_location_settings">Öppna platsinställningar</string>
     <string name="check_again">Kontrollera igen</string>
@@ -237,15 +237,15 @@
     <string name="location_unavailable_explanation">Platstjänster saknas på den här enheten. Det är ovanligt.\n\nAndroid kräver dem för att Bluetooth‑skanning ska fungera. Utan dem kan vi inte hitta användare i närheten.</string>
     <string name="checking_location_services">Kontrollerar platstjänster…</string>
     <string name="bluetooth_required">Bluetooth krävs</string>
-    <string name="bluetooth_needs_for">bitchat behöver Bluetooth för:</string>
+    <string name="bluetooth_needs_for">nakamamesh behöver Bluetooth för:</string>
     <string name="bluetooth_needs_bullets">• Hitta användare i närheten\n• Skapa mesh‑anslutningar\n• Skicka och ta emot meddelanden\n• Fungera utan internet/ servrar</string>
     <string name="enable_bluetooth">Aktivera Bluetooth</string>
     <string name="bluetooth_not_supported">Bluetooth stöds inte</string>
-    <string name="bluetooth_unsupported_explanation">Denna enhet stöder inte Bluetooth Low Energy (BLE), vilket krävs för bitchat.\n\nBLE behövs för att bygga mesh och kommunicera utan internet.</string>
+    <string name="bluetooth_unsupported_explanation">Denna enhet stöder inte Bluetooth Low Energy (BLE), vilket krävs för nakamamesh.\n\nBLE behövs för att bygga mesh och kommunicera utan internet.</string>
     <string name="checking_bluetooth_status">Kontrollerar Bluetooth‑status…</string>
     <string name="battery_optimization_detected_title">batterioptimering upptäckt</string>
     <string name="battery_optimization_enabled_title">Batterioptimering på</string>
-    <string name="battery_optimization_explanation_short">bitchat måste köra i bakgrunden för mesh; optimering kan bryta.</string>
+    <string name="battery_optimization_explanation_short">nakamamesh måste köra i bakgrunden för mesh; optimering kan bryta.</string>
     <string name="benefits_of_disabling">Fördelar med inaktivering</string>
     <string name="battery_benefits_short">• tillförlitlig leverans\n• håller anslutning\n• förhindrar avbrott</string>
     <string name="disable_battery_optimization">Inaktivera optimering</string>
@@ -262,9 +262,9 @@
     <string name="privacy_bullets">• ingen spårning eller insamling\n• Bluetooth‑mesh‑chattar helt offline\n• geohash‑chattar använder internet</string>
     <string name="permissions_header">behörigheter</string>
     <string name="grant_permissions">Ge behörigheter</string>
-    <string name="location_tracking_warning">bitchat spårar INTE din plats</string>
+    <string name="location_tracking_warning">nakamamesh spårar INTE din plats</string>
     <string name="at_symbol">@</string>
-    <string name="app_brand">bitchat/</string>
+    <string name="app_brand">nakamamesh/</string>
     <string name="channel_count_prefix"> · ⧉ </string>
     <string name="geohash_people_header">PERSONER</string>
     <string name="nobody_around">ingen i närheten…</string>
@@ -307,12 +307,12 @@
     <string name="cd_play_voice">Spela</string>
     <string name="cd_pause_voice">Pausa</string>
 
-    <string name="perm_nearby_devices_desc">Krävs för att hitta bitchat‑användare via Bluetooth</string>
-    <string name="perm_nearby_devices_system">Tillåt bitchat att ansluta till enheter i närheten</string>
+    <string name="perm_nearby_devices_desc">Krävs för att hitta nakamamesh‑användare via Bluetooth</string>
+    <string name="perm_nearby_devices_system">Tillåt nakamamesh att ansluta till enheter i närheten</string>
     <string name="perm_location_desc">Krävs av Android för att hitta användare via Bluetooth</string>
-    <string name="perm_location_system">bitchat behöver detta för att skanna enheter</string>
+    <string name="perm_location_system">nakamamesh behöver detta för att skanna enheter</string>
     <string name="perm_notifications_desc">Ta emot aviseringar vid privata meddelanden</string>
-    <string name="perm_notifications_system">Tillåt bitchat att skicka aviseringar</string>
+    <string name="perm_notifications_system">Tillåt nakamamesh att skicka aviseringar</string>
     <string name="perm_battery_desc">Inaktivera batterioptimering för tillförlitlig drift i bakgrunden och mesh‑anslutning</string>
     <string name="perm_battery_system">Tillåt körning utan batteribegränsningar</string>
 

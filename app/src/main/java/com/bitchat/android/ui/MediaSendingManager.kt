@@ -1,10 +1,10 @@
-package com.bitchat.android.ui
+package com.NakamaMesh.android.ui
 
 import android.util.Log
-import com.bitchat.android.mesh.BluetoothMeshService
-import com.bitchat.android.model.BitchatFilePacket
-import com.bitchat.android.model.BitchatMessage
-import com.bitchat.android.model.BitchatMessageType
+import com.NakamaMesh.android.mesh.BluetoothMeshService
+import com.NakamaMesh.android.model.nakamameshFilePacket
+import com.NakamaMesh.android.model.nakamameshMessage
+import com.NakamaMesh.android.model.nakamameshMessageType
 import java.util.Date
 import java.security.MessageDigest
 
@@ -20,7 +20,7 @@ class MediaSendingManager(
 ) {
     companion object {
         private const val TAG = "MediaSendingManager"
-        private const val MAX_FILE_SIZE = com.bitchat.android.util.AppConstants.Media.MAX_FILE_SIZE_BYTES // 50MB limit
+        private const val MAX_FILE_SIZE = com.NakamaMesh.android.util.AppConstants.Media.MAX_FILE_SIZE_BYTES // 50MB limit
     }
 
     // Track in-flight transfer progress: transferId -> messageId and reverse
@@ -44,7 +44,7 @@ class MediaSendingManager(
                 return
             }
 
-            val filePacket = BitchatFilePacket(
+            val filePacket = nakamameshFilePacket(
                 fileName = file.name,
                 fileSize = file.length(),
                 mimeType = "audio/mp4",
@@ -52,9 +52,9 @@ class MediaSendingManager(
             )
 
             if (toPeerIDOrNull != null) {
-                sendPrivateFile(toPeerIDOrNull, filePacket, filePath, BitchatMessageType.Audio)
+                sendPrivateFile(toPeerIDOrNull, filePacket, filePath, nakamameshMessageType.Audio)
             } else {
-                sendPublicFile(channelOrNull, filePacket, filePath, BitchatMessageType.Audio)
+                sendPublicFile(channelOrNull, filePacket, filePath, nakamameshMessageType.Audio)
             }
         } catch (e: Exception) {
             Log.e(TAG, "Failed to send voice note: ${e.message}")
@@ -79,7 +79,7 @@ class MediaSendingManager(
                 return
             }
 
-            val filePacket = BitchatFilePacket(
+            val filePacket = nakamameshFilePacket(
                 fileName = file.name,
                 fileSize = file.length(),
                 mimeType = "image/jpeg",
@@ -87,9 +87,9 @@ class MediaSendingManager(
             )
 
             if (toPeerIDOrNull != null) {
-                sendPrivateFile(toPeerIDOrNull, filePacket, filePath, BitchatMessageType.Image)
+                sendPrivateFile(toPeerIDOrNull, filePacket, filePath, nakamameshMessageType.Image)
             } else {
-                sendPublicFile(channelOrNull, filePacket, filePath, BitchatMessageType.Image)
+                sendPublicFile(channelOrNull, filePacket, filePath, nakamameshMessageType.Image)
             }
         } catch (e: Exception) {
             Log.e(TAG, "❌ CRITICAL: Image send failed completely", e)
@@ -119,7 +119,7 @@ class MediaSendingManager(
 
             // Use the real MIME type based on extension; fallback to octet-stream
             val mimeType = try { 
-                com.bitchat.android.features.file.FileUtils.getMimeTypeFromExtension(file.name) 
+                com.NakamaMesh.android.features.file.FileUtils.getMimeTypeFromExtension(file.name) 
             } catch (_: Exception) { 
                 "application/octet-stream" 
             }
@@ -135,7 +135,7 @@ class MediaSendingManager(
             }
             Log.d(TAG, "📝 Original filename: $originalName")
 
-            val filePacket = BitchatFilePacket(
+            val filePacket = nakamameshFilePacket(
                 fileName = originalName,
                 fileSize = file.length(),
                 mimeType = mimeType,
@@ -144,9 +144,9 @@ class MediaSendingManager(
             Log.d(TAG, "📦 Created file packet successfully")
 
             val messageType = when {
-                mimeType.lowercase().startsWith("image/") -> BitchatMessageType.Image
-                mimeType.lowercase().startsWith("audio/") -> BitchatMessageType.Audio
-                else -> BitchatMessageType.File
+                mimeType.lowercase().startsWith("image/") -> nakamameshMessageType.Image
+                mimeType.lowercase().startsWith("audio/") -> nakamameshMessageType.Audio
+                else -> nakamameshMessageType.File
             }
 
             if (toPeerIDOrNull != null) {
@@ -167,9 +167,9 @@ class MediaSendingManager(
      */
     private fun sendPrivateFile(
         toPeerID: String,
-        filePacket: BitchatFilePacket,
+        filePacket: nakamameshFilePacket,
         filePath: String,
-        messageType: BitchatMessageType
+        messageType: nakamameshMessageType
     ) {
         val payload = filePacket.encode()
         if (payload == null) {
@@ -183,7 +183,7 @@ class MediaSendingManager(
 
         Log.d(TAG, "📤 FILE_TRANSFER send (private): name='${filePacket.fileName}', size=${filePacket.fileSize}, mime='${filePacket.mimeType}', sha256=$contentHash, to=${toPeerID.take(8)} transferId=${transferId.take(16)}…")
 
-        val msg = BitchatMessage(
+        val msg = nakamameshMessage(
             id = java.util.UUID.randomUUID().toString().uppercase(), // Generate unique ID for each message
             sender = state.getNicknameValue() ?: "me",
             content = filePath,
@@ -205,7 +205,7 @@ class MediaSendingManager(
         // Seed progress so delivery icons render for media
         messageManager.updateMessageDeliveryStatus(
             msg.id,
-            com.bitchat.android.model.DeliveryStatus.PartiallyDelivered(0, 100)
+            com.NakamaMesh.android.model.DeliveryStatus.PartiallyDelivered(0, 100)
         )
         
         Log.d(TAG, "📤 Calling meshService.sendFilePrivate to $toPeerID")
@@ -218,9 +218,9 @@ class MediaSendingManager(
      */
     private fun sendPublicFile(
         channelOrNull: String?,
-        filePacket: BitchatFilePacket,
+        filePacket: nakamameshFilePacket,
         filePath: String,
-        messageType: BitchatMessageType
+        messageType: nakamameshMessageType
     ) {
         val payload = filePacket.encode()
         if (payload == null) {
@@ -234,7 +234,7 @@ class MediaSendingManager(
         
         Log.d(TAG, "📤 FILE_TRANSFER send (broadcast): name='${filePacket.fileName}', size=${filePacket.fileSize}, mime='${filePacket.mimeType}', sha256=$contentHash, transferId=${transferId.take(16)}…")
 
-        val message = BitchatMessage(
+        val message = nakamameshMessage(
             id = java.util.UUID.randomUUID().toString().uppercase(), // Generate unique ID for each message
             sender = state.getNicknameValue() ?: meshService.myPeerID,
             content = filePath,
@@ -259,7 +259,7 @@ class MediaSendingManager(
         // Seed progress so animations start immediately
         messageManager.updateMessageDeliveryStatus(
             message.id,
-            com.bitchat.android.model.DeliveryStatus.PartiallyDelivered(0, 100)
+            com.NakamaMesh.android.model.DeliveryStatus.PartiallyDelivered(0, 100)
         )
         
         Log.d(TAG, "📤 Calling meshService.sendFileBroadcast")
@@ -315,13 +315,13 @@ class MediaSendingManager(
     /**
      * Handle transfer progress events
      */
-    fun handleTransferProgressEvent(evt: com.bitchat.android.mesh.TransferProgressEvent) {
+    fun handleTransferProgressEvent(evt: com.NakamaMesh.android.mesh.TransferProgressEvent) {
         val msgId = synchronized(transferMessageMap) { transferMessageMap[evt.transferId] }
         if (msgId != null) {
             if (evt.completed) {
                 messageManager.updateMessageDeliveryStatus(
                     msgId,
-                    com.bitchat.android.model.DeliveryStatus.Delivered(to = "mesh", at = java.util.Date())
+                    com.NakamaMesh.android.model.DeliveryStatus.Delivered(to = "mesh", at = java.util.Date())
                 )
                 synchronized(transferMessageMap) {
                     val msgIdRemoved = transferMessageMap.remove(evt.transferId)
@@ -330,7 +330,7 @@ class MediaSendingManager(
             } else {
                 messageManager.updateMessageDeliveryStatus(
                     msgId,
-                    com.bitchat.android.model.DeliveryStatus.PartiallyDelivered(evt.sent, evt.total)
+                    com.NakamaMesh.android.model.DeliveryStatus.PartiallyDelivered(evt.sent, evt.total)
                 )
             }
         }

@@ -1,4 +1,4 @@
-package com.bitchat.android.net
+package com.NakamaMesh.android.net
 
 enum class TorMode {
     OFF,

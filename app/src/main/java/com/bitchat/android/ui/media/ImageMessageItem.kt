@@ -1,4 +1,4 @@
-package com.bitchat.android.ui.media
+package com.NakamaMesh.android.ui.media
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,30 +27,30 @@ import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.text.font.FontFamily
-import com.bitchat.android.mesh.BluetoothMeshService
-import com.bitchat.android.model.BitchatMessage
-import com.bitchat.android.model.BitchatMessageType
+import com.NakamaMesh.android.mesh.BluetoothMeshService
+import com.NakamaMesh.android.model.nakamameshMessage
+import com.NakamaMesh.android.model.nakamameshMessageType
 import androidx.compose.material3.ColorScheme
 import java.text.SimpleDateFormat
 import java.util.*
 
 @Composable
 fun ImageMessageItem(
-    message: BitchatMessage,
-    messages: List<BitchatMessage>,
+    message: nakamameshMessage,
+    messages: List<nakamameshMessage>,
     currentUserNickname: String,
     meshService: BluetoothMeshService,
     colorScheme: ColorScheme,
     timeFormatter: SimpleDateFormat,
     onNicknameClick: ((String) -> Unit)?,
-    onMessageLongPress: ((BitchatMessage) -> Unit)?,
-    onCancelTransfer: ((BitchatMessage) -> Unit)?,
+    onMessageLongPress: ((nakamameshMessage) -> Unit)?,
+    onCancelTransfer: ((nakamameshMessage) -> Unit)?,
     onImageClick: ((String, List<String>, Int) -> Unit)?,
     modifier: Modifier = Modifier
 ) {
     val path = message.content.trim()
     Column(modifier = modifier.fillMaxWidth()) {
-        val headerText = com.bitchat.android.ui.formatMessageHeaderAnnotatedString(
+        val headerText = com.NakamaMesh.android.ui.formatMessageHeaderAnnotatedString(
             message = message,
             currentUserNickname = currentUserNickname,
             meshService = meshService,
@@ -82,7 +82,7 @@ fun ImageMessageItem(
 
         // Collect all image paths from messages for swipe navigation
         val imagePaths = remember(messages) {
-            messages.filter { it.type == BitchatMessageType.Image }
+            messages.filter { it.type == nakamameshMessageType.Image }
                 .map { it.content.trim() }
         }
 
@@ -90,7 +90,7 @@ fun ImageMessageItem(
             val img = bmp.asImageBitmap()
             val aspect = (bmp.width.toFloat() / bmp.height.toFloat()).takeIf { it.isFinite() && it > 0 } ?: 1f
             val progressFraction: Float? = when (val st = message.deliveryStatus) {
-                is com.bitchat.android.model.DeliveryStatus.PartiallyDelivered -> if (st.total > 0) st.reached.toFloat() / st.total.toFloat() else 0f
+                is com.NakamaMesh.android.model.DeliveryStatus.PartiallyDelivered -> if (st.total > 0) st.reached.toFloat() / st.total.toFloat() else 0f
                 else -> null
             }
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
@@ -115,7 +115,7 @@ fun ImageMessageItem(
                         // Fully revealed image
                         Image(
                             bitmap = img,
-                            contentDescription = stringResource(com.bitchat.android.R.string.cd_image),
+                            contentDescription = stringResource(com.NakamaMesh.android.R.string.cd_image),
                             modifier = Modifier
                                 .widthIn(max = 300.dp)
                                 .aspectRatio(aspect)
@@ -128,7 +128,7 @@ fun ImageMessageItem(
                         )
                     }
                     // Cancel button overlay during sending
-                    val showCancel = message.sender == currentUserNickname && (message.deliveryStatus is com.bitchat.android.model.DeliveryStatus.PartiallyDelivered)
+                    val showCancel = message.sender == currentUserNickname && (message.deliveryStatus is com.NakamaMesh.android.model.DeliveryStatus.PartiallyDelivered)
                     if (showCancel) {
                         Box(
                             modifier = Modifier
@@ -139,13 +139,13 @@ fun ImageMessageItem(
                                 .clickable { onCancelTransfer?.invoke(message) },
                             contentAlignment = Alignment.Center
                         ) {
-                            Icon(imageVector = Icons.Filled.Close, contentDescription = stringResource(com.bitchat.android.R.string.cd_cancel), tint = Color.White, modifier = Modifier.size(14.dp))
+                            Icon(imageVector = Icons.Filled.Close, contentDescription = stringResource(com.NakamaMesh.android.R.string.cd_cancel), tint = Color.White, modifier = Modifier.size(14.dp))
                         }
                     }
                 }
             }
         } else {
-            Text(text = stringResource(com.bitchat.android.R.string.image_unavailable), fontFamily = FontFamily.Monospace, color = Color.Gray)
+            Text(text = stringResource(com.NakamaMesh.android.R.string.image_unavailable), fontFamily = FontFamily.Monospace, color = Color.Gray)
         }
     }
 }

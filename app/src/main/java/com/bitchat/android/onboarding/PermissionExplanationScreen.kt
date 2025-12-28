@@ -1,4 +1,4 @@
-package com.bitchat.android.onboarding
+package com.NakamaMesh.android.onboarding
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -25,11 +25,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.stringResource
-import com.bitchat.android.R
+import com.NakamaMesh.android.R
 
 /**
  * Permission explanation screen shown before requesting permissions
- * Explains why bitchat needs each permission and reassures users about privacy
+ * Explains why nakamamesh needs each permission and reassures users about privacy
  */
 @Composable
 fun PermissionExplanationScreen(

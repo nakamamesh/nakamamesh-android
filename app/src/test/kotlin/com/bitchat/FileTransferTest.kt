@@ -1,8 +1,8 @@
-package com.bitchat
+package com.nakamamesh
 
-import com.bitchat.android.model.BitchatFilePacket
-import com.bitchat.android.model.BitchatMessage
-import com.bitchat.android.model.BitchatMessageType
+import com.NakamaMesh.android.model.nakamameshFilePacket
+import com.NakamaMesh.android.model.nakamameshMessage
+import com.NakamaMesh.android.model.nakamameshMessageType
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test
@@ -20,7 +20,7 @@ class FileTransferTest {
     fun `encode and decode file packet with all fields should preserve data`() {
         // Given: Complete file packet
         val contentArray = ByteArray(1024) { (it % 256).toByte() }
-        val originalPacket = BitchatFilePacket(
+        val originalPacket = nakamameshFilePacket(
             fileName = "test.png",
             mimeType = "image/png",
             fileSize = 1024000,
@@ -29,7 +29,7 @@ class FileTransferTest {
 
         // When: Encode and decode
         val encoded = originalPacket.encode()
-        val decoded = BitchatFilePacket.decode(encoded!!)
+        val decoded = nakamameshFilePacket.decode(encoded!!)
 
         // Then: Data should be preserved
         assertNotNull(decoded)
@@ -45,7 +45,7 @@ class FileTransferTest {
     @Test
     fun `encode file packet with filename should include filename TLV`() {
         // Given: Packet with filename
-        val packet = BitchatFilePacket(
+        val packet = nakamameshFilePacket(
             fileName = "myimage.jpg",
             mimeType = "image/jpeg",
             fileSize = 2048,
@@ -80,7 +80,7 @@ class FileTransferTest {
     fun `encode file size should use big endian byte order for file size`() {
         // Given: File with specific size
         val fileSize = 0x12345678L
-        val packet = BitchatFilePacket(
+        val packet = nakamameshFilePacket(
             fileName = "test.bin",
             mimeType = "application/octet-stream",
             fileSize = fileSize,
@@ -115,7 +115,7 @@ class FileTransferTest {
     @Test
     fun `decode minimal file packet should handle defaults correctly`() {
         // Given: Minimal valid packet (the constructor requires non-null values)
-        val originalPacket = BitchatFilePacket(
+        val originalPacket = nakamameshFilePacket(
             fileName = "test",
             mimeType = "application/octet-stream",
             fileSize = 32,  // Matches content size
@@ -124,7 +124,7 @@ class FileTransferTest {
 
         // When: Encode and decode
         val encoded = originalPacket.encode()
-        val decoded = BitchatFilePacket.decode(encoded!!)
+        val decoded = nakamameshFilePacket.decode(encoded!!)
 
         // Then: Data should be preserved completely
         assertNotNull(decoded)
@@ -140,32 +140,32 @@ class FileTransferTest {
     @Test
     fun `replaceFilePathInContent should correctly format content markers for different file types`() {
         // Given: Different file types
-        val imageMessage = BitchatMessage(
+        val imageMessage = nakamameshMessage(
             id = "test1",
             sender = "alice",
             senderPeerID = "12345678",
-            content = "/data/user/0/com.bitchat.android/files/images/photo.jpg",
-            type = BitchatMessageType.Image,
+            content = "/data/user/0/com.NakamaMesh.android/files/images/photo.jpg",
+            type = nakamameshMessageType.Image,
             timestamp = Date(System.currentTimeMillis()),
             isPrivate = false
         )
 
-        val audioMessage = BitchatMessage(
+        val audioMessage = nakamameshMessage(
             id = "test2",
             sender = "bob",
             senderPeerID = "87654321",
-            content = "/data/user/0/com.bitchat.android/files/audio/voice.amr",
-            type = BitchatMessageType.Audio,
+            content = "/data/user/0/com.NakamaMesh.android/files/audio/voice.amr",
+            type = nakamameshMessageType.Audio,
             timestamp = Date(System.currentTimeMillis()),
             isPrivate = false
         )
 
-        val fileMessage = BitchatMessage(
+        val fileMessage = nakamameshMessage(
             id = "test3",
             sender = "charlie",
             senderPeerID = "11223344",
-            content = "/data/user/0/com.bitchat.android/files/documents/document.pdf",
-            type = BitchatMessageType.File,
+            content = "/data/user/0/com.NakamaMesh.android/files/documents/document.pdf",
+            type = nakamameshMessageType.File,
             timestamp = Date(System.currentTimeMillis()),
             isPrivate = false
         )
@@ -173,7 +173,7 @@ class FileTransferTest {
         // When: Converting to display format (this would be done in MessageMutable)
         var result = imageMessage.content
         result = result.replace(
-            "/data/user/0/com.bitchat.android/files/images/photo.jpg",
+            "/data/user/0/com.NakamaMesh.android/files/images/photo.jpg",
             "[image] photo.jpg"
         )
 
@@ -189,12 +189,12 @@ class FileTransferTest {
         // The actual function is in a separate utility file as part of the refactoring
 
         // Given: Incoming image message
-        val imageMessage = BitchatMessage(
+        val imageMessage = nakamameshMessage(
             id = "test1",
             sender = "alice",
             senderPeerID = "1234abcd",
             content = "📷 sent an image", // This would be the result of the utility function
-            type = BitchatMessageType.Image,
+            type = nakamameshMessageType.Image,
             timestamp = Date(System.currentTimeMillis()),
             isPrivate = true
         )

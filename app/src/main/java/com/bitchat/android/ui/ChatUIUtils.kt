@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package com.NakamaMesh.android.ui
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
@@ -10,10 +10,10 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.bitchat.android.model.BitchatMessage
-import com.bitchat.android.mesh.BluetoothMeshService
+import com.NakamaMesh.android.model.nakamameshMessage
+import com.NakamaMesh.android.mesh.BluetoothMeshService
 import androidx.compose.material3.ColorScheme
-import com.bitchat.android.ui.theme.BASE_FONT_SIZE
+import com.NakamaMesh.android.ui.theme.BASE_FONT_SIZE
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -40,7 +40,7 @@ fun getRSSIColor(rssi: Int): Color {
  * Timestamp at END, peer colors, hashtag suffix handling
  */
 fun formatMessageAsAnnotatedString(
-    message: BitchatMessage,
+    message: nakamameshMessage,
     currentUserNickname: String,
     meshService: BluetoothMeshService,
     colorScheme: ColorScheme,
@@ -160,7 +160,7 @@ fun formatMessageAsAnnotatedString(
  * Build only the nickname + timestamp header line for a message, matching styles of normal messages.
  */
 fun formatMessageHeaderAnnotatedString(
-    message: BitchatMessage,
+    message: nakamameshMessage,
     currentUserNickname: String,
     meshService: BluetoothMeshService,
     colorScheme: ColorScheme,
@@ -259,7 +259,7 @@ fun formatMessageHeaderAnnotatedString(
  * iOS-style peer color assignment using djb2 hash algorithm
  * Avoids orange (~30°) reserved for self messages
  */
-fun getPeerColor(message: BitchatMessage, isDark: Boolean): Color {
+fun getPeerColor(message: nakamameshMessage, isDark: Boolean): Color {
     // Create seed from peer identifier (prioritizing stable keys)
     val seed = when {
         message.senderPeerID?.startsWith("nostr:") == true || message.senderPeerID?.startsWith("nostr_") == true -> {

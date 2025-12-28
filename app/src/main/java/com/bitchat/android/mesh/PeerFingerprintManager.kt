@@ -1,4 +1,4 @@
-package com.bitchat.android.mesh
+package com.NakamaMesh.android.mesh
 
 import android.util.Log
 import java.security.MessageDigest

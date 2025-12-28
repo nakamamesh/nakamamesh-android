@@ -1,12 +1,12 @@
-# Source-Based Routing for BitChat Packets
+# Source-Based Routing for nakamamesh Packets
 
-This document specifies an optional source-based routing extension to the BitChat packet format. A sender may attach a hop-by-hop route (list of peer IDs) to instruct relays on the intended path. Relays that support this feature will try to forward to the next hop directly; otherwise, they fall back to regular broadcast relaying.
+This document specifies an optional source-based routing extension to the nakamamesh packet format. A sender may attach a hop-by-hop route (list of peer IDs) to instruct relays on the intended path. Relays that support this feature will try to forward to the next hop directly; otherwise, they fall back to regular broadcast relaying.
 
 Status: optional and backward-compatible.
 
 ## Layering Overview
 
-- Outer packet: BitChat binary packet with unchanged fixed header (version/type/ttl/timestamp/flags/payloadLength).
+- Outer packet: nakamamesh binary packet with unchanged fixed header (version/type/ttl/timestamp/flags/payloadLength).
 - Flags: adds a new bit `HAS_ROUTE (0x08)`.
 - Variable sections (when present, in order):
   1) `SenderID` (8 bytes)
@@ -23,7 +23,7 @@ Unknown flags are ignored by older implementations (they will simply not see a r
 - Layout (immediately after optional `RecipientID`):
   - `count`: 1 byte (0..255)
   - `hops`: concatenation of `count` peer IDs, each encoded as exactly 8 bytes
-- Peer ID encoding (8 bytes): same as used elsewhere in BitChat (16 hex chars → 8 bytes; left-to-right conversion; pad with `0x00` if shorter). This matches the on‑wire `senderID`/`recipientID` encoding.
+- Peer ID encoding (8 bytes): same as used elsewhere in nakamamesh (16 hex chars → 8 bytes; left-to-right conversion; pad with `0x00` if shorter). This matches the on‑wire `senderID`/`recipientID` encoding.
 - Size impact: `1 + 8*N` bytes, where `N = count`.
 - Empty route: `HAS_ROUTE` with `count = 0` is treated as no route (relays ignore it).
 

@@ -1,9 +1,9 @@
-package com.bitchat.android.nostr
+package com.NakamaMesh.android.nostr
 
 import android.content.Context
 import android.util.Log
-import com.bitchat.android.model.ReadReceipt
-import com.bitchat.android.model.NoisePayloadType
+import com.NakamaMesh.android.model.ReadReceipt
+import com.NakamaMesh.android.model.NoisePayloadType
 import kotlinx.coroutines.*
 import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -19,7 +19,7 @@ class NostrTransport(
     
     companion object {
         private const val TAG = "NostrTransport"
-        private const val READ_ACK_INTERVAL = com.bitchat.android.util.AppConstants.Nostr.READ_ACK_INTERVAL_MS // ~3 per second (0.35s interval like iOS)
+        private const val READ_ACK_INTERVAL = com.NakamaMesh.android.util.AppConstants.Nostr.READ_ACK_INTERVAL_MS // ~3 per second (0.35s interval like iOS)
         
         @Volatile
         private var INSTANCE: NostrTransport? = null
@@ -85,16 +85,16 @@ class NostrTransport(
                     return@launch
                 }
                 
-                // Strict: lookup the recipient's current BitChat peer ID using favorites mapping
+                // Strict: lookup the recipient's current nakamamesh peer ID using favorites mapping
                 val recipientPeerIDForEmbed = try {
-                    com.bitchat.android.favorites.FavoritesPersistenceService.shared
+                    com.NakamaMesh.android.favorites.FavoritesPersistenceService.shared
                         .findPeerIDForNostrPubkey(recipientNostrPubkey)
                 } catch (_: Exception) { null }
                 if (recipientPeerIDForEmbed.isNullOrBlank()) {
                     Log.e(TAG, "NostrTransport: no peerID stored for recipient npub; cannot embed PM. npub=${recipientNostrPubkey.take(16)}...")
                     return@launch
                 }
-                val embedded = NostrEmbeddedBitChat.encodePMForNostr(
+                val embedded = NostrEmbeddednakamamesh.encodePMForNostr(
                     content = content,
                     messageID = messageID,
                     recipientPeerID = recipientPeerIDForEmbed,
@@ -180,7 +180,7 @@ class NostrTransport(
                     return@launch
                 }
                 
-                val ack = NostrEmbeddedBitChat.encodeAckForNostr(
+                val ack = NostrEmbeddednakamamesh.encodeAckForNostr(
                     type = NoisePayloadType.READ_RECEIPT,
                     messageID = item.receipt.originalMessageID,
                     recipientPeerID = item.peerID,
@@ -253,7 +253,7 @@ class NostrTransport(
                     return@launch
                 }
                 
-                val embedded = NostrEmbeddedBitChat.encodePMForNostr(
+                val embedded = NostrEmbeddednakamamesh.encodePMForNostr(
                     content = content,
                     messageID = UUID.randomUUID().toString(),
                     recipientPeerID = to,
@@ -311,7 +311,7 @@ class NostrTransport(
                     return@launch
                 }
                 
-                val ack = NostrEmbeddedBitChat.encodeAckForNostr(
+                val ack = NostrEmbeddednakamamesh.encodeAckForNostr(
                     type = NoisePayloadType.DELIVERED,
                     messageID = messageID,
                     recipientPeerID = to,
@@ -351,7 +351,7 @@ class NostrTransport(
             try {
                 Log.d(TAG, "GeoDM: send DELIVERED -> recip=${toRecipientHex.take(8)}... mid=${messageID.take(8)}... from=${fromIdentity.publicKeyHex.take(8)}...")
                 
-                val embedded = NostrEmbeddedBitChat.encodeAckForNostrNoRecipient(
+                val embedded = NostrEmbeddednakamamesh.encodeAckForNostrNoRecipient(
                     type = NoisePayloadType.DELIVERED,
                     messageID = messageID,
                     senderPeerID = senderPeerID
@@ -386,7 +386,7 @@ class NostrTransport(
             try {
                 Log.d(TAG, "GeoDM: send READ -> recip=${toRecipientHex.take(8)}... mid=${messageID.take(8)}... from=${fromIdentity.publicKeyHex.take(8)}...")
                 
-                val embedded = NostrEmbeddedBitChat.encodeAckForNostrNoRecipient(
+                val embedded = NostrEmbeddednakamamesh.encodeAckForNostrNoRecipient(
                     type = NoisePayloadType.READ_RECEIPT,
                     messageID = messageID,
                     senderPeerID = senderPeerID
@@ -423,9 +423,9 @@ class NostrTransport(
         // Use provided geohash or derive from current location
         val geohash = sourceGeohash ?: run {
             val selected = try {
-                com.bitchat.android.geohash.LocationChannelManager.getInstance(context).selectedChannel.value
+                com.NakamaMesh.android.geohash.LocationChannelManager.getInstance(context).selectedChannel.value
             } catch (_: Exception) { null }
-            if (selected !is com.bitchat.android.geohash.ChannelID.Location) {
+            if (selected !is com.NakamaMesh.android.geohash.ChannelID.Location) {
                 Log.w(TAG, "NostrTransport: cannot send geohash PM - not in a location channel and no geohash provided")
                 return
             }
@@ -448,8 +448,8 @@ class NostrTransport(
                     "GeoDM: send PM -> recip=${toRecipientHex.take(8)}... mid=${messageID.take(8)}... from=${fromIdentity.publicKeyHex.take(8)}... geohash=$geohash"
                 )
 
-                // Build embedded BitChat packet without recipient peer ID
-                val embedded = NostrEmbeddedBitChat.encodePMForNostrNoRecipient(
+                // Build embedded nakamamesh packet without recipient peer ID
+                val embedded = NostrEmbeddednakamamesh.encodePMForNostrNoRecipient(
                     content = content,
                     messageID = messageID,
                     senderPeerID = senderPeerID
@@ -483,16 +483,16 @@ class NostrTransport(
     private fun resolveNostrPublicKey(peerID: String): String? {
         try {
             // 1) Fast path: direct peerID→npub mapping (mutual favorites after mesh mapping)
-            com.bitchat.android.favorites.FavoritesPersistenceService.shared.findNostrPubkeyForPeerID(peerID)?.let { return it }
+            com.NakamaMesh.android.favorites.FavoritesPersistenceService.shared.findNostrPubkeyForPeerID(peerID)?.let { return it }
 
             // 2) Legacy path: resolve by noise public key association
             val noiseKey = hexStringToByteArray(peerID)
-            val favoriteStatus = com.bitchat.android.favorites.FavoritesPersistenceService.shared.getFavoriteStatus(noiseKey)
+            val favoriteStatus = com.NakamaMesh.android.favorites.FavoritesPersistenceService.shared.getFavoriteStatus(noiseKey)
             if (favoriteStatus?.peerNostrPublicKey != null) return favoriteStatus.peerNostrPublicKey
 
             // 3) Prefix match on noiseHex from 16-hex peerID
             if (peerID.length == 16) {
-                val fallbackStatus = com.bitchat.android.favorites.FavoritesPersistenceService.shared.getFavoriteStatus(peerID)
+                val fallbackStatus = com.NakamaMesh.android.favorites.FavoritesPersistenceService.shared.getFavoriteStatus(peerID)
                 return fallbackStatus?.peerNostrPublicKey
             }
             

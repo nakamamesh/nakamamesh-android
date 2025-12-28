@@ -1,4 +1,4 @@
-package com.bitchat.android.features.voice
+package com.NakamaMesh.android.features.voice
 
 import android.media.MediaCodec
 import android.media.MediaExtractor

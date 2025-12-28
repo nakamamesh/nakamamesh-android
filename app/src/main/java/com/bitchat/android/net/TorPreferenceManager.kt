@@ -1,11 +1,11 @@
-package com.bitchat.android.net
+package com.NakamaMesh.android.net
 
 import android.content.Context
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 object TorPreferenceManager {
-    private const val PREFS_NAME = "bitchat_settings"
+    private const val PREFS_NAME = "nakamamesh_settings"
     private const val KEY_TOR_MODE = "tor_mode"
 
     private val _modeFlow = MutableStateFlow(TorMode.ON)

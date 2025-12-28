@@ -1,4 +1,4 @@
-package com.bitchat.android.ui.media
+package com.NakamaMesh.android.ui.media
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,9 +18,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
-import com.bitchat.android.features.voice.AudioWaveformExtractor
-import com.bitchat.android.features.voice.VoiceWaveformCache
-import com.bitchat.android.features.voice.resampleWave
+import com.NakamaMesh.android.features.voice.AudioWaveformExtractor
+import com.NakamaMesh.android.features.voice.VoiceWaveformCache
+import com.NakamaMesh.android.features.voice.resampleWave
 
 @Composable
 fun ScrollingWaveformRecorder(

@@ -1,4 +1,4 @@
-package com.bitchat.android.features.voice
+package com.NakamaMesh.android.features.voice
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState

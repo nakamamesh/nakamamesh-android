@@ -1,4 +1,4 @@
-package com.bitchat.android.geohash
+package com.NakamaMesh.android.geohash
 
 import android.content.Context
 import android.location.Geocoder

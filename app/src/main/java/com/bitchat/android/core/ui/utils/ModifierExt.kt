@@ -1,4 +1,4 @@
-package com.bitchat.android.core.ui.utils
+package com.NakamaMesh.android.core.ui.utils
 
 import androidx.compose.foundation.clickable
 import androidx.compose.runtime.*

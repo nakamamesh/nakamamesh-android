@@ -1,4 +1,4 @@
-package com.bitchat.android.onboarding
+package com.NakamaMesh.android.onboarding
 
 import android.content.Context
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
  * Preference manager for battery optimization skip choice
  */
 object BatteryOptimizationPreferenceManager {
-    private const val PREFS_NAME = "bitchat_settings"
+    private const val PREFS_NAME = "nakamamesh_settings"
     private const val KEY_BATTERY_SKIP = "battery_optimization_skipped"
 
     private val _skipFlow = MutableStateFlow(false)

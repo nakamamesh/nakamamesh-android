@@ -30,7 +30,7 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.bitchat.android.noise.southernstorm.crypto;
+package com.NakamaMesh.android.noise.southernstorm.crypto;
 
 import java.util.Arrays;
 

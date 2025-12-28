@@ -1,4 +1,4 @@
-package com.bitchat.android.nostr
+package com.NakamaMesh.android.nostr
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder

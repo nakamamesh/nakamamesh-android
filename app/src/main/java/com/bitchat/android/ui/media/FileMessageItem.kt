@@ -1,4 +1,4 @@
-package com.bitchat.android.ui.media
+package com.NakamaMesh.android.ui.media
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -32,15 +32,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.bitchat.android.features.file.FileUtils
-import com.bitchat.android.model.BitchatFilePacket
+import com.NakamaMesh.android.features.file.FileUtils
+import com.NakamaMesh.android.model.nakamameshFilePacket
 
 /**
  * Modern chat-style file message display
  */
 @Composable
 fun FileMessageItem(
-    packet: BitchatFilePacket,
+    packet: nakamameshFilePacket,
     onFileClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -63,7 +63,7 @@ fun FileMessageItem(
             // File icon
             Icon(
                 imageVector = Icons.Filled.Description,
-                contentDescription = stringResource(com.bitchat.android.R.string.cd_file),
+                contentDescription = stringResource(com.NakamaMesh.android.R.string.cd_file),
                 tint = getFileIconColor(packet.fileName),
                 modifier = Modifier.size(32.dp)
             )

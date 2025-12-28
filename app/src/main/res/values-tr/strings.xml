@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">bitchat</string>
+    <string name="app_name">nakamamesh</string>
     <string name="permission_bluetooth_rationale">İnternetsiz eşler arası mesajlaşma için Bluetooth izni gerekir.</string>
     <string name="permission_location_rationale">Bluetooth ile yakın cihazları bulmak için konum izni gerekir.</string>
     <string name="permission_notification_rationale">Yeni mesajlarda bildirim gönderebilmek için izin gerekir.</string>
@@ -24,12 +24,12 @@
     <string name="battery_optimization_not_required">Pil optimizasyonu gerekmiyor</string>
     <string name="battery_optimization_checking">Pil optimizasyonu kontrol ediliyor</string>
     <string name="battery_optimization_why_disable">Neden devre dışı bırakmalı?</string>
-    <string name="battery_optimization_explanation">bitchat yakındaki cihazlarla mesh bağlantısını sürdürmek için arka planda çalışır. Pil optimizasyonu bu bağlantıları kesebilir ve mesajlar gecikebilir/ kaybolabilir.\n\nDevre dışı bırakmak güvenilir eşler arası mesajlaşmayı sağlar.</string>
+    <string name="battery_optimization_explanation">nakamamesh yakındaki cihazlarla mesh bağlantısını sürdürmek için arka planda çalışır. Pil optimizasyonu bu bağlantıları kesebilir ve mesajlar gecikebilir/ kaybolabilir.\n\nDevre dışı bırakmak güvenilir eşler arası mesajlaşmayı sağlar.</string>
     <string name="battery_optimization_disable_button">Optimizasyonu kapat</string>
-    <string name="battery_optimization_note">Not: Daha sonra Ayarlar &gt; Uygulamalar &gt; bitchat &gt; Pil üzerinden değiştirebilirsin.</string>
-    <string name="battery_optimization_not_supported_explanation">Cihazının pil optimizasyonu ayarlarına ihtiyacı yok. bitchat normal çalışır.</string>
-    <string name="battery_optimization_not_supported_message">Cihazının pil optimizasyonu ayarlarına ihtiyacı yok. bitchat normal çalışır.</string>
-    <string name="battery_optimization_success_message">bitchat arka planda güvenle çalışabilir</string>
+    <string name="battery_optimization_note">Not: Daha sonra Ayarlar &gt; Uygulamalar &gt; nakamamesh &gt; Pil üzerinden değiştirebilirsin.</string>
+    <string name="battery_optimization_not_supported_explanation">Cihazının pil optimizasyonu ayarlarına ihtiyacı yok. nakamamesh normal çalışır.</string>
+    <string name="battery_optimization_not_supported_message">Cihazının pil optimizasyonu ayarlarına ihtiyacı yok. nakamamesh normal çalışır.</string>
+    <string name="battery_optimization_success_message">nakamamesh arka planda güvenle çalışabilir</string>
     <string name="battery_optimization_benefits">• Güvenilir mesaj teslimi\n• Mesh bağlantısını korur\n• Arka planda iletim\n• Kopmaları önler</string>
     <string name="battery_optimization_check_again">Tekrar kontrol et</string>
     <string name="battery_optimization_skip">Şimdilik atla</string>
@@ -40,7 +40,7 @@
     <string name="notification_summary_more">ve %1$d daha</string>
     <string name="notification_messages_from_people">%2$d kişiden %1$d mesaj</string>
     <string name="notification_more_conversations">ve %1$d sohbet daha</string>
-    <string name="notification_active_peers_title">👥 yakında bitchatter’lar!</string>
+    <string name="notification_active_peers_title">👥 yakında nakamameshter’lar!</string>
     <string name="notification_active_peers_one">Yakında 1 kişi</string>
     <string name="notification_active_peers_many">Yakında %1$d kişi</string>
     <string name="notification_new_messages">Yeni mesajlar</string>
@@ -51,8 +51,8 @@
     <string name="notification_new_activity_in">%1$s içinde yeni etkinlik</string>
     <string name="notification_messages_in">%1$s içindeki mesajlar</string>
     <string name="notification_joined_conversation">%1$s sohbete katıldı</string>
-    <string name="notification_geohash_summary_title_mentions">bitchat – %1$d bahsetme</string>
-    <string name="notification_geohash_summary_title">bitchat – konum sohbetleri</string>
+    <string name="notification_geohash_summary_title_mentions">nakamamesh – %1$d bahsetme</string>
+    <string name="notification_geohash_summary_title">nakamamesh – konum sohbetleri</string>
     <string name="notification_geohash_summary_text">%2$d konumdan %1$d mesaj</string>
     <string name="notification_mesh_mention_title_singular">Mesh sohbette bahsedildi</string>
     <string name="notification_mesh_mention_title_plural">Mesh sohbette %1$d bahsetme</string>
@@ -228,8 +228,8 @@
 
     <string name="location_services_required">Konum servisleri gerekli</string>
     <string name="privacy_first">Önce gizlilik</string>
-    <string name="location_explanation">bitchat KONUMUNU takip etmez.\n\nBluetooth tarama ve Geohash sohbet için konum servisleri gerekir.</string>
-    <string name="location_needs_for">bitchat konum servislerini şunlar için kullanır:</string>
+    <string name="location_explanation">nakamamesh KONUMUNU takip etmez.\n\nBluetooth tarama ve Geohash sohbet için konum servisleri gerekir.</string>
+    <string name="location_needs_for">nakamamesh konum servislerini şunlar için kullanır:</string>
     <string name="location_needs_bullets">• Bluetooth cihaz tarama\n• Mesh ağında yakın kullanıcıları bulma\n• Geohash sohbet özelliği\n• Takip veya konum toplama yok</string>
     <string name="open_location_settings">Konum ayarlarını aç</string>
     <string name="check_again">Tekrar kontrol et</string>
@@ -237,11 +237,11 @@
     <string name="location_unavailable_explanation">Bu cihazda konum servisleri yok. Bu olağandışıdır.\n\nBluetooth taramasının düzgün çalışması (Android gereksinimi) için gerekir. Aksi halde yakın kullanıcılar bulunamaz.</string>
     <string name="checking_location_services">Konum servisleri kontrol ediliyor…</string>
     <string name="bluetooth_required">Bluetooth gerekli</string>
-    <string name="bluetooth_needs_for">bitchat Bluetooth’u şunlar için kullanır:</string>
+    <string name="bluetooth_needs_for">nakamamesh Bluetooth’u şunlar için kullanır:</string>
     <string name="bluetooth_needs_bullets">• Yakın kullanıcıları bulma\n• Mesh bağlantıları kurma\n• Mesaj gönderme/alma\n• İnternetsiz çalışma</string>
     <string name="enable_bluetooth">Bluetooth’u aç</string>
     <string name="bluetooth_not_supported">Bluetooth desteklenmiyor</string>
-    <string name="bluetooth_unsupported_explanation">Bu cihaz Bluetooth Low Energy (BLE) desteklemiyor, bitchat için gereklidir.\n\nBLE, internetsiz yakın cihazlarla iletişim ve mesh için gereklidir.</string>
+    <string name="bluetooth_unsupported_explanation">Bu cihaz Bluetooth Low Energy (BLE) desteklemiyor, nakamamesh için gereklidir.\n\nBLE, internetsiz yakın cihazlarla iletişim ve mesh için gereklidir.</string>
     <string name="checking_bluetooth_status">Bluetooth durumu kontrol ediliyor…</string>
     <string name="battery_optimization_detected_title">pil optimizasyonu algılandı</string>
     <string name="battery_optimization_enabled_title">Pil optimizasyonu açık</string>
@@ -262,9 +262,9 @@
     <string name="privacy_bullets">• takip veya veri toplama yok\n• Bluetooth mesh sohbet çevrimdışı\n• geohash sohbet internete ihtiyaç duyar</string>
     <string name="permissions_header">izinler</string>
     <string name="grant_permissions">İzin ver</string>
-    <string name="location_tracking_warning">bitchat konumunu takip etmez</string>
+    <string name="location_tracking_warning">nakamamesh konumunu takip etmez</string>
     <string name="at_symbol">@</string>
-    <string name="app_brand">bitchat/</string>
+    <string name="app_brand">nakamamesh/</string>
     <string name="channel_count_prefix"> · ⧉ </string>
     <string name="geohash_people_header">KİŞİLER</string>
     <string name="nobody_around">yakında kimse yok…</string>
@@ -307,12 +307,12 @@
     <string name="cd_play_voice">Oynat</string>
     <string name="cd_pause_voice">Duraklat</string>
 
-    <string name="perm_nearby_devices_desc">Bluetooth ile bitchat kullanıcılarını bulmak için gereklidir</string>
-    <string name="perm_nearby_devices_system">bitchat’in yakın cihazlara bağlanmasına izin ver</string>
+    <string name="perm_nearby_devices_desc">Bluetooth ile nakamamesh kullanıcılarını bulmak için gereklidir</string>
+    <string name="perm_nearby_devices_system">nakamamesh’in yakın cihazlara bağlanmasına izin ver</string>
     <string name="perm_location_desc">Android gereği Bluetooth ile yakın kullanıcıları bulmak için gerekli</string>
     <string name="perm_location_system">yakın cihazları taramak için gereklidir</string>
     <string name="perm_notifications_desc">özel mesajlarda bildirim al</string>
-    <string name="perm_notifications_system">bitchat’in bildirim göndermesine izin ver</string>
+    <string name="perm_notifications_system">nakamamesh’in bildirim göndermesine izin ver</string>
     <string name="perm_battery_desc">arka planda güvenilir çalışmak ve mesh’i korumak için pil optimizasyonunu kapat</string>
     <string name="perm_battery_system">pil kısıtlaması olmadan çalışmaya izin ver</string>
 

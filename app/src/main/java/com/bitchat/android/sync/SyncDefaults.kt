@@ -1,4 +1,4 @@
-package com.bitchat.android.sync
+package com.NakamaMesh.android.sync
 
 object SyncDefaults {
     // Default values used when debug prefs are unavailable

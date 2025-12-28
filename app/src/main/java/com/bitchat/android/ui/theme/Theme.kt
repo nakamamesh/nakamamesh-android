@@ -1,4 +1,4 @@
-package com.bitchat.android.ui.theme
+package com.NakamaMesh.android.ui.theme
 
 import android.app.Activity
 import android.os.Build
@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 
-// Colors that match the iOS bitchat theme
+// Colors that match the iOS nakamamesh theme
 private val DarkColorScheme = darkColorScheme(
     primary = Color(0xFF39FF14),        // Bright green (terminal-like)
     onPrimary = Color.Black,
@@ -44,7 +44,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun BitchatTheme(
+fun nakamameshTheme(
     darkTheme: Boolean? = null,
     content: @Composable () -> Unit
 ) {

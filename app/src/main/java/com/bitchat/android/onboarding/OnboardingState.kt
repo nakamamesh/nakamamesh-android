@@ -1,4 +1,4 @@
-package com.bitchat.android.onboarding
+package com.NakamaMesh.android.onboarding
 
 enum class OnboardingState {
     CHECKING,

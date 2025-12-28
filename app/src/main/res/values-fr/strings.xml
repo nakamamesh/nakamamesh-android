@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">bitchat</string>
+    <string name="app_name">nakamamesh</string>
 
     <!-- Raisons des autorisations -->
     <string name="permission_bluetooth_rationale">L’autorisation Bluetooth est requise pour discuter en pair à pair sans internet.</string>
@@ -29,12 +29,12 @@
     <string name="battery_optimization_not_required">Optimisation de la batterie non requise</string>
     <string name="battery_optimization_checking">Vérification de l’optimisation de la batterie</string>
     <string name="battery_optimization_why_disable">Pourquoi désactiver l’optimisation de la batterie ?</string>
-    <string name="battery_optimization_explanation">bitchat s’exécute en arrière-plan pour maintenir des connexions mesh avec les appareils à proximité. L’optimisation de la batterie peut interrompre ces connexions, entraînant des retards ou des pertes de messages.\n\nLa désactiver garantit une messagerie pair à pair fiable.</string>
+    <string name="battery_optimization_explanation">nakamamesh s’exécute en arrière-plan pour maintenir des connexions mesh avec les appareils à proximité. L’optimisation de la batterie peut interrompre ces connexions, entraînant des retards ou des pertes de messages.\n\nLa désactiver garantit une messagerie pair à pair fiable.</string>
     <string name="battery_optimization_disable_button">Désactiver l’optimisation</string>
-    <string name="battery_optimization_note">Remarque : tu peux modifier ce réglage plus tard dans Paramètres Android &gt; Apps &gt; bitchat &gt; Batterie</string>
-    <string name="battery_optimization_not_supported_explanation">Ton appareil n’a pas besoin de réglages d’optimisation de batterie. bitchat fonctionnera normalement.</string>
-    <string name="battery_optimization_not_supported_message">Ton appareil n’a pas besoin de réglages d’optimisation de batterie. bitchat fonctionnera normalement.</string>
-    <string name="battery_optimization_success_message">bitchat peut fonctionner de manière fiable en arrière‑plan</string>
+    <string name="battery_optimization_note">Remarque : tu peux modifier ce réglage plus tard dans Paramètres Android &gt; Apps &gt; nakamamesh &gt; Batterie</string>
+    <string name="battery_optimization_not_supported_explanation">Ton appareil n’a pas besoin de réglages d’optimisation de batterie. nakamamesh fonctionnera normalement.</string>
+    <string name="battery_optimization_not_supported_message">Ton appareil n’a pas besoin de réglages d’optimisation de batterie. nakamamesh fonctionnera normalement.</string>
+    <string name="battery_optimization_success_message">nakamamesh peut fonctionner de manière fiable en arrière‑plan</string>
     <string name="battery_optimization_benefits">• Livraison fiable des messages\n• Maintien de la connectivité mesh\n• Relais des messages en arrière‑plan\n• Évite les coupures</string>
     <string name="battery_optimization_check_again">Vérifier à nouveau</string>
     <string name="battery_optimization_skip">Ignorer pour l’instant</string>
@@ -46,7 +46,7 @@
     <string name="notification_summary_more">et %1$d de plus</string>
     <string name="notification_messages_from_people">%1$d messages de %2$d personnes</string>
     <string name="notification_more_conversations">et %1$d conversations de plus</string>
-    <string name="notification_active_peers_title">👥 bitchatters à proximité !</string>
+    <string name="notification_active_peers_title">👥 nakamameshters à proximité !</string>
     <string name="notification_active_peers_one">1 personne à proximité</string>
     <string name="notification_active_peers_many">%1$d personnes à proximité</string>
     <string name="notification_new_messages">Nouveaux messages</string>
@@ -57,8 +57,8 @@
     <string name="notification_new_activity_in">Nouvelle activité dans %1$s</string>
     <string name="notification_messages_in">Messages dans %1$s</string>
     <string name="notification_joined_conversation">%1$s a rejoint la conversation</string>
-    <string name="notification_geohash_summary_title_mentions">bitchat – %1$d mentions</string>
-    <string name="notification_geohash_summary_title">bitchat – discussions par lieu</string>
+    <string name="notification_geohash_summary_title_mentions">nakamamesh – %1$d mentions</string>
+    <string name="notification_geohash_summary_title">nakamamesh – discussions par lieu</string>
     <string name="notification_geohash_summary_text">%1$d messages depuis %2$d lieux</string>
     <string name="notification_mesh_mention_title_singular">Mentionné dans le chat Mesh</string>
     <string name="notification_mesh_mention_title_plural">%1$d mentions dans le chat Mesh</string>
@@ -245,8 +245,8 @@
     <!-- Écrans d’onboarding -->
     <string name="location_services_required">Services de localisation requis</string>
     <string name="privacy_first">Confidentialité d’abord</string>
-    <string name="location_explanation">bitchat ne suit PAS ta position.\n\nLes services de localisation sont requis pour le scan Bluetooth et pour la fonction de chat Geohash.</string>
-    <string name="location_needs_for">bitchat a besoin des services de localisation pour :</string>
+    <string name="location_explanation">nakamamesh ne suit PAS ta position.\n\nLes services de localisation sont requis pour le scan Bluetooth et pour la fonction de chat Geohash.</string>
+    <string name="location_needs_for">nakamamesh a besoin des services de localisation pour :</string>
     <string name="location_needs_bullets">• Scan des appareils Bluetooth\n• Découvrir les utilisateurs à proximité sur le réseau mesh\n• Fonction de chat Geohash\n• Pas de suivi ni de collecte de position</string>
     <string name="open_location_settings">Ouvrir les paramètres de localisation</string>
     <string name="check_again">Vérifier à nouveau</string>
@@ -254,15 +254,15 @@
     <string name="location_unavailable_explanation">Les services de localisation ne sont pas disponibles sur cet appareil. C’est inhabituel car ils sont standard sur Android.\n\nL’app en a besoin pour que le scan Bluetooth fonctionne correctement (exigence Android). Sans cela, l’app ne peut pas découvrir les utilisateurs à proximité.</string>
     <string name="checking_location_services">Vérification des services de localisation…</string>
     <string name="bluetooth_required">Bluetooth requis</string>
-    <string name="bluetooth_needs_for">bitchat a besoin de Bluetooth pour :</string>
+    <string name="bluetooth_needs_for">nakamamesh a besoin de Bluetooth pour :</string>
     <string name="bluetooth_needs_bullets">• Découvrir les utilisateurs à proximité\n• Créer des connexions de réseau mesh\n• Envoyer et recevoir des messages\n• Fonctionner sans internet ni serveurs</string>
     <string name="enable_bluetooth">Activer Bluetooth</string>
     <string name="bluetooth_not_supported">Bluetooth non pris en charge</string>
-    <string name="bluetooth_unsupported_explanation">Cet appareil ne prend pas en charge Bluetooth Low Energy (BLE), requis pour le fonctionnement de bitchat.\n\nbitchat a besoin de BLE pour créer des réseaux mesh et communiquer sans internet avec les appareils à proximité.</string>
+    <string name="bluetooth_unsupported_explanation">Cet appareil ne prend pas en charge Bluetooth Low Energy (BLE), requis pour le fonctionnement de nakamamesh.\n\nnakamamesh a besoin de BLE pour créer des réseaux mesh et communiquer sans internet avec les appareils à proximité.</string>
     <string name="checking_bluetooth_status">Vérification du statut Bluetooth…</string>
     <string name="battery_optimization_detected_title">optimisation de la batterie détectée</string>
     <string name="battery_optimization_enabled_title">Optimisation de la batterie activée</string>
-    <string name="battery_optimization_explanation_short">bitchat doit fonctionner en arrière‑plan pour maintenir les connexions mesh. l’optimisation de la batterie peut les interrompre.</string>
+    <string name="battery_optimization_explanation_short">nakamamesh doit fonctionner en arrière‑plan pour maintenir les connexions mesh. l’optimisation de la batterie peut les interrompre.</string>
     <string name="benefits_of_disabling">Avantages de la désactivation</string>
     <string name="battery_benefits_short">• livraison fiable des messages\n• maintient la connectivité mesh\n• évite les coupures</string>
     <string name="disable_battery_optimization">Désactiver l’optimisation</string>
@@ -279,9 +279,9 @@
     <string name="privacy_bullets">• pas de suivi ni collecte de données\n• chats mesh Bluetooth entièrement hors‑ligne\n• les chats geohash utilisent internet</string>
     <string name="permissions_header">autorisations</string>
     <string name="grant_permissions">Accorder les autorisations</string>
-    <string name="location_tracking_warning">bitchat ne suit PAS ta position</string>
+    <string name="location_tracking_warning">nakamamesh ne suit PAS ta position</string>
     <string name="at_symbol">@</string>
-    <string name="app_brand">bitchat/</string>
+    <string name="app_brand">nakamamesh/</string>
     <string name="channel_count_prefix"> · ⧉ </string>
     <string name="geohash_people_header">PERSONNES</string>
     <string name="nobody_around">personne aux alentours…</string>
@@ -328,14 +328,14 @@
     <string name="cd_pause_voice">Pause</string>
 
     <!-- Descriptions des permissions -->
-    <string name="perm_nearby_devices_desc">Nécessaire pour découvrir des utilisateurs bitchat via Bluetooth</string>
-    <string name="perm_nearby_devices_system">Autoriser bitchat à se connecter aux appareils à proximité</string>
-    <string name="perm_location_desc">Requis par Android pour découvrir des utilisateurs bitchat via Bluetooth</string>
-    <string name="perm_location_system">bitchat en a besoin pour rechercher des appareils à proximité</string>
+    <string name="perm_nearby_devices_desc">Nécessaire pour découvrir des utilisateurs nakamamesh via Bluetooth</string>
+    <string name="perm_nearby_devices_system">Autoriser nakamamesh à se connecter aux appareils à proximité</string>
+    <string name="perm_location_desc">Requis par Android pour découvrir des utilisateurs nakamamesh via Bluetooth</string>
+    <string name="perm_location_system">nakamamesh en a besoin pour rechercher des appareils à proximité</string>
     <string name="perm_notifications_desc">Recevoir des notifications de messages privés</string>
-    <string name="perm_notifications_system">Autoriser bitchat à t’envoyer des notifications</string>
+    <string name="perm_notifications_system">Autoriser nakamamesh à t’envoyer des notifications</string>
     <string name="perm_battery_desc">Désactiver l’optimisation de la batterie pour assurer un fonctionnement fiable en arrière‑plan et maintenir les connexions mesh</string>
-    <string name="perm_battery_system">Autoriser bitchat à fonctionner sans restrictions de batterie</string>
+    <string name="perm_battery_system">Autoriser nakamamesh à fonctionner sans restrictions de batterie</string>
 
     <!-- Types de permission -->
     <string name="perm_type_nearby_devices">Appareils à proximité</string>

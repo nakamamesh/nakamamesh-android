@@ -1,9 +1,9 @@
-package com.bitchat.android.model
+package com.NakamaMesh.android.model
 
 import android.content.Context
 import android.net.Uri
 import android.util.Log
-import com.bitchat.android.features.file.FileUtils
+import com.NakamaMesh.android.features.file.FileUtils
 import java.io.File
 
 /**
@@ -20,7 +20,7 @@ object FileSharingManager {
         context: Context,
         uri: Uri,
         originalName: String? = null
-    ): BitchatFilePacket? {
+    ): nakamameshFilePacket? {
         return try {
             // Get file name from URI or use original name
             val fileName = originalName ?: getFileNameFromUri(context, uri) ?: "unknown_file"
@@ -39,7 +39,7 @@ object FileSharingManager {
             // Clean up temp file
             file.delete()
 
-            val packet = BitchatFilePacket(
+            val packet = nakamameshFilePacket(
                 fileName = fileName,
                 fileSize = fileSize,
                 mimeType = mimeType,
@@ -81,7 +81,7 @@ object FileSharingManager {
         val content: ByteArray
     )
 
-    fun processReceivedFile(packet: BitchatFilePacket): ReceivedFileInfo {
+    fun processReceivedFile(packet: nakamameshFilePacket): ReceivedFileInfo {
         return ReceivedFileInfo(
             fileName = packet.fileName,
             fileSize = packet.fileSize,

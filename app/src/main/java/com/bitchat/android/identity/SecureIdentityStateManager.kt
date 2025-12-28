@@ -1,4 +1,4 @@
-package com.bitchat.android.identity
+package com.NakamaMesh.android.identity
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -19,7 +19,7 @@ class SecureIdentityStateManager(private val context: Context) {
     
     companion object {
         private const val TAG = "SecureIdentityStateManager"
-        private const val PREFS_NAME = "bitchat_identity"
+        private const val PREFS_NAME = "nakamamesh_identity"
         private const val KEY_STATIC_PRIVATE_KEY = "static_private_key"
         private const val KEY_STATIC_PUBLIC_KEY = "static_public_key"
         private const val KEY_SIGNING_PRIVATE_KEY = "signing_private_key"

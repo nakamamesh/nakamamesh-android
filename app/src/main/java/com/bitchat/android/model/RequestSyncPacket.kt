@@ -1,6 +1,6 @@
-package com.bitchat.android.model
+package com.NakamaMesh.android.model
 
-import com.bitchat.android.sync.SyncDefaults
+import com.NakamaMesh.android.sync.SyncDefaults
 
 /**
  * REQUEST_SYNC payload using GCS (Golomb-Coded Set) parameters.

@@ -1,10 +1,10 @@
-package com.bitchat.android.mesh
+package com.NakamaMesh.android.mesh
 
 import android.bluetooth.*
 import android.content.Context
 import android.util.Log
-import com.bitchat.android.model.RoutedPacket
-import com.bitchat.android.protocol.BitchatPacket
+import com.NakamaMesh.android.model.RoutedPacket
+import com.NakamaMesh.android.protocol.nakamameshPacket
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 
@@ -41,7 +41,7 @@ class BluetoothConnectionManager(
     
     // Delegate for component managers to call back to main manager
     private val componentDelegate = object : BluetoothConnectionManagerDelegate {
-        override fun onPacketReceived(packet: BitchatPacket, peerID: String, device: BluetoothDevice?) {
+        override fun onPacketReceived(packet: nakamameshPacket, peerID: String, device: BluetoothDevice?) {
             Log.d(TAG, "onPacketReceived: Packet received from ${device?.address} ($peerID)")
             device?.let { bluetoothDevice ->
                 // Get current RSSI for this device and update if available
@@ -93,7 +93,7 @@ class BluetoothConnectionManager(
         powerManager.delegate = this
         // Observe debug settings to enforce role state while active
         try {
-            val dbg = com.bitchat.android.ui.debug.DebugSettingsManager.getInstance()
+            val dbg = com.NakamaMesh.android.ui.debug.DebugSettingsManager.getInstance()
             // Role enable/disable
             connectionScope.launch {
                 dbg.gattServerEnabled.collect { enabled ->
@@ -170,7 +170,7 @@ class BluetoothConnectionManager(
                 powerManager.start()
                 
                 // Start server/client based on debug settings
-                val dbg = try { com.bitchat.android.ui.debug.DebugSettingsManager.getInstance() } catch (_: Exception) { null }
+                val dbg = try { com.NakamaMesh.android.ui.debug.DebugSettingsManager.getInstance() } catch (_: Exception) { null }
                 val startServer = dbg?.gattServerEnabled?.value != false
                 val startClient = dbg?.gattClientEnabled?.value != false
 
@@ -275,7 +275,7 @@ class BluetoothConnectionManager(
     /**
      * Send a packet directly to a specific peer, without broadcasting to others.
      */
-    fun sendPacketToPeer(peerID: String, packet: BitchatPacket): Boolean {
+    fun sendPacketToPeer(peerID: String, packet: nakamameshPacket): Boolean {
         if (!isActive) return false
         return packetBroadcaster.sendPacketToPeer(
             RoutedPacket(packet),
@@ -370,7 +370,7 @@ class BluetoothConnectionManager(
             val wasUsingDutyCycle = powerManager.shouldUseDutyCycle()
             
             // Update advertising with new power settings if server enabled
-            val serverEnabled = try { com.bitchat.android.ui.debug.DebugSettingsManager.getInstance().gattServerEnabled.value } catch (_: Exception) { true }
+            val serverEnabled = try { com.NakamaMesh.android.ui.debug.DebugSettingsManager.getInstance().gattServerEnabled.value } catch (_: Exception) { true }
             if (serverEnabled) {
                 serverManager.restartAdvertising()
             } else {
@@ -381,7 +381,7 @@ class BluetoothConnectionManager(
             val nowUsingDutyCycle = powerManager.shouldUseDutyCycle()
             if (wasUsingDutyCycle != nowUsingDutyCycle) {
                 Log.d(TAG, "Duty cycle behavior changed (${wasUsingDutyCycle} -> ${nowUsingDutyCycle}), restarting scan")
-                val clientEnabled = try { com.bitchat.android.ui.debug.DebugSettingsManager.getInstance().gattClientEnabled.value } catch (_: Exception) { true }
+                val clientEnabled = try { com.NakamaMesh.android.ui.debug.DebugSettingsManager.getInstance().gattClientEnabled.value } catch (_: Exception) { true }
                 if (clientEnabled) {
                     clientManager.restartScanning()
                 } else {
@@ -395,7 +395,7 @@ class BluetoothConnectionManager(
             connectionTracker.enforceConnectionLimits()
             // Best-effort server cap
             try {
-                val maxServer = com.bitchat.android.ui.debug.DebugSettingsManager.getInstance().maxServerConnections.value
+                val maxServer = com.NakamaMesh.android.ui.debug.DebugSettingsManager.getInstance().maxServerConnections.value
                 serverManager.enforceServerLimit(maxServer)
             } catch (_: Exception) { }
         }
@@ -412,7 +412,7 @@ class BluetoothConnectionManager(
  * Delegate interface for Bluetooth connection manager callbacks
  */
 interface BluetoothConnectionManagerDelegate {
-    fun onPacketReceived(packet: BitchatPacket, peerID: String, device: BluetoothDevice?)
+    fun onPacketReceived(packet: nakamameshPacket, peerID: String, device: BluetoothDevice?)
     fun onDeviceConnected(device: BluetoothDevice)
     fun onDeviceDisconnected(device: BluetoothDevice)
     fun onRSSIUpdated(deviceAddress: String, rssi: Int)

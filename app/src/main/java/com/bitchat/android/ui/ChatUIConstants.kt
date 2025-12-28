@@ -1,9 +1,9 @@
-package com.bitchat.android.ui
+package com.NakamaMesh.android.ui
 
 /**
  * UI constants/utilities for nickname rendering.
  */
-fun truncateNickname(name: String, maxLen: Int = com.bitchat.android.util.AppConstants.UI.MAX_NICKNAME_LENGTH): String {
+fun truncateNickname(name: String, maxLen: Int = com.NakamaMesh.android.util.AppConstants.UI.MAX_NICKNAME_LENGTH): String {
     return if (name.length <= maxLen) name else name.take(maxLen)
 }
 

@@ -1,10 +1,10 @@
-package com.bitchat.android.noise
+package com.NakamaMesh.android.noise
 
 import android.content.Context
 import android.util.Log
-import com.bitchat.android.identity.SecureIdentityStateManager
-import com.bitchat.android.mesh.PeerFingerprintManager
-import com.bitchat.android.noise.southernstorm.protocol.Noise
+import com.NakamaMesh.android.identity.SecureIdentityStateManager
+import com.NakamaMesh.android.mesh.PeerFingerprintManager
+import com.NakamaMesh.android.noise.southernstorm.protocol.Noise
 import java.security.MessageDigest
 import java.security.SecureRandom
 import java.util.concurrent.ConcurrentHashMap
@@ -24,8 +24,8 @@ class NoiseEncryptionService(private val context: Context) {
         private const val TAG = "NoiseEncryptionService"
         
         // Session limits for performance and security
-        private const val REKEY_TIME_LIMIT = com.bitchat.android.util.AppConstants.Noise.REKEY_TIME_LIMIT_MS // 1 hour (same as iOS)
-        private const val REKEY_MESSAGE_LIMIT = com.bitchat.android.util.AppConstants.Noise.REKEY_MESSAGE_LIMIT_ENCRYPTION // 1k messages (matches iOS) (same as iOS)
+        private const val REKEY_TIME_LIMIT = com.NakamaMesh.android.util.AppConstants.Noise.REKEY_TIME_LIMIT_MS // 1 hour (same as iOS)
+        private const val REKEY_MESSAGE_LIMIT = com.NakamaMesh.android.util.AppConstants.Noise.REKEY_MESSAGE_LIMIT_ENCRYPTION // 1k messages (matches iOS) (same as iOS)
     }
     
     // Static identity key (persistent across app restarts) - loaded from secure storage
@@ -322,7 +322,7 @@ class NoiseEncryptionService(private val context: Context) {
      */
     private fun generateKeyPair(): Pair<ByteArray, ByteArray> {
         try {
-            val dhState = com.bitchat.android.noise.southernstorm.protocol.Noise.createDH("25519")
+            val dhState = com.NakamaMesh.android.noise.southernstorm.protocol.Noise.createDH("25519")
             dhState.generateKeyPair()
             
             val privateKey = ByteArray(32)
@@ -369,9 +369,9 @@ class NoiseEncryptionService(private val context: Context) {
     // MARK: - Packet Signing/Verification
 
     /**
-     * Sign a BitchatPacket using our Ed25519 signing key
+     * Sign a nakamameshPacket using our Ed25519 signing key
      */
-    fun signPacket(packet: com.bitchat.android.protocol.BitchatPacket): com.bitchat.android.protocol.BitchatPacket? {
+    fun signPacket(packet: com.NakamaMesh.android.protocol.nakamameshPacket): com.NakamaMesh.android.protocol.nakamameshPacket? {
         // Create canonical packet bytes for signing
         val packetData = packet.toBinaryDataForSigning() ?: return null
         
@@ -383,9 +383,9 @@ class NoiseEncryptionService(private val context: Context) {
     }
 
     /**
-     * Verify a BitchatPacket signature using the provided public key
+     * Verify a nakamameshPacket signature using the provided public key
      */
-    fun verifyPacketSignature(packet: com.bitchat.android.protocol.BitchatPacket, publicKey: ByteArray): Boolean {
+    fun verifyPacketSignature(packet: com.NakamaMesh.android.protocol.nakamameshPacket, publicKey: ByteArray): Boolean {
         val signature = packet.signature ?: return false
         
         // Create canonical packet bytes for verification (without signature)

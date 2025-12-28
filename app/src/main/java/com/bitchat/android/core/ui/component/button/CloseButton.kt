@@ -1,4 +1,4 @@
-package com.bitchat.android.core.ui.component.button
+package com.NakamaMesh.android.core.ui.component.button
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons

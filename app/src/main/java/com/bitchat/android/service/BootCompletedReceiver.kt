@@ -1,4 +1,4 @@
-package com.bitchat.android.service
+package com.NakamaMesh.android.service
 
 import android.content.BroadcastReceiver
 import android.content.Context

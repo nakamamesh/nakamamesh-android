@@ -48,7 +48,7 @@ jobs:
 
       - name: Rename APK
         run: |
-          mv app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/bitchat-android.apk
+          mv app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/nakamamesh-android.apk
 
       - name: DEBUG
         run: |
@@ -72,7 +72,7 @@ jobs:
       - name: Upload APK as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: bitchat-android-apk-${{ github.ref_name }}
+          name: nakamamesh-android-apk-${{ github.ref_name }}
           path: app/build/outputs/apk/release/*.apk
           retention-days: 30
           if-no-files-found: error
@@ -85,19 +85,19 @@ jobs:
       - name: Download APK artifact
         uses: actions/download-artifact@v4
         with:
-          name: bitchat-android-apk-${{ github.ref_name }}
+          name: nakamamesh-android-apk-${{ github.ref_name }}
           path: release
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            release/bitchat-android.apk
+            release/nakamamesh-android.apk
           name: Release ${{ github.ref_name }}
           body: |
-            ## bitchat Android Release
+            ## nakamamesh Android Release
 
-            **bitchat-android.apk** (~15MB)
+            **nakamamesh-android.apk** (~15MB)
             - Secure P2P messaging over Bluetooth mesh and Nostr
             - Built-in Tor support (custom Arti build with 16KB page size)
             - Compatible with Google Play requirements (Nov 2025+)

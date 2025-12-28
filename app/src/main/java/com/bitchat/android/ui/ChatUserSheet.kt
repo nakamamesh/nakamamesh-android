@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package com.NakamaMesh.android.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,13 +11,13 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.bitchat.android.ui.theme.BASE_FONT_SIZE
+import com.NakamaMesh.android.ui.theme.BASE_FONT_SIZE
 import androidx.compose.ui.res.stringResource
-import com.bitchat.android.R
+import com.NakamaMesh.android.R
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
 import kotlinx.coroutines.launch
-import com.bitchat.android.model.BitchatMessage
+import com.NakamaMesh.android.model.nakamameshMessage
 
 /**
  * User Action Sheet for selecting actions on a specific user (slap, hug, block)
@@ -29,7 +29,7 @@ fun ChatUserSheet(
     isPresented: Boolean,
     onDismiss: () -> Unit,
     targetNickname: String,
-    selectedMessage: BitchatMessage? = null,
+    selectedMessage: nakamameshMessage? = null,
     viewModel: ChatViewModel,
     modifier: Modifier = Modifier
 ) {
@@ -136,7 +136,7 @@ fun ChatUserSheet(
                                 onClick = {
                                     // Check if we're in a geohash channel
                                     val selectedLocationChannel = viewModel.selectedLocationChannel.value
-                                    if (selectedLocationChannel is com.bitchat.android.geohash.ChannelID.Location) {
+                                    if (selectedLocationChannel is com.NakamaMesh.android.geohash.ChannelID.Location) {
                                         // Get user's nostr public key and add to geohash block list
                                         viewModel.blockUserInGeohash(targetNickname)
                                     } else {

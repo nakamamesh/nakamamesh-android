@@ -1,28 +1,28 @@
-package com.bitchat.android.mesh
-import com.bitchat.android.protocol.MessageType
+package com.NakamaMesh.android.mesh
+import com.NakamaMesh.android.protocol.MessageType
 
 import android.util.Log
-import com.bitchat.android.model.RoutedPacket
-import com.bitchat.android.protocol.BitchatPacket
-import com.bitchat.android.util.toHexString
+import com.NakamaMesh.android.model.RoutedPacket
+import com.NakamaMesh.android.protocol.nakamameshPacket
+import com.NakamaMesh.android.util.toHexString
 import kotlinx.coroutines.*
 import kotlin.random.Random
 
 /**
  * Centralized packet relay management
  * 
- * This class handles all relay decisions and logic for bitchat packets.
+ * This class handles all relay decisions and logic for nakamamesh packets.
  * All packets that aren't specifically addressed to us get processed here.
  */
 class PacketRelayManager(private val myPeerID: String) {
-    private val debugManager by lazy { try { com.bitchat.android.ui.debug.DebugSettingsManager.getInstance() } catch (e: Exception) { null } }
+    private val debugManager by lazy { try { com.NakamaMesh.android.ui.debug.DebugSettingsManager.getInstance() } catch (e: Exception) { null } }
     
     companion object {
         private const val TAG = "PacketRelayManager"
     }
     
     private fun isRelayEnabled(): Boolean = try {
-        com.bitchat.android.ui.debug.DebugSettingsManager.getInstance().packetRelayEnabled.value
+        com.NakamaMesh.android.ui.debug.DebugSettingsManager.getInstance().packetRelayEnabled.value
     } catch (_: Exception) { true }
 
     // Logging moved to BluetoothPacketBroadcaster per actual transmission target
@@ -78,7 +78,7 @@ class PacketRelayManager(private val myPeerID: String) {
     /**
      * Check if a packet is specifically addressed to us
      */
-    internal fun isPacketAddressedToMe(packet: BitchatPacket): Boolean {
+    internal fun isPacketAddressedToMe(packet: nakamameshPacket): Boolean {
         val recipientID = packet.recipientID
         
         // No recipient means broadcast (not addressed to us specifically)
@@ -100,7 +100,7 @@ class PacketRelayManager(private val myPeerID: String) {
     /**
      * Determine if we should relay this packet based on type and network conditions
      */
-    private fun shouldRelayPacket(packet: BitchatPacket, fromPeerID: String): Boolean {
+    private fun shouldRelayPacket(packet: nakamameshPacket, fromPeerID: String): Boolean {
         // Always relay if TTL is high enough (indicates important message)
         if (packet.ttl >= 4u) {
             Log.d(TAG, "High TTL (${packet.ttl}), relaying")

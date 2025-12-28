@@ -1,4 +1,4 @@
-package com.bitchat.android.ui.theme
+package com.NakamaMesh.android.ui.theme
 
 import android.content.Context
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +22,7 @@ enum class ThemePreference {
  * Avoids adding DataStore dependency for now.
  */
 object ThemePreferenceManager {
-    private const val PREFS_NAME = "bitchat_settings"
+    private const val PREFS_NAME = "nakamamesh_settings"
     private const val KEY_THEME = "theme_preference"
 
     private val _themeFlow = MutableStateFlow(ThemePreference.System)

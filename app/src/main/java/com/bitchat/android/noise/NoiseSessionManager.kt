@@ -1,4 +1,4 @@
-package com.bitchat.android.noise
+package com.NakamaMesh.android.noise
 
 import android.util.Log
 import java.util.concurrent.ConcurrentHashMap

@@ -1,7 +1,7 @@
-package com.bitchat.android.service
+package com.NakamaMesh.android.service
 
 import android.content.Context
-import com.bitchat.android.mesh.BluetoothMeshService
+import com.NakamaMesh.android.mesh.BluetoothMeshService
 
 /**
  * Process-wide holder to share a single BluetoothMeshService instance

@@ -1,4 +1,4 @@
-package com.bitchat.android.mesh
+package com.NakamaMesh.android.mesh
 
 import android.bluetooth.*
 import android.bluetooth.le.AdvertiseCallback
@@ -8,8 +8,8 @@ import android.bluetooth.le.BluetoothLeAdvertiser
 import android.content.Context
 import android.os.ParcelUuid
 import android.util.Log
-import com.bitchat.android.protocol.BitchatPacket
-import com.bitchat.android.util.AppConstants
+import com.NakamaMesh.android.protocol.nakamameshPacket
+import com.NakamaMesh.android.util.AppConstants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -65,7 +65,7 @@ class BluetoothGattServerManager(
     fun start(): Boolean {
         // Respect debug setting
         try {
-            if (!com.bitchat.android.ui.debug.DebugSettingsManager.getInstance().gattServerEnabled.value) {
+            if (!com.NakamaMesh.android.ui.debug.DebugSettingsManager.getInstance().gattServerEnabled.value) {
                 Log.i(TAG, "Server start skipped: GATT Server disabled in debug settings")
                 return false
             }
@@ -222,7 +222,7 @@ class BluetoothGattServerManager(
                 
                 if (characteristic.uuid == AppConstants.Mesh.Gatt.CHARACTERISTIC_UUID) {
                     Log.i(TAG, "Server: Received packet from ${device.address}, size: ${value.size} bytes")
-                    val packet = BitchatPacket.fromBinaryData(value)
+                    val packet = nakamameshPacket.fromBinaryData(value)
                     if (packet != null) {
                         val peerID = packet.senderID.take(8).toByteArray().joinToString("") { "%02x".format(it) }
                         Log.d(TAG, "Server: Parsed packet type ${packet.type} from $peerID")
@@ -323,7 +323,7 @@ class BluetoothGattServerManager(
     @Suppress("DEPRECATION")
     private fun startAdvertising() {
         // Respect debug setting
-        val enabled = try { com.bitchat.android.ui.debug.DebugSettingsManager.getInstance().gattServerEnabled.value } catch (_: Exception) { true }
+        val enabled = try { com.NakamaMesh.android.ui.debug.DebugSettingsManager.getInstance().gattServerEnabled.value } catch (_: Exception) { true }
 
         // Guard conditions – never throw here to avoid crashing the app from a background coroutine
         if (!permissionManager.hasBluetoothPermissions()) {
@@ -399,7 +399,7 @@ class BluetoothGattServerManager(
      */
     fun restartAdvertising() {
         // Respect debug setting
-        val enabled = try { com.bitchat.android.ui.debug.DebugSettingsManager.getInstance().gattServerEnabled.value } catch (_: Exception) { true }
+        val enabled = try { com.NakamaMesh.android.ui.debug.DebugSettingsManager.getInstance().gattServerEnabled.value } catch (_: Exception) { true }
         if (!isActive || !enabled) {
             stopAdvertising()
             return

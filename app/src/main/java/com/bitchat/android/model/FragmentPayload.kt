@@ -1,12 +1,12 @@
-package com.bitchat.android.model
+package com.NakamaMesh.android.model
 
-import com.bitchat.android.protocol.MessageType
+import com.NakamaMesh.android.protocol.MessageType
 
 /**
  * FragmentPayload - 100% iOS-compatible fragment payload structure
  * 
  * This class handles the encoding and decoding of fragment payloads exactly
- * as implemented in iOS bitchat SimplifiedBluetoothService.
+ * as implemented in iOS nakamamesh SimplifiedBluetoothService.
  * 
  * Fragment payload structure (matching iOS):
  * - 8 bytes: Fragment ID (random bytes)

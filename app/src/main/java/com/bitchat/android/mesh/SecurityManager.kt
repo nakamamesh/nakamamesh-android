@@ -1,11 +1,11 @@
-package com.bitchat.android.mesh
+package com.NakamaMesh.android.mesh
 
 import android.util.Log
-import com.bitchat.android.crypto.EncryptionService
-import com.bitchat.android.protocol.BitchatPacket
-import com.bitchat.android.protocol.MessageType
-import com.bitchat.android.model.RoutedPacket
-import com.bitchat.android.util.toHexString
+import com.NakamaMesh.android.crypto.EncryptionService
+import com.NakamaMesh.android.protocol.nakamameshPacket
+import com.NakamaMesh.android.protocol.MessageType
+import com.NakamaMesh.android.model.RoutedPacket
+import com.NakamaMesh.android.util.toHexString
 import kotlinx.coroutines.*
 import java.util.*
 import kotlin.collections.mutableSetOf
@@ -19,10 +19,10 @@ class SecurityManager(private val encryptionService: EncryptionService, private 
     
     companion object {
         private const val TAG = "SecurityManager"
-        private const val MESSAGE_TIMEOUT = com.bitchat.android.util.AppConstants.Security.MESSAGE_TIMEOUT_MS // 5 minutes (same as iOS)
-        private const val CLEANUP_INTERVAL = com.bitchat.android.util.AppConstants.Security.CLEANUP_INTERVAL_MS // 5 minutes
-        private const val MAX_PROCESSED_MESSAGES = com.bitchat.android.util.AppConstants.Security.MAX_PROCESSED_MESSAGES
-        private const val MAX_PROCESSED_KEY_EXCHANGES = com.bitchat.android.util.AppConstants.Security.MAX_PROCESSED_KEY_EXCHANGES
+        private const val MESSAGE_TIMEOUT = com.NakamaMesh.android.util.AppConstants.Security.MESSAGE_TIMEOUT_MS // 5 minutes (same as iOS)
+        private const val CLEANUP_INTERVAL = com.NakamaMesh.android.util.AppConstants.Security.CLEANUP_INTERVAL_MS // 5 minutes
+        private const val MAX_PROCESSED_MESSAGES = com.NakamaMesh.android.util.AppConstants.Security.MAX_PROCESSED_MESSAGES
+        private const val MAX_PROCESSED_KEY_EXCHANGES = com.NakamaMesh.android.util.AppConstants.Security.MAX_PROCESSED_KEY_EXCHANGES
     }
     
     // Security tracking
@@ -43,7 +43,7 @@ class SecurityManager(private val encryptionService: EncryptionService, private 
     /**
      * Validate packet security (timestamp, replay attacks, duplicates, signatures)
      */
-    fun validatePacket(packet: BitchatPacket, peerID: String): Boolean {
+    fun validatePacket(packet: nakamameshPacket, peerID: String): Boolean {
         // Skip validation for our own packets
         if (peerID == myPeerID) {
             Log.d(TAG, "Skipping validation for our own packet")
@@ -147,7 +147,7 @@ class SecurityManager(private val encryptionService: EncryptionService, private 
     /**
      * Verify packet signature
      */
-    fun verifySignature(packet: BitchatPacket, peerID: String): Boolean {
+    fun verifySignature(packet: nakamameshPacket, peerID: String): Boolean {
         return packet.signature?.let { signature ->
             try {
                 val isValid = encryptionService.verify(signature, packet.payload, peerID)
@@ -208,7 +208,7 @@ class SecurityManager(private val encryptionService: EncryptionService, private 
     /**
      * Generate message ID for duplicate detection
      */
-    private fun generateMessageID(packet: BitchatPacket, peerID: String): String {
+    private fun generateMessageID(packet: nakamameshPacket, peerID: String): String {
         return when (MessageType.fromValue(packet.type)) {
             MessageType.FRAGMENT -> {
                 // For fragments, include the payload hash to distinguish different fragments
@@ -225,7 +225,7 @@ class SecurityManager(private val encryptionService: EncryptionService, private 
     /**
      * Verify packet signature using peer's signing public key and log the result
      */
-    private fun verifyPacketSignatureWithLogging(packet: BitchatPacket, peerID: String) {
+    private fun verifyPacketSignatureWithLogging(packet: nakamameshPacket, peerID: String) {
         try {
             // Check if packet has a signature
             if (packet.signature == null) {

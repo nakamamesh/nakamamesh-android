@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package com.NakamaMesh.android.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.bitchat.android.geohash.GeohashChannelLevel
-import com.bitchat.android.geohash.LocationChannelManager
+import com.NakamaMesh.android.geohash.GeohashChannelLevel
+import com.NakamaMesh.android.geohash.LocationChannelManager
 
 /**
  * Presenter component for LocationNotesSheet

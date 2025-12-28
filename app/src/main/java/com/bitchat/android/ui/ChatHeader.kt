@@ -1,4 +1,4 @@
-package com.bitchat.android.ui
+package com.NakamaMesh.android.ui
 
 
 import android.util.Log
@@ -21,12 +21,12 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.res.stringResource
-import com.bitchat.android.R
+import com.NakamaMesh.android.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.bitchat.android.core.ui.utils.singleOrTripleClickable
+import com.NakamaMesh.android.core.ui.utils.singleOrTripleClickable
 import androidx.compose.foundation.Canvas
 import androidx.compose.ui.geometry.Offset
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -58,10 +58,10 @@ fun isFavoriteReactive(
 fun TorStatusDot(
     modifier: Modifier = Modifier
 ) {
-    val torProvider = remember { com.bitchat.android.net.ArtiTorManager.getInstance() }
+    val torProvider = remember { com.NakamaMesh.android.net.ArtiTorManager.getInstance() }
     val torStatus by torProvider.statusFlow.collectAsState()
     
-    if (torStatus.mode != com.bitchat.android.net.TorMode.OFF) {
+    if (torStatus.mode != com.NakamaMesh.android.net.TorMode.OFF) {
         val dotColor = when {
             torStatus.running && torStatus.bootstrapPercent < 100 -> Color(0xFFFF9500) // Orange - bootstrapping
             torStatus.running && torStatus.bootstrapPercent >= 100 -> Color(0xFF00C851) // Green - connected
@@ -171,7 +171,7 @@ fun PeerCounter(
     joinedChannels: Set<String>,
     hasUnreadChannels: Map<String, Int>,
     isConnected: Boolean,
-    selectedLocationChannel: com.bitchat.android.geohash.ChannelID?,
+    selectedLocationChannel: com.NakamaMesh.android.geohash.ChannelID?,
     geohashPeople: List<GeoPerson>,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -180,13 +180,13 @@ fun PeerCounter(
     
     // Compute channel-aware people count and color (matches iOS logic exactly)
     val (peopleCount, countColor) = when (selectedLocationChannel) {
-        is com.bitchat.android.geohash.ChannelID.Location -> {
+        is com.NakamaMesh.android.geohash.ChannelID.Location -> {
             // Geohash channel: show geohash participants
             val count = geohashPeople.size
             val green = Color(0xFF00C851) // Standard green
             Pair(count, if (count > 0) green else Color.Gray)
         }
-        is com.bitchat.android.geohash.ChannelID.Mesh,
+        is com.NakamaMesh.android.geohash.ChannelID.Mesh,
         null -> {
             // Mesh channel: show Bluetooth-connected peers (excluding self)
             val count = connectedPeers.size
@@ -197,12 +197,12 @@ fun PeerCounter(
     
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.clickable { onClick() }.padding(end = 8.dp) // Added right margin to match "bitchat" logo spacing
+        modifier = modifier.clickable { onClick() }.padding(end = 8.dp) // Added right margin to match "nakamamesh" logo spacing
     ) {
         Icon(
             imageVector = Icons.Default.Group,
             contentDescription = when (selectedLocationChannel) {
-                is com.bitchat.android.geohash.ChannelID.Location -> stringResource(R.string.cd_geohash_participants)
+                is com.NakamaMesh.android.geohash.ChannelID.Location -> stringResource(R.string.cd_geohash_participants)
                 else -> stringResource(R.string.cd_connected_peers)
             },
             modifier = Modifier.size(16.dp),
@@ -310,7 +310,7 @@ private fun PrivateChatHeader(
     peerNicknames: Map<String, String>,
     isFavorite: Boolean,
     sessionState: String?,
-    selectedLocationChannel: com.bitchat.android.geohash.ChannelID?,
+    selectedLocationChannel: com.NakamaMesh.android.geohash.ChannelID?,
     geohashPeople: List<GeoPerson>,
     onBackClick: () -> Unit,
     onToggleFavorite: () -> Unit,
@@ -324,9 +324,9 @@ private fun PrivateChatHeader(
             if (isNostrDM) return@remember false
             if (peerID.length == 64 && peerID.matches(Regex("^[0-9a-fA-F]+$"))) {
                 val noiseKeyBytes = peerID.chunked(2).map { it.toInt(16).toByte() }.toByteArray()
-                com.bitchat.android.favorites.FavoritesPersistenceService.shared.getFavoriteStatus(noiseKeyBytes)?.isMutual == true
+                com.NakamaMesh.android.favorites.FavoritesPersistenceService.shared.getFavoriteStatus(noiseKeyBytes)?.isMutual == true
             } else if (peerID.length == 16 && peerID.matches(Regex("^[0-9a-fA-F]+$"))) {
-                com.bitchat.android.favorites.FavoritesPersistenceService.shared.getFavoriteStatus(peerID)?.isMutual == true
+                com.NakamaMesh.android.favorites.FavoritesPersistenceService.shared.getFavoriteStatus(peerID)?.isMutual == true
             } else false
         } catch (_: Exception) { false }
     }
@@ -335,11 +335,11 @@ private fun PrivateChatHeader(
     val titleText: String = if (isNostrDM) {
         // For geohash DMs, get the actual source geohash and proper display name
         val (conversationGeohash, baseName) = try {
-            val repoField = com.bitchat.android.ui.GeohashViewModel::class.java.getDeclaredField("repo")
+            val repoField = com.NakamaMesh.android.ui.GeohashViewModel::class.java.getDeclaredField("repo")
             repoField.isAccessible = true
-            val repo = repoField.get(viewModel.geohashViewModel) as com.bitchat.android.nostr.GeohashRepository
+            val repo = repoField.get(viewModel.geohashViewModel) as com.NakamaMesh.android.nostr.GeohashRepository
             val gh = repo.getConversationGeohash(peerID) ?: "geohash"
-            val fullPubkey = com.bitchat.android.nostr.GeohashAliasRegistry.get(peerID) ?: ""
+            val fullPubkey = com.NakamaMesh.android.nostr.GeohashAliasRegistry.get(peerID) ?: ""
             val displayName = if (fullPubkey.isNotEmpty()) {
                 repo.displayNameForGeohashConversation(fullPubkey, gh)
             } else {
@@ -357,9 +357,9 @@ private fun PrivateChatHeader(
             val titleFromFavorites = try {
                 if (peerID.length == 64 && peerID.matches(Regex("^[0-9a-fA-F]+$"))) {
                     val noiseKeyBytes = peerID.chunked(2).map { it.toInt(16).toByte() }.toByteArray()
-                    com.bitchat.android.favorites.FavoritesPersistenceService.shared.getFavoriteStatus(noiseKeyBytes)?.peerNickname
+                    com.NakamaMesh.android.favorites.FavoritesPersistenceService.shared.getFavoriteStatus(noiseKeyBytes)?.peerNickname
                 } else if (peerID.length == 16 && peerID.matches(Regex("^[0-9a-fA-F]+$"))) {
-                    com.bitchat.android.favorites.FavoritesPersistenceService.shared.getFavoriteStatus(peerID)?.peerNickname
+                    com.NakamaMesh.android.favorites.FavoritesPersistenceService.shared.getFavoriteStatus(peerID)?.peerNickname
                 } else null
             } catch (_: Exception) { null }
             titleFromFavorites ?: peerID.take(12)
@@ -533,7 +533,7 @@ private fun MainHeader(
 
     // Bookmarks store for current geohash toggle (iOS parity)
     val context = androidx.compose.ui.platform.LocalContext.current
-    val bookmarksStore = remember { com.bitchat.android.geohash.GeohashBookmarksStore.getInstance(context) }
+    val bookmarksStore = remember { com.NakamaMesh.android.geohash.GeohashBookmarksStore.getInstance(context) }
     val bookmarks by bookmarksStore.bookmarks.collectAsStateWithLifecycle()
 
     Row(
@@ -591,7 +591,7 @@ private fun MainHeader(
 
                 // Bookmark toggle for current geohash (not shown for mesh)
                 val currentGeohash: String? = when (val sc = selectedLocationChannel) {
-                    is com.bitchat.android.geohash.ChannelID.Location -> sc.channel.geohash
+                    is com.NakamaMesh.android.geohash.ChannelID.Location -> sc.channel.geohash
                     else -> null
                 }
                 if (currentGeohash != null) {
@@ -657,11 +657,11 @@ private fun LocationChannelsButton(
     val teleported by viewModel.isTeleported.collectAsStateWithLifecycle()
     
     val (badgeText, badgeColor) = when (selectedChannel) {
-        is com.bitchat.android.geohash.ChannelID.Mesh -> {
+        is com.NakamaMesh.android.geohash.ChannelID.Mesh -> {
             "#mesh" to Color(0xFF007AFF) // iOS blue for mesh
         }
-        is com.bitchat.android.geohash.ChannelID.Location -> {
-            val geohash = (selectedChannel as com.bitchat.android.geohash.ChannelID.Location).channel.geohash
+        is com.NakamaMesh.android.geohash.ChannelID.Location -> {
+            val geohash = (selectedChannel as com.NakamaMesh.android.geohash.ChannelID.Location).channel.geohash
             "#$geohash" to Color(0xFF00C851) // Green for location
         }
         null -> "#mesh" to Color(0xFF007AFF) // Default to mesh

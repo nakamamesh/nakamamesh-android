@@ -1,23 +1,23 @@
-package com.bitchat.android.nostr
+package com.NakamaMesh.android.nostr
 
 import android.util.Base64
 import android.util.Log
-import com.bitchat.android.model.PrivateMessagePacket
-import com.bitchat.android.model.NoisePayloadType
-import com.bitchat.android.protocol.BitchatPacket
-import com.bitchat.android.protocol.MessageType
+import com.NakamaMesh.android.model.PrivateMessagePacket
+import com.NakamaMesh.android.model.NoisePayloadType
+import com.NakamaMesh.android.protocol.nakamameshPacket
+import com.NakamaMesh.android.protocol.MessageType
 import java.util.*
 
 /**
- * BitChat-over-Nostr Adapter
+ * nakamamesh-over-Nostr Adapter
  * Direct port from iOS implementation for 100% compatibility
  */
-object NostrEmbeddedBitChat {
+object NostrEmbeddednakamamesh {
     
-    private const val TAG = "NostrEmbeddedBitChat"
+    private const val TAG = "NostrEmbeddednakamamesh"
     
     /**
-     * Build a `bitchat1:` base64url-encoded BitChat packet carrying a private message for Nostr DMs.
+     * Build a `nakamamesh1:` base64url-encoded nakamamesh packet carrying a private message for Nostr DMs.
      */
     fun encodePMForNostr(
         content: String,
@@ -38,7 +38,7 @@ object NostrEmbeddedBitChat {
             // Determine 8-byte recipient ID to embed
             val recipientIDHex = normalizeRecipientPeerID(recipientPeerID)
             
-            val packet = BitchatPacket(
+            val packet = nakamameshPacket(
                 version = 1u,
                 type = MessageType.NOISE_ENCRYPTED.value,
                 senderID = hexStringToByteArray(senderPeerID),
@@ -46,11 +46,11 @@ object NostrEmbeddedBitChat {
                 timestamp = System.currentTimeMillis().toULong(),
                 payload = payload,
                 signature = null,
-                ttl = com.bitchat.android.util.AppConstants.MESSAGE_TTL_HOPS
+                ttl = com.NakamaMesh.android.util.AppConstants.MESSAGE_TTL_HOPS
             )
             
             val data = packet.toBinaryData() ?: return null
-            return "bitchat1:" + base64URLEncode(data)
+            return "nakamamesh1:" + base64URLEncode(data)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to encode PM for Nostr: ${e.message}")
             return null
@@ -58,7 +58,7 @@ object NostrEmbeddedBitChat {
     }
     
     /**
-     * Build a `bitchat1:` base64url-encoded BitChat packet carrying a delivery/read ack for Nostr DMs.
+     * Build a `nakamamesh1:` base64url-encoded nakamamesh packet carrying a delivery/read ack for Nostr DMs.
      */
     fun encodeAckForNostr(
         type: NoisePayloadType,
@@ -78,7 +78,7 @@ object NostrEmbeddedBitChat {
             
             val recipientIDHex = normalizeRecipientPeerID(recipientPeerID)
             
-            val packet = BitchatPacket(
+            val packet = nakamameshPacket(
                 version = 1u,
                 type = MessageType.NOISE_ENCRYPTED.value,
                 senderID = hexStringToByteArray(senderPeerID),
@@ -86,11 +86,11 @@ object NostrEmbeddedBitChat {
                 timestamp = System.currentTimeMillis().toULong(),
                 payload = payload,
                 signature = null,
-                ttl = com.bitchat.android.util.AppConstants.MESSAGE_TTL_HOPS
+                ttl = com.NakamaMesh.android.util.AppConstants.MESSAGE_TTL_HOPS
             )
             
             val data = packet.toBinaryData() ?: return null
-            return "bitchat1:" + base64URLEncode(data)
+            return "nakamamesh1:" + base64URLEncode(data)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to encode ACK for Nostr: ${e.message}")
             return null
@@ -98,7 +98,7 @@ object NostrEmbeddedBitChat {
     }
     
     /**
-     * Build a `bitchat1:` ACK (delivered/read) without an embedded recipient peer ID (geohash DMs).
+     * Build a `nakamamesh1:` ACK (delivered/read) without an embedded recipient peer ID (geohash DMs).
      */
     fun encodeAckForNostrNoRecipient(
         type: NoisePayloadType,
@@ -115,7 +115,7 @@ object NostrEmbeddedBitChat {
             val messageIDBytes = messageID.toByteArray(Charsets.UTF_8)
             System.arraycopy(messageIDBytes, 0, payload, 1, messageIDBytes.size)
             
-            val packet = BitchatPacket(
+            val packet = nakamameshPacket(
                 version = 1u,
                 type = MessageType.NOISE_ENCRYPTED.value,
                 senderID = hexStringToByteArray(senderPeerID),
@@ -123,11 +123,11 @@ object NostrEmbeddedBitChat {
                 timestamp = System.currentTimeMillis().toULong(),
                 payload = payload,
                 signature = null,
-                ttl = com.bitchat.android.util.AppConstants.MESSAGE_TTL_HOPS
+                ttl = com.NakamaMesh.android.util.AppConstants.MESSAGE_TTL_HOPS
             )
             
             val data = packet.toBinaryData() ?: return null
-            return "bitchat1:" + base64URLEncode(data)
+            return "nakamamesh1:" + base64URLEncode(data)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to encode ACK for Nostr (no recipient): ${e.message}")
             return null
@@ -135,7 +135,7 @@ object NostrEmbeddedBitChat {
     }
     
     /**
-     * Build a `bitchat1:` payload without an embedded recipient peer ID (used for geohash DMs).
+     * Build a `nakamamesh1:` payload without an embedded recipient peer ID (used for geohash DMs).
      */
     fun encodePMForNostrNoRecipient(
         content: String,
@@ -150,7 +150,7 @@ object NostrEmbeddedBitChat {
             payload[0] = NoisePayloadType.PRIVATE_MESSAGE.value.toByte()
             System.arraycopy(tlv, 0, payload, 1, tlv.size)
             
-            val packet = BitchatPacket(
+            val packet = nakamameshPacket(
                 version = 1u,
                 type = MessageType.NOISE_ENCRYPTED.value,
                 senderID = hexStringToByteArray(senderPeerID),
@@ -158,11 +158,11 @@ object NostrEmbeddedBitChat {
                 timestamp = System.currentTimeMillis().toULong(),
                 payload = payload,
                 signature = null,
-                ttl = com.bitchat.android.util.AppConstants.MESSAGE_TTL_HOPS
+                ttl = com.NakamaMesh.android.util.AppConstants.MESSAGE_TTL_HOPS
             )
             
             val data = packet.toBinaryData() ?: return null
-            return "bitchat1:" + base64URLEncode(data)
+            return "nakamamesh1:" + base64URLEncode(data)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to encode PM for Nostr (no recipient): ${e.message}")
             return null

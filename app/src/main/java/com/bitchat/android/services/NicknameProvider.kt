@@ -1,7 +1,7 @@
-package com.bitchat.android.services
+package com.NakamaMesh.android.services
 
 import android.content.Context
-import com.bitchat.android.ui.DataManager
+import com.NakamaMesh.android.ui.DataManager
 
 /**
  * Provides current user's nickname for announcements and leave messages.
