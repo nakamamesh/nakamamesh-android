@@ -13,8 +13,8 @@ android {
         applicationId = "com.NakamaMesh.android"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 27
-        versionName = "1.6.0"
+        versionCode = 28  // ← UPDATED! Was 27
+        versionName = "1.7.0"  // ← UPDATED! Was 1.6.0 (now has wallet!)
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -63,6 +63,9 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            // Add these to avoid conflicts with Web3j
+            excludes += "/META-INF/INDEX.LIST"
+            excludes += "/META-INF/io.netty.versions.properties"
         }
     }
     lint {
@@ -77,29 +80,29 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
-    
+
     // Compose
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.compose)
-    
+
     // Lifecycle
     implementation(libs.bundles.lifecycle)
-    
+
     // Navigation
     implementation(libs.androidx.navigation.compose)
-    
+
     // Permissions
     implementation(libs.accompanist.permissions)
-    
+
     // Cryptography
     implementation(libs.bundles.cryptography)
-    
+
     // JSON
     implementation(libs.gson)
-    
+
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
-    
+
     // Bluetooth
     implementation(libs.nordic.ble)
 
@@ -117,10 +120,25 @@ dependencies {
 
     // Security preferences
     implementation(libs.androidx.security.crypto)
-    
+
     // EXIF orientation handling for images
     implementation("androidx.exifinterface:exifinterface:1.3.7")
-    
+
+    // ========================================
+    // 💎 WALLET INTEGRATION - NEW! 🚀
+    // ========================================
+
+    // WalletConnect - connects to MetaMask, Trust Wallet, etc.
+    implementation("com.walletconnect:android-core:1.8.0")
+
+    // Web3j - talks to Binance Smart Chain for NKMA
+    implementation("org.web3j:core:4.9.8")
+
+    // Additional coroutines support for Web3j
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+
+    // ========================================
+
     // Testing
     testImplementation(libs.bundles.testing)
     androidTestImplementation(platform(libs.androidx.compose.bom))

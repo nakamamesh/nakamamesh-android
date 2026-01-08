@@ -34,6 +34,7 @@ import com.NakamaMesh.android.ui.theme.BASE_FONT_SIZE
 fun SidebarOverlay(
     viewModel: ChatViewModel,
     onDismiss: () -> Unit,
+    onNavigateToWallet: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val colorScheme = MaterialTheme.colorScheme
@@ -67,7 +68,7 @@ fun SidebarOverlay(
                     .width(1.dp)
                     .background(Color.Gray.copy(alpha = 0.3f))
             )
-            
+
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
@@ -78,13 +79,28 @@ fun SidebarOverlay(
                 SidebarHeader()
 
                 HorizontalDivider()
-                
+
                 // Scrollable content
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(vertical = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
+                    // 💎 WALLET BUTTON - WORKS NOW! 💎
+                    item {
+                        WalletButton(
+                            colorScheme = colorScheme,
+                            onClick = {
+                                onNavigateToWallet()
+                                onDismiss()
+                            }
+                        )
+                    }
+
+                    item {
+                        HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+                    }
+
                     // Channels section
                     if (joinedChannels.isNotEmpty()) {
                         item {
@@ -102,16 +118,16 @@ fun SidebarOverlay(
                                 unreadChannelMessages = unreadChannelMessages
                             )
                         }
-                        
+
                         item {
                             HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
                         }
                     }
-                    
+
                     // People section - switch between mesh and geohash lists (iOS-compatible)
                     item {
                         val selectedLocationChannel by viewModel.selectedLocationChannel.collectAsState()
-                        
+
                         when (selectedLocationChannel) {
                             is com.NakamaMesh.android.geohash.ChannelID.Location -> {
                                 // Show geohash people list when in location channel
@@ -123,7 +139,7 @@ fun SidebarOverlay(
                             else -> {
                                 // Show mesh peer list when in mesh channel (default)
                                 PeopleSection(
-                                    modifier = modifier.padding(bottom = 16.dp),
+                                    modifier = Modifier.padding(bottom = 16.dp),
                                     connectedPeers = connectedPeers,
                                     peerNicknames = peerNicknames,
                                     peerRSSI = peerRSSI,
@@ -148,7 +164,7 @@ fun SidebarOverlay(
 @Composable
 private fun SidebarHeader() {
     val colorScheme = MaterialTheme.colorScheme
-    
+
     Row(
         modifier = Modifier
             .height(42.dp) // Match reduced main header height
@@ -199,11 +215,11 @@ fun ChannelsSection(
                 fontWeight = FontWeight.Bold
             )
         }
-        
+
         channels.forEach { channel ->
             val isSelected = channel == currentChannel
             val unreadCount = unreadChannelMessages[channel] ?: 0
-            
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -221,7 +237,7 @@ fun ChannelsSection(
                     colorScheme = colorScheme,
                     modifier = Modifier.padding(end = 8.dp)
                 )
-                
+
                 Text(
                     text = channel, // Channel already contains the # prefix
                     style = MaterialTheme.typography.bodyMedium,
@@ -229,7 +245,7 @@ fun ChannelsSection(
                     fontWeight = if (isSelected) FontWeight.Medium else FontWeight.Normal,
                     modifier = Modifier.weight(1f)
                 )
-                
+
                 // Leave channel button
                 IconButton(
                     onClick = { onLeaveChannel(channel) },
@@ -280,7 +296,7 @@ fun PeopleSection(
                 fontWeight = FontWeight.Bold
             )
         }
-        
+
         if (connectedPeers.isEmpty()) {
             Text(
                 text = stringResource(id = R.string.no_one_connected),
@@ -295,7 +311,7 @@ fun PeopleSection(
         val privateChats by viewModel.privateChats.collectAsStateWithLifecycle()
         val favoritePeers by viewModel.favoritePeers.collectAsStateWithLifecycle()
         val peerFingerprints by viewModel.peerFingerprints.collectAsStateWithLifecycle()
-        
+
         // Reactive favorite computation for all peers
         val peerFavoriteStates = remember(favoritePeers, peerFingerprints, connectedPeers) {
             connectedPeers.associateWith { peerID ->
@@ -304,7 +320,7 @@ fun PeopleSection(
                 fingerprint != null && favoritePeers.contains(fingerprint)
             }
         }
-        
+
         // Build mapping of connected peerID -> noise key hex to unify with offline favorites
         val noiseHexByPeerID: Map<String, String> = connectedPeers.associateWith { pid ->
             try {
@@ -317,11 +333,11 @@ fun PeopleSection(
         // Smart sorting: unread DMs first, then by most recent DM, then favorites, then alphabetical
         val sortedPeers = connectedPeers.sortedWith(
             compareBy<String> { !hasUnreadPrivateMessages.contains(it) } // Unread DM senders first
-            .thenByDescending { privateChats[it]?.maxByOrNull { msg -> msg.timestamp }?.timestamp?.time ?: 0L } // Most recent DM (convert Date to Long)
-            .thenBy { !(peerFavoriteStates[it] ?: false) } // Favorites first
-            .thenBy { (if (it == nickname) "You" else (peerNicknames[it] ?: it)).lowercase() } // Alphabetical
+                .thenByDescending { privateChats[it]?.maxByOrNull { msg -> msg.timestamp }?.timestamp?.time ?: 0L } // Most recent DM (convert Date to Long)
+                .thenBy { !(peerFavoriteStates[it] ?: false) } // Favorites first
+                .thenBy { (if (it == nickname) "You" else (peerNicknames[it] ?: it)).lowercase() } // Alphabetical
         )
-        
+
         // Build a map of base name counts across all people shown in the list (connected + offline + nostr)
         val hex64Regex = Regex("^[0-9a-fA-F]{64}$")
 
@@ -357,8 +373,8 @@ fun PeopleSection(
         privateChats.keys
             .filter { key ->
                 (key.startsWith("nostr_") || hex64Regex.matches(key)) &&
-                !connectedIds.contains(key) &&
-                !noiseHexByPeerID.values.any { it.equals(key, ignoreCase = true) }
+                        !connectedIds.contains(key) &&
+                        !noiseHexByPeerID.values.any { it.equals(key, ignoreCase = true) }
             }
             .forEach { convKey ->
                 val dn = peerNicknames[convKey] ?: (privateChats[convKey]?.lastOrNull()?.sender ?: convKey.take(12))
@@ -369,16 +385,16 @@ fun PeopleSection(
         sortedPeers.forEach { peerID ->
             val isFavorite = peerFavoriteStates[peerID] ?: false
             // fingerprint and favorite relationship resolution not needed here; UI will show Nostr globe for appended offline favorites below
-            
+
             val noiseHex = noiseHexByPeerID[peerID]
             val meshUnread = hasUnreadPrivateMessages.contains(peerID)
             val nostrUnread = if (noiseHex != null) hasUnreadPrivateMessages.contains(noiseHex) else false
             val combinedHasUnread = meshUnread || nostrUnread
             val combinedUnreadCount = (
-                privateChats[peerID]?.count { msg -> msg.sender != nickname && meshUnread } ?: 0
-            ) + (
-                if (noiseHex != null) privateChats[noiseHex]?.count { msg -> msg.sender != nickname && nostrUnread } ?: 0 else 0
-            )
+                    privateChats[peerID]?.count { msg -> msg.sender != nickname && meshUnread } ?: 0
+                    ) + (
+                    if (noiseHex != null) privateChats[noiseHex]?.count { msg -> msg.sender != nickname && nostrUnread } ?: 0 else 0
+                    )
 
             val displayName = if (peerID == nickname) "You" else (peerNicknames[peerID] ?: (privateChats[peerID]?.lastOrNull()?.sender ?: peerID.take(12)))
             val (bName, _) = com.NakamaMesh.android.ui.splitSuffix(displayName)
@@ -396,9 +412,9 @@ fun PeopleSection(
                 colorScheme = colorScheme,
                 viewModel = viewModel,
                 onItemClick = { onPrivateChatStart(peerID) },
-                onToggleFavorite = { 
+                onToggleFavorite = {
                     Log.d("SidebarComponents", "Sidebar toggle favorite: peerID=$peerID, currentFavorite=$isFavorite")
-                    viewModel.toggleFavorite(peerID) 
+                    viewModel.toggleFavorite(peerID)
                 },
                 unreadCount = if (combinedUnreadCount > 0) combinedUnreadCount else if (combinedHasUnread) 1 else 0,
                 showNostrGlobe = false,
@@ -438,10 +454,10 @@ fun PeopleSection(
 
             // Compute unreadCount from either noise conversation or Nostr conversation
             val unreadCount = (
-                privateChats[favPeerID]?.count { msg -> msg.sender != nickname && hasUnreadPrivateMessages.contains(favPeerID) } ?: 0
-            ) + (
-                if (nostrConvKey != null) privateChats[nostrConvKey]?.count { msg -> msg.sender != nickname && hasUnreadPrivateMessages.contains(nostrConvKey) } ?: 0 else 0
-            )
+                    privateChats[favPeerID]?.count { msg -> msg.sender != nickname && hasUnreadPrivateMessages.contains(favPeerID) } ?: 0
+                    ) + (
+                    if (nostrConvKey != null) privateChats[nostrConvKey]?.count { msg -> msg.sender != nickname && hasUnreadPrivateMessages.contains(nostrConvKey) } ?: 0 else 0
+                    )
 
             PeerItem(
                 peerID = favPeerID,
@@ -453,7 +469,7 @@ fun PeopleSection(
                 colorScheme = colorScheme,
                 viewModel = viewModel,
                 onItemClick = { onPrivateChatStart(mappedConnectedPeerID ?: favPeerID) },
-                onToggleFavorite = { 
+                onToggleFavorite = {
                     Log.d("SidebarComponents", "Sidebar toggle favorite (offline): peerID=$favPeerID")
                     viewModel.toggleFavorite(favPeerID)
                 },
@@ -505,7 +521,7 @@ fun PeopleSection(
             }
         */
         // End intentional removal
-        
+
     }
 }
 
@@ -525,17 +541,20 @@ private fun PeerItem(
     showNostrGlobe: Boolean = false,
     showHashSuffix: Boolean = true
 ) {
+    // Get nickname properly in Compose - FIXED!
+    val nickname by viewModel.nickname.collectAsStateWithLifecycle()
+
     // Split display name for hashtag suffix support (iOS-compatible)
     val (baseNameRaw, suffixRaw) = com.NakamaMesh.android.ui.splitSuffix(displayName)
     val baseName = truncateNickname(baseNameRaw)
     val suffix = if (showHashSuffix) suffixRaw else ""
-    val isMe = displayName == "You" || peerID == viewModel.nickname.value
-    
+    val isMe = displayName == "You" || peerID == nickname  // ← FIXED!
+
     // Get consistent peer color (iOS-compatible)
     val isDark = colorScheme.background.red + colorScheme.background.green + colorScheme.background.blue < 1.5f
     val assignedColor = viewModel.colorForMeshPeer(peerID, isDark)
     val baseColor = if (isMe) Color(0xFFFF9500) else assignedColor
-    
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -547,7 +566,7 @@ private fun PeerItem(
             .padding(horizontal = 24.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Show unread badge or signal strength  
+        // Show unread badge or signal strength
         if (hasUnreadDM) {
             // Show mail icon for unread DMs (iOS orange)
             Icon(
@@ -584,9 +603,9 @@ private fun PeerItem(
                 )
             }
         }
-        
+
         Spacer(modifier = Modifier.width(8.dp))
-        
+
         // Display name with iOS-style color and hashtag suffix support
         Row(
             modifier = Modifier.weight(1f),
@@ -604,7 +623,7 @@ private fun PeerItem(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-            
+
             // Hashtag suffix in lighter shade (iOS-style)
             if (suffix.isNotEmpty()) {
                 Text(
@@ -617,7 +636,7 @@ private fun PeerItem(
                 )
             }
         }
-        
+
         // Favorite star with proper filled/outlined states
         IconButton(
             onClick = onToggleFavorite,
@@ -696,19 +715,77 @@ private fun UnreadBadge(
  * RSSI typically ranges from -30 (excellent) to -100 (very poor)
  * Maps to 0-100 scale where:
  * - 0-32: No signal (0 bars)
- * - 33-65: Weak (1 bar) 
+ * - 33-65: Weak (1 bar)
  * - 66-98: Good (2 bars)
  * - 99-100: Excellent (3 bars)
  */
 private fun convertRSSIToSignalStrength(rssi: Int?): Int {
     if (rssi == null) return 0
-    
+
     return when {
         rssi >= -40 -> 100  // Excellent signal
-        rssi >= -55 -> 85   // Very good signal  
+        rssi >= -55 -> 85   // Very good signal
         rssi >= -70 -> 70   // Good signal
         rssi >= -85 -> 50   // Fair signal
         rssi >= -100 -> 25  // Poor signal
         else -> 0           // Very poor or no signal
+    }
+}
+
+/**
+ * Wallet button component for sidebar
+ */
+@Composable
+private fun WalletButton(
+    colorScheme: ColorScheme,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .clickable(onClick = onClick),
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFF667EEA) // Purple/blue gradient color
+        ),
+        shape = RoundedCornerShape(12.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Wallet icon
+                Icon(
+                    imageVector = Icons.Filled.AccountBalanceWallet,
+                    contentDescription = "Wallet",
+                    modifier = Modifier.size(24.dp),
+                    tint = Color.White
+                )
+
+                Spacer(modifier = Modifier.width(12.dp))
+
+                // Wallet text
+                Text(
+                    text = "💎 NKMA Wallet",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+            // Arrow icon
+            Icon(
+                imageVector = Icons.Filled.ChevronRight,
+                contentDescription = "Open",
+                modifier = Modifier.size(20.dp),
+                tint = Color.White.copy(alpha = 0.7f)
+            )
+        }
     }
 }

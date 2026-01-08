@@ -40,7 +40,10 @@ import androidx.compose.ui.text.font.FontWeight
  * - ChatUIUtils: Utility functions for formatting and colors
  */
 @Composable
-fun ChatScreen(viewModel: ChatViewModel) {
+fun ChatScreen(
+    viewModel: ChatViewModel,
+    onNavigateToWallet: () -> Unit = {}
+) {
     val colorScheme = MaterialTheme.colorScheme
     val messages by viewModel.messages.collectAsStateWithLifecycle()
     val connectedPeers by viewModel.connectedPeers.collectAsStateWithLifecycle()
@@ -366,6 +369,7 @@ fun ChatScreen(viewModel: ChatViewModel) {
             SidebarOverlay(
                 viewModel = viewModel,
                 onDismiss = { viewModel.hideSidebar() },
+                onNavigateToWallet = onNavigateToWallet,
                 modifier = Modifier.fillMaxSize()
             )
         }
